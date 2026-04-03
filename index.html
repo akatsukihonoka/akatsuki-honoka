@@ -73,6 +73,81 @@ body.nav-night nav{border-bottom-color:rgba(60,110,220,.35);box-shadow:0 2px 32p
 .nav-sns a svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
 .page{display:none;position:relative;z-index:1}.page.active{display:block}
 
+/* ═══ ハンバーガーメニュー ═══ */
+.nav-hamburger{
+  display:none;
+  flex-direction:column;justify-content:center;align-items:center;
+  width:40px;height:40px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,140,58,.28);
+  border-radius:10px;
+  cursor:pointer;
+  gap:5px;
+  transition:all .25s;
+  flex-shrink:0;
+}
+.nav-hamburger:hover{background:rgba(255,100,40,.18);border-color:var(--orange);}
+.nav-hamburger span{
+  display:block;width:18px;height:2px;
+  background:rgba(255,230,200,.85);
+  border-radius:2px;
+  transition:all .3s cubic-bezier(.22,1,.36,1);
+}
+.nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+.nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+/* モバイルメニュードロワー */
+.nav-mobile-menu{
+  display:none;
+  position:fixed;
+  top:68px;left:0;right:0;
+  background:rgba(18,4,8,.96);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(255,140,58,.28);
+  z-index:199;
+  padding:16px 20px 20px;
+  flex-direction:column;
+  gap:8px;
+  transform:translateY(-8px);
+  opacity:0;
+  transition:transform .3s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+  pointer-events:none;
+}
+.nav-mobile-menu.open{
+  display:flex;
+  transform:translateY(0);
+  opacity:1;
+  pointer-events:auto;
+}
+body.nav-night .nav-mobile-menu{
+  background:rgba(3,6,22,.96);
+  border-bottom-color:rgba(60,110,220,.35);
+}
+.nav-mobile-tab{
+  padding:14px 22px;
+  border-radius:14px;
+  font-family:'Zen Maru Gothic',sans-serif;
+  font-size:.9rem;font-weight:700;
+  cursor:pointer;
+  transition:all .25s;
+  color:rgba(255,230,200,.65);
+  border:1px solid rgba(255,200,100,.12);
+  background:rgba(255,255,255,.04);
+  text-align:center;
+  letter-spacing:.04em;
+}
+.nav-mobile-tab.active-honoka{
+  background:linear-gradient(135deg,rgba(255,140,58,.22),rgba(255,77,125,.18));
+  border-color:rgba(255,140,58,.42);
+  color:var(--peach);
+}
+.nav-mobile-tab.active-web{
+  background:linear-gradient(135deg,rgba(58,98,176,.22),rgba(34,64,138,.18));
+  border-color:rgba(80,130,255,.42);
+  color:#a8ccff;
+}
+
 /* ヒーロー */
 @keyframes heroFadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes heroBgReveal{from{opacity:0;transform:scale(1.08);}to{opacity:1;transform:scale(1.04);}}
@@ -177,7 +252,6 @@ body.nav-night nav{border-bottom-color:rgba(60,110,220,.35);box-shadow:0 2px 32p
 .sns-icon{font-size:2rem;line-height:1;display:flex;align-items:center;justify-content:center}
 .sns-icon svg{width:32px;height:32px;fill:currentColor}
 .sns-label{font-family:'Zen Maru Gothic',sans-serif;font-size:.84rem;font-weight:700;color:rgba(255,238,218,.88)}
-/* SNSハンドル（@以降）の透明度を上げて読みやすく */
 .sns-handle{font-size:.72rem;color:rgba(255,215,185,.75)}
 
 .goods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
@@ -188,7 +262,6 @@ body.nav-night nav{border-bottom-color:rgba(60,110,220,.35);box-shadow:0 2px 32p
 .goods-card:hover .goods-thumb img{transform:scale(1.06);}
 .goods-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,150,60,.04),transparent 60%)}
 .goods-info{padding:18px 20px}.goods-name{font-size:.92rem;font-weight:700;color:#fff;margin-bottom:5px}.goods-desc{font-size:.77rem;color:rgba(255,215,185,.52);line-height:1.6}
-/* BOOTHボタン：より明るく視認性UP */
 .goods-more{
   display:flex;align-items:center;justify-content:center;gap:8px;
   margin:32px auto 0;padding:14px 42px;
@@ -274,7 +347,6 @@ body.nav-night::after{background:radial-gradient(ellipse 80% 60% at 20% 15%,rgba
 .btn-cta{display:inline-block;padding:17px 54px;background:linear-gradient(135deg,#2e58b8,#1a3490);color:#fff;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:1rem;border-radius:50px;text-decoration:none;transition:all .3s;box-shadow:0 0 42px rgba(46,88,184,.52),0 8px 26px rgba(0,0,0,.32)}
 .btn-cta:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 0 65px rgba(70,130,255,.72)}
 
-/* メールリンクスタイル */
 .mail-link{color:#90c8ff;text-decoration:none;border-bottom:1px dotted rgba(144,200,255,.5);transition:all .2s;}
 .mail-link:hover{color:#c0e0ff;border-bottom-color:#c0e0ff;}
 
@@ -289,10 +361,23 @@ body.nav-night footer{border-top-color:rgba(50,88,200,.25);background:rgba(3,6,2
 
 @media(max-width:960px){.s1-inner,.s2-inner,.s3-inner{padding:0 6vw;}}
 @media(max-width:768px){
-  nav{padding:0 20px}.nav-tabs{display:none}
+  /* ── ナビゲーション ── */
+  nav{padding:0 16px;gap:10px;}
+
+  /* PCのタブは非表示 → ハンバーガーを表示 */
+  .nav-tabs{display:none;}
+  .nav-hamburger{display:flex;}
+
+  /* SNSアイコンは3つから2つに絞ってもいい場合はここを変更 */
+  .nav-sns{gap:8px;}
+  .nav-sns a{width:32px;height:32px;font-size:.82rem;}
+
+  /* ── ヒーロー ── */
   .s1-inner{padding:0 24px;}.s2-inner{padding:0 24px;justify-content:flex-start;}.s2-text{text-align:left;}.s3-inner{padding:0 24px;}
   .s1-catch{font-size:clamp(1.4rem,6.5vw,2rem);}.s2-title{font-size:clamp(1.6rem,7.5vw,2.5rem);white-space:normal;}.s3-title{font-size:clamp(2.5rem,10vw,4rem);}
   .hero-scroll{left:24px;}
+
+  /* ── セクション共通 ── */
   .section{padding:64px 24px}.card-grid{grid-template-columns:1fr}
   .card-grid .info-card[style*="grid-column"]{grid-column:span 1!important}
   .profile-layout{grid-template-columns:1fr}.profile-chara-col{display:none}
@@ -317,10 +402,20 @@ body.nav-night footer{border-top-color:rgba(50,88,200,.25);background:rgba(3,6,2
 
 <nav>
   <div class="nav-logo"><img src="画像/影白.png" alt="暁ほのか"></div>
+
+  <!-- PC用タブ（769px以上で表示） -->
   <div class="nav-tabs">
     <div class="nav-tab active-honoka" id="tab-honoka" onclick="showPage('honoka')">暁ほのか</div>
     <div class="nav-tab" id="tab-web" onclick="showPage('web')">web屋あかつき</div>
   </div>
+
+  <!-- ハンバーガーボタン（768px以下で表示） -->
+  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="メニュー">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
   <div class="nav-sns">
     <a href="https://twitter.com/AkatsukiHonoka" target="_blank" title="X">&#120143;</a>
     <a href="https://www.youtube.com/@AkatsukiHonoka" target="_blank" title="YouTube">&#9654;</a>
@@ -329,6 +424,12 @@ body.nav-night footer{border-top-color:rgba(50,88,200,.25);background:rgba(3,6,2
     </a>
   </div>
 </nav>
+
+<!-- モバイルメニュードロワー -->
+<div class="nav-mobile-menu" id="navMobileMenu">
+  <div class="nav-mobile-tab active-honoka" id="mobile-tab-honoka" onclick="showPage('honoka');closeMobileMenu()">🌅 暁ほのか</div>
+  <div class="nav-mobile-tab" id="mobile-tab-web" onclick="showPage('web');closeMobileMenu()">🌙 web屋あかつき</div>
+</div>
 
 <div id="page-honoka" class="page active">
   <section class="hero" id="heroSection">
@@ -378,7 +479,6 @@ body.nav-night footer{border-top-color:rgba(50,88,200,.25);background:rgba(3,6,2
       </div>
       <div class="profile-chara-col reveal">
         <div class="profile-chara-frame">
-          <!-- クリックで拡大 -->
           <img src="画像/21.png" alt="暁ほのか" class="profile-chara-img"
                onclick="openLightbox(this.src)"
                onerror="this.style.display='none'">
@@ -561,6 +661,32 @@ function closeLightbox(){
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
 
+/* ─── モバイルメニュー ─── */
+function toggleMobileMenu(){
+  const menu=document.getElementById('navMobileMenu');
+  const btn=document.getElementById('navHamburger');
+  const isOpen=menu.classList.contains('open');
+  if(isOpen){
+    menu.classList.remove('open');
+    btn.classList.remove('open');
+  } else {
+    menu.classList.add('open');
+    btn.classList.add('open');
+  }
+}
+function closeMobileMenu(){
+  document.getElementById('navMobileMenu').classList.remove('open');
+  document.getElementById('navHamburger').classList.remove('open');
+}
+// メニュー外クリックで閉じる
+document.addEventListener('click',e=>{
+  const menu=document.getElementById('navMobileMenu');
+  const btn=document.getElementById('navHamburger');
+  if(menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)){
+    closeMobileMenu();
+  }
+});
+
 /* ─── パーティクル ─── */
 const canvas=document.getElementById('sc'),ctx=canvas.getContext('2d');
 let W,H,particles=[],shootingStars=[];
@@ -642,14 +768,21 @@ let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
 function animCursor(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animCursor);}
 animCursor();
-document.querySelectorAll('a,.nav-tab,.sns-card,.service-card,.info-card,.tag,.achieve-tab,.goods-card,.music-item,.member-btn,.fanbox-btn,.twitch-sub-btn,.btn-cta,.goods-more,.achieve-item[href],.hero-arrow,.hero-dot,.profile-chara-img').forEach(el=>{el.addEventListener('mouseenter',()=>cur.style.transform='translate(-50%,-50%) scale(2.3)');el.addEventListener('mouseleave',()=>cur.style.transform='translate(-50%,-50%) scale(1)');});
+document.querySelectorAll('a,.nav-tab,.nav-mobile-tab,.sns-card,.service-card,.info-card,.tag,.achieve-tab,.goods-card,.music-item,.member-btn,.fanbox-btn,.twitch-sub-btn,.btn-cta,.goods-more,.achieve-item[href],.hero-arrow,.hero-dot,.profile-chara-img,.nav-hamburger').forEach(el=>{el.addEventListener('mouseenter',()=>cur.style.transform='translate(-50%,-50%) scale(2.3)');el.addEventListener('mouseleave',()=>cur.style.transform='translate(-50%,-50%) scale(1)');});
 
 function showPage(name){
   currentPage=name;
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+name).classList.add('active');
+
+  // PCタブの状態更新
   document.querySelectorAll('.nav-tab').forEach(t=>t.className='nav-tab');
   document.getElementById('tab-'+name).classList.add(name==='honoka'?'active-honoka':'active-web');
+
+  // モバイルタブの状態更新
+  document.querySelectorAll('.nav-mobile-tab').forEach(t=>t.className='nav-mobile-tab');
+  document.getElementById('mobile-tab-'+name).classList.add(name==='honoka'?'active-honoka':'active-web');
+
   window.scrollTo({top:0,behavior:'smooth'});
   setTimeout(checkReveal,100);
   initParticles();
