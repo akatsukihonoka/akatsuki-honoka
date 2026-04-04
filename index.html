@@ -15,50 +15,47 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --orange:#ff8c3a;--rose:#ff4d7d;--violet:#c850d0;--indigo:#7048d8;
-  --peach:#ffb085;--amber:#ffc46b;--dawn:#ff9a6c;--coral:#ff6b5b;
-  --text:#fff8f0;--lilac:#e0b8ff;
-  --glow-o:rgba(255,140,58,0.6);
+--orange:#ff8c3a;--rose:#ff4d7d;--violet:#c850d0;--indigo:#7048d8;
+--peach:#ffb085;--amber:#ffc46b;--dawn:#ff9a6c;--coral:#ff6b5b;
+--text:#fff8f0;--lilac:#e0b8ff;
+--glow-o:rgba(255,140,58,0.6);
 }
 html{scroll-behavior:smooth}
 body{font-family:'Zen Maru Gothic',sans-serif;color:var(--text);overflow-x:hidden;cursor:default;background:linear-gradient(165deg,#1e0600 0%,#2d0a10 20%,#200620 45%,#100320 100%);}
 body::before{content:'';position:fixed;inset:0;background-image:url('画像/背景_着彩.png');background-size:cover;background-position:center center;opacity:.9;z-index:0;pointer-events:none;}
 body::after{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 90% 55% at 15% 85%,rgba(255,110,30,.16) 0%,transparent 55%),radial-gradient(ellipse 70% 45% at 85% 15%,rgba(255,70,100,.10) 0%,transparent 50%),radial-gradient(ellipse 100% 35% at 50% 100%,rgba(255,150,40,.12) 0%,transparent 45%);pointer-events:none;z-index:0;}
-
 .cursor{width:11px;height:11px;background:radial-gradient(circle,#ffd4a0,var(--orange));border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .12s,background .4s;box-shadow:0 0 12px var(--glow-o);transform:translate(-50%,-50%)}
 .cursor-ring{width:34px;height:34px;border:1.5px solid rgba(255,140,58,.5);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:all .07s,border-color .4s;transform:translate(-50%,-50%)}
 #sc{position:fixed;inset:0;z-index:6;pointer-events:none}
-
 /* ═══ ライトボックス（立ち絵拡大） ═══ */
 #lightbox{
-  display:none;position:fixed;inset:0;z-index:9000;
-  background:rgba(0,0,0,.88);backdrop-filter:blur(8px);
-  align-items:center;justify-content:center;cursor:zoom-out;
+display:none;position:fixed;inset:0;z-index:9000;
+background:rgba(0,0,0,.88);backdrop-filter:blur(8px);
+align-items:center;justify-content:center;cursor:zoom-out;
 }
 #lightbox.active{display:flex;}
 #lightbox img{
-  max-width:90vw;max-height:90vh;object-fit:contain;
-  border-radius:12px;
-  box-shadow:0 0 60px rgba(255,140,58,.25),0 0 120px rgba(0,0,0,.6);
-  animation:lbFadeIn .3s cubic-bezier(.22,1,.36,1);
+max-width:90vw;max-height:90vh;object-fit:contain;
+border-radius:12px;
+box-shadow:0 0 60px rgba(255,140,58,.25),0 0 120px rgba(0,0,0,.6);
+animation:lbFadeIn .3s cubic-bezier(.22,1,.36,1);
 }
 @keyframes lbFadeIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
 #lightbox-close{
-  position:absolute;top:20px;right:24px;
-  width:40px;height:40px;border-radius:50%;
-  background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
-  color:#fff;font-size:1.2rem;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  transition:all .2s;
+position:absolute;top:20px;right:24px;
+width:40px;height:40px;border-radius:50%;
+background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);
+color:#fff;font-size:1.2rem;cursor:pointer;
+display:flex;align-items:center;justify-content:center;
+transition:all .2s;
 }
 #lightbox-close:hover{background:rgba(255,255,255,.22);}
 /* 立ち絵にクリック可能を示すスタイル */
 .profile-chara-img{
-  width:100%;height:100%;display:block;object-fit:cover;object-position:top center;
-  cursor:zoom-in;transition:transform .35s;
+width:100%;height:100%;display:block;object-fit:cover;object-position:top center;
+cursor:zoom-in;transition:transform .35s;
 }
 .profile-chara-frame:hover .profile-chara-img{transform:scale(1.025);}
-
 nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:68px;background:rgba(18,4,8,.7);backdrop-filter:blur(24px);border-bottom:1px solid rgba(255,140,58,.28);box-shadow:0 2px 32px rgba(255,80,20,.1);transition:border-color .5s,box-shadow .5s;}
 body.nav-night nav{border-bottom-color:rgba(60,110,220,.35);box-shadow:0 2px 32px rgba(20,50,180,.15);}
 .nav-logo img{height:46px;width:auto;object-fit:contain;filter:drop-shadow(0 0 12px rgba(255,140,58,.5));transition:filter .3s,transform .3s}
@@ -72,82 +69,111 @@ body.nav-night nav{border-bottom-color:rgba(60,110,220,.35);box-shadow:0 2px 32p
 .nav-sns a:hover{background:rgba(255,100,40,.22);border-color:var(--orange);color:var(--peach);transform:translateY(-2px);box-shadow:0 4px 14px rgba(255,120,40,.3)}
 .nav-sns a svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
 .page{display:none;position:relative;z-index:1}.page.active{display:block}
-
 /* ═══ ハンバーガーメニュー ═══ */
 .nav-hamburger{
-  display:none;
-  flex-direction:column;justify-content:center;align-items:center;
-  width:40px;height:40px;
-  background:rgba(255,255,255,.07);
-  border:1px solid rgba(255,140,58,.28);
-  border-radius:10px;
-  cursor:pointer;
-  gap:5px;
-  transition:all .25s;
-  flex-shrink:0;
+display:none;
+flex-direction:column;justify-content:center;align-items:center;
+width:40px;height:40px;
+background:rgba(255,255,255,.07);
+border:1px solid rgba(255,140,58,.28);
+border-radius:10px;
+cursor:pointer;
+gap:5px;
+transition:all .25s;
+flex-shrink:0;
 }
 .nav-hamburger:hover{background:rgba(255,100,40,.18);border-color:var(--orange);}
 .nav-hamburger span{
-  display:block;width:18px;height:2px;
-  background:rgba(255,230,200,.85);
-  border-radius:2px;
-  transition:all .3s cubic-bezier(.22,1,.36,1);
+display:block;width:18px;height:2px;
+background:rgba(255,230,200,.85);
+border-radius:2px;
+transition:all .3s cubic-bezier(.22,1,.36,1);
 }
 .nav-hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
 .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
 .nav-hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
-
 /* モバイルメニュードロワー */
 .nav-mobile-menu{
-  display:none;
-  position:fixed;
-  top:68px;left:0;right:0;
-  background:rgba(18,4,8,.96);
-  backdrop-filter:blur(24px);
-  border-bottom:1px solid rgba(255,140,58,.28);
-  z-index:199;
-  padding:16px 20px 20px;
-  flex-direction:column;
-  gap:8px;
-  transform:translateY(-8px);
-  opacity:0;
-  transition:transform .3s cubic-bezier(.22,1,.36,1), opacity .3s ease;
-  pointer-events:none;
+display:none;
+position:fixed;
+top:68px;left:0;right:0;
+background:rgba(18,4,8,.96);
+backdrop-filter:blur(24px);
+border-bottom:1px solid rgba(255,140,58,.28);
+z-index:199;
+padding:16px 20px 20px;
+flex-direction:column;
+gap:8px;
+transform:translateY(-8px);
+opacity:0;
+transition:transform .3s cubic-bezier(.22,1,.36,1), opacity .3s ease;
+pointer-events:none;
 }
 .nav-mobile-menu.open{
-  display:flex;
-  transform:translateY(0);
-  opacity:1;
-  pointer-events:auto;
+display:flex;
+transform:translateY(0);
+opacity:1;
+pointer-events:auto;
 }
 body.nav-night .nav-mobile-menu{
-  background:rgba(3,6,22,.96);
-  border-bottom-color:rgba(60,110,220,.35);
+background:rgba(3,6,22,.96);
+border-bottom-color:rgba(60,110,220,.35);
 }
 .nav-mobile-tab{
-  padding:14px 22px;
-  border-radius:14px;
-  font-family:'Zen Maru Gothic',sans-serif;
-  font-size:.9rem;font-weight:700;
-  cursor:pointer;
-  transition:all .25s;
-  color:rgba(255,230,200,.65);
-  border:1px solid rgba(255,200,100,.12);
-  background:rgba(255,255,255,.04);
-  text-align:center;
-  letter-spacing:.04em;
+padding:14px 22px;
+border-radius:14px;
+font-family:'Zen Maru Gothic',sans-serif;
+font-size:.9rem;font-weight:700;
+cursor:pointer;
+transition:all .25s;
+color:rgba(255,230,200,.65);
+border:1px solid rgba(255,200,100,.12);
+background:rgba(255,255,255,.04);
+text-align:center;
+letter-spacing:.04em;
 }
 .nav-mobile-tab.active-honoka{
-  background:linear-gradient(135deg,rgba(255,140,58,.22),rgba(255,77,125,.18));
-  border-color:rgba(255,140,58,.42);
-  color:var(--peach);
+background:linear-gradient(135deg,rgba(255,140,58,.22),rgba(255,77,125,.18));
+border-color:rgba(255,140,58,.42);
+color:var(--peach);
 }
 .nav-mobile-tab.active-web{
-  background:linear-gradient(135deg,rgba(58,98,176,.22),rgba(34,64,138,.18));
-  border-color:rgba(80,130,255,.42);
-  color:#a8ccff;
+background:linear-gradient(135deg,rgba(58,98,176,.22),rgba(34,64,138,.18));
+border-color:rgba(80,130,255,.42);
+color:#a8ccff;
 }
-
+/* ═══ スマホ用立ち絵ヒーロー ═══ */
+.mobile-chara-hero{
+display:none; /* PCでは非表示 */
+width:100%;
+padding-top:68px;
+position:relative;
+z-index:1;
+overflow:hidden;
+}
+.mobile-chara-hero-img{
+width:100%;
+max-width:340px;
+margin:0 auto;
+display:block;
+object-fit:contain;
+object-position:top center;
+filter:drop-shadow(0 0 32px rgba(255,100,50,.48)) drop-shadow(0 0 16px rgba(255,80,120,.3));
+animation:heroFloat 4.5s ease-in-out infinite;
+}
+.mobile-chara-hero-text{
+text-align:center;
+padding:16px 24px 28px;
+}
+.mobile-chara-catch{
+font-family:'Shippori Mincho',serif;
+font-size:1.25rem;
+font-weight:500;
+line-height:1.7;
+letter-spacing:.1em;
+color:#fff;
+text-shadow:0 2px 14px rgba(0,0,0,.45),0 0 36px rgba(255,160,60,.22);
+}
 /* ヒーロー */
 @keyframes heroFadeIn{from{opacity:0;}to{opacity:1;}}
 @keyframes heroBgReveal{from{opacity:0;transform:scale(1.08);}to{opacity:1;transform:scale(1.04);}}
@@ -187,7 +213,6 @@ body.nav-night .nav-mobile-menu{
 .hero-scroll{position:absolute;bottom:36px;left:78px;z-index:10;display:flex;align-items:center;gap:12px;opacity:.65;}
 .hero-scroll-line{width:44px;height:1px;background:linear-gradient(to right,rgba(255,160,60,.65),transparent);}
 .hero-scroll-text{font-family:'Raleway',sans-serif;font-size:.6rem;font-weight:300;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,200,120,.65);}
-
 /* 共通セクション */
 .section{padding:96px 48px;max-width:1100px;margin:0 auto}
 .sec-header{margin-bottom:50px;position:relative;}
@@ -201,7 +226,6 @@ body.nav-night .nav-mobile-menu{
 .stagger > *{opacity:0;transform:translateY(30px) scale(.97);filter:blur(3px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1),filter .5s ease;}
 .stagger.visible > *:nth-child(1){transition-delay:.05s}.stagger.visible > *:nth-child(2){transition-delay:.14s}.stagger.visible > *:nth-child(3){transition-delay:.23s}.stagger.visible > *:nth-child(4){transition-delay:.32s}.stagger.visible > *:nth-child(5){transition-delay:.41s}
 .stagger.visible > *{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
-
 .card-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 .info-card{background:rgba(35,8,10,.42);border:1px solid rgba(255,150,60,.2);border-radius:22px;padding:28px 30px;backdrop-filter:blur(16px);transition:all .35s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden}
 .info-card::after{content:'';position:absolute;top:0;left:18px;right:18px;height:2px;background:linear-gradient(90deg,transparent,rgba(255,160,60,.55),transparent)}
@@ -224,7 +248,6 @@ body.nav-night .nav-mobile-menu{
 .profile-deco-tag{display:inline-block;padding:5px 16px;background:rgba(18,4,4,.68);border:1px solid rgba(255,150,60,.42);border-radius:30px;font-size:.72rem;font-weight:700;color:var(--peach);backdrop-filter:blur(10px);letter-spacing:.07em}
 /* 拡大ヒントバッジ */
 .profile-zoom-hint{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.45);border:1px solid rgba(255,255,255,.2);border-radius:20px;padding:3px 10px;font-size:.68rem;color:rgba(255,255,255,.7);backdrop-filter:blur(6px);pointer-events:none;}
-
 .subscribe-box{background:rgba(35,7,12,.5);border:1px solid rgba(255,110,60,.28);border-radius:28px;padding:48px 40px;text-align:center;backdrop-filter:blur(18px);position:relative;overflow:hidden}
 .subscribe-box::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 65% at 50% 50%,rgba(255,100,40,.09),transparent);pointer-events:none}
 .subscribe-box h2{font-family:'Zen Maru Gothic',sans-serif;font-size:clamp(1.3rem,3vw,1.9rem);font-weight:900;background:linear-gradient(135deg,var(--amber),var(--orange),var(--rose));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
@@ -237,7 +260,6 @@ body.nav-night .nav-mobile-menu{
 .twitch-sub-btn{display:inline-flex;align-items:center;gap:10px;padding:15px 36px;background:linear-gradient(135deg,#7b2fff,#5b1fe0);color:#fff;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:.94rem;border-radius:50px;text-decoration:none;transition:all .3s;box-shadow:0 0 26px rgba(123,47,255,.36)}
 .twitch-sub-btn:hover{transform:translateY(-3px) scale(1.04);box-shadow:0 0 48px rgba(123,47,255,.55)}
 .member-note{margin-top:20px;font-size:.8rem;color:rgba(255,215,175,.42);font-style:italic}
-
 .sns-chara-wrap{width:100%;margin-bottom:52px;position:relative;display:flex;justify-content:center;overflow:hidden}
 .sns-chara-img{width:100%;height:auto;object-fit:contain;filter:drop-shadow(0 0 32px rgba(255,100,50,.48)) drop-shadow(0 0 16px rgba(255,80,120,.3));animation:heroFloat 4.5s ease-in-out infinite;display:block}
 .sns-chara-wrap::before{content:'';position:absolute;bottom:-10px;left:0;right:0;height:80px;background:linear-gradient(to top,rgba(18,4,6,.65),transparent);z-index:3}
@@ -253,7 +275,6 @@ body.nav-night .nav-mobile-menu{
 .sns-icon svg{width:32px;height:32px;fill:currentColor}
 .sns-label{font-family:'Zen Maru Gothic',sans-serif;font-size:.84rem;font-weight:700;color:rgba(255,238,218,.88)}
 .sns-handle{font-size:.72rem;color:rgba(255,215,185,.75)}
-
 .goods-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
 .goods-card{background:rgba(35,8,10,.42);border:1px solid rgba(255,150,60,.18);border-radius:22px;overflow:hidden;transition:all .35s cubic-bezier(.22,1,.36,1);text-decoration:none;display:block;backdrop-filter:blur(14px);}
 .goods-card:hover{transform:translateY(-8px) scale(1.01);box-shadow:0 26px 52px rgba(255,80,30,.18),0 0 34px rgba(255,150,60,.16);border-color:rgba(255,150,60,.48)}
@@ -263,18 +284,17 @@ body.nav-night .nav-mobile-menu{
 .goods-thumb::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,150,60,.04),transparent 60%)}
 .goods-info{padding:18px 20px}.goods-name{font-size:.92rem;font-weight:700;color:#fff;margin-bottom:5px}.goods-desc{font-size:.77rem;color:rgba(255,215,185,.52);line-height:1.6}
 .goods-more{
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  margin:32px auto 0;padding:14px 42px;
-  background:linear-gradient(135deg,rgba(255,150,60,.28),rgba(255,80,80,.22));
-  border:1px solid rgba(255,160,70,.65);
-  border-radius:50px;
-  color:rgba(255,215,170,.98);
-  font-weight:700;font-size:.9rem;text-decoration:none;
-  transition:all .3s;backdrop-filter:blur(8px);width:fit-content;
-  box-shadow:0 0 18px rgba(255,140,50,.2);
+display:flex;align-items:center;justify-content:center;gap:8px;
+margin:32px auto 0;padding:14px 42px;
+background:linear-gradient(135deg,rgba(255,150,60,.28),rgba(255,80,80,.22));
+border:1px solid rgba(255,160,70,.65);
+border-radius:50px;
+color:rgba(255,215,170,.98);
+font-weight:700;font-size:.9rem;text-decoration:none;
+transition:all .3s;backdrop-filter:blur(8px);width:fit-content;
+box-shadow:0 0 18px rgba(255,140,50,.2);
 }
 .goods-more:hover{background:linear-gradient(135deg,rgba(255,150,60,.42),rgba(255,80,80,.34));transform:translateY(-4px);box-shadow:0 10px 26px rgba(255,140,50,.4)}
-
 .music-list{display:flex;flex-direction:column;gap:14px}
 .music-item{display:flex;align-items:center;gap:18px;background:rgba(35,8,10,.42);border:1px solid rgba(255,150,60,.16);border-radius:18px;padding:16px 22px;text-decoration:none;transition:all .3s cubic-bezier(.22,1,.36,1);backdrop-filter:blur(14px);position:relative;overflow:hidden}
 .music-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(to bottom,var(--amber),var(--orange),var(--rose));opacity:0;transition:opacity .3s}
@@ -300,7 +320,6 @@ body.nav-night .nav-mobile-menu{
 .achieve-item:hover{border-color:rgba(255,150,60,.4);transform:translateX(6px);box-shadow:0 10px 26px rgba(255,80,30,.14)}
 .achieve-title{font-size:.93rem;font-weight:700;color:#fff;margin-bottom:3px}
 .achieve-meta{font-size:.79rem;color:rgba(255,215,185,.52);line-height:1.65}
-
 /* WEB屋あかつき — 夜空テーマ */
 body.nav-night::after{background:radial-gradient(ellipse 80% 60% at 20% 15%,rgba(20,40,100,.4) 0%,transparent 55%),radial-gradient(ellipse 60% 50% at 80% 85%,rgba(10,20,70,.35) 0%,transparent 50%);}
 #page-web::before{content:'';position:fixed;inset:0;z-index:2;background:radial-gradient(ellipse 90% 55% at 25% 18%,rgba(14,28,88,.72) 0%,transparent 52%),radial-gradient(ellipse 70% 50% at 78% 82%,rgba(8,18,62,.62) 0%,transparent 48%),radial-gradient(ellipse 100% 45% at 50% 0%,rgba(4,10,44,.8) 0%,transparent 45%),linear-gradient(180deg,rgba(3,6,24,.82) 0%,rgba(2,5,18,.76) 60%,rgba(4,8,28,.72) 100%);pointer-events:none;}
@@ -309,7 +328,6 @@ body.nav-night::after{background:radial-gradient(ellipse 80% 60% at 20% 15%,rgba
 #page-web .section-label{color:#8ec8ff;filter:drop-shadow(0 0 8px rgba(100,165,255,.5));}
 #page-web .section-title{background:linear-gradient(90deg,#ffffff 10%,#cce4ff 60%,rgba(148,200,255,.95));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 #page-web .sec-header::after{background:linear-gradient(90deg,#3a68d0,#60a8ff,#9070ff,#5070d8);}
-
 .web-hero{min-height:62vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;padding-top:68px;text-align:center}
 .web-hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 85% 70% at 50% 55%,rgba(30,60,160,.3) 0%,transparent 62%),radial-gradient(ellipse 55% 58% at 8% 22%,rgba(15,35,120,.42) 0%,transparent 52%),radial-gradient(ellipse 65% 48% at 92% 82%,rgba(60,30,160,.22) 0%,transparent 52%),radial-gradient(ellipse 100% 28% at 50% 0%,rgba(5,14,60,.75) 0%,transparent 42%);}
 .web-hero-content{position:relative;z-index:2;padding:0 48px}
@@ -317,7 +335,6 @@ body.nav-night::after{background:radial-gradient(ellipse 80% 60% at 20% 15%,rgba
 .web-hero-title{font-family:'Zen Maru Gothic',sans-serif;font-size:clamp(2.2rem,5.5vw,4rem);font-weight:900;background:linear-gradient(135deg,#fff 0%,#d4e8ff 28%,#a0c8ff 55%,#70a0f0 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.15;margin-bottom:18px;animation:fadeSlide .8s ease .4s both}
 .web-hero-sub{font-size:1rem;font-weight:500;color:rgba(200,225,255,.88);margin-bottom:42px;line-height:1.8;animation:fadeSlide .8s ease .6s both}
 @keyframes fadeSlide{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
-
 .service-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .service-card{background:rgba(8,16,52,.82);border:1px solid rgba(70,110,220,.32);border-radius:22px;padding:34px 24px;transition:all .35s cubic-bezier(.22,1,.36,1);position:relative;overflow:hidden;backdrop-filter:blur(16px)}
 .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#3a68d0,#60a8ff,#7060d8);opacity:0;transition:opacity .3s;border-radius:3px 3px 0 0}
@@ -326,7 +343,6 @@ body.nav-night::after{background:radial-gradient(ellipse 80% 60% at 20% 15%,rgba
 .service-icon{font-size:1.8rem;margin-bottom:10px}
 .service-name{font-size:.95rem;font-weight:700;color:#e8f2ff;margin-bottom:8px}
 .service-desc{font-size:.84rem;color:rgba(185,210,255,.82);line-height:1.75}
-
 .pricing-wrap{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
 .price-card{border-radius:24px;padding:40px 34px;position:relative;overflow:hidden;backdrop-filter:blur(18px)}
 .price-card.standard{background:rgba(8,16,52,.85);border:1px solid rgba(70,110,220,.32)}
@@ -339,17 +355,14 @@ body.nav-night::after{background:radial-gradient(ellipse 80% 60% at 20% 15%,rgba
 .price-features{list-style:none;display:flex;flex-direction:column;gap:11px}
 .price-features li{font-size:.87rem;font-weight:500;color:rgba(210,230,255,.9);display:flex;align-items:center;gap:10px}
 .price-features li::before{content:'✦';color:#6898f0;font-size:.55rem;flex-shrink:0}
-
 .cta-section{text-align:center;padding:110px 48px;position:relative}
 .cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 75% at 50% 50%,rgba(20,50,160,.14),transparent 68%);pointer-events:none}
 .cta-title{font-family:'Zen Maru Gothic',sans-serif;font-size:clamp(1.7rem,3.8vw,2.4rem);font-weight:900;color:#eef4ff;margin-bottom:14px}
 .cta-sub{font-size:.95rem;color:rgba(180,210,255,.82);margin-bottom:38px}
 .btn-cta{display:inline-block;padding:17px 54px;background:linear-gradient(135deg,#2e58b8,#1a3490);color:#fff;font-family:'Zen Maru Gothic',sans-serif;font-weight:700;font-size:1rem;border-radius:50px;text-decoration:none;transition:all .3s;box-shadow:0 0 42px rgba(46,88,184,.52),0 8px 26px rgba(0,0,0,.32)}
 .btn-cta:hover{transform:translateY(-4px) scale(1.04);box-shadow:0 0 65px rgba(70,130,255,.72)}
-
 .mail-link{color:#90c8ff;text-decoration:none;border-bottom:1px dotted rgba(144,200,255,.5);transition:all .2s;}
 .mail-link:hover{color:#c0e0ff;border-bottom-color:#c0e0ff;}
-
 footer{text-align:center;padding:40px 48px 32px;border-top:1px solid rgba(255,150,60,.16);position:relative;z-index:3;background:rgba(14,3,6,.38);backdrop-filter:blur(16px);}
 body.nav-night footer{border-top-color:rgba(50,88,200,.25);background:rgba(3,6,20,.55);}
 .footer-logo{margin-bottom:16px}.footer-logo img{height:36px;opacity:.78;filter:drop-shadow(0 0 8px rgba(255,150,60,.38))}
@@ -358,42 +371,41 @@ body.nav-night footer{border-top-color:rgba(50,88,200,.25);background:rgba(3,6,2
 .footer-copy{font-size:.75rem;color:rgba(255,200,148,.26);letter-spacing:.04em}
 ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:rgba(18,4,6,.8)}
 ::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,var(--amber),var(--rose));border-radius:3px}
-
 @media(max-width:960px){.s1-inner,.s2-inner,.s3-inner{padding:0 6vw;}}
 @media(max-width:768px){
-  /* ── ナビゲーション ── */
-  nav{padding:0 16px;gap:10px;}
+/* ── ナビゲーション ── */
+nav{padding:0 16px;gap:10px;}
+.nav-tabs{display:none;}
+.nav-hamburger{display:flex;}
+.nav-sns{gap:8px;}
+.nav-sns a{width:32px;height:32px;font-size:.82rem;}
 
-  /* PCのタブは非表示 → ハンバーガーを表示 */
-  .nav-tabs{display:none;}
-  .nav-hamburger{display:flex;}
+/* ── ヒーロー非表示 ── */
+.hero{display:none;}
 
-  /* SNSアイコンは3つから2つに絞ってもいい場合はここを変更 */
-  .nav-sns{gap:8px;}
-  .nav-sns a{width:32px;height:32px;font-size:.82rem;}
+/* ── スマホ用立ち絵ヒーロー表示 ── */
+.mobile-chara-hero{display:block;}
 
-  /* ── ヒーロー ── */
-  .s1-inner{padding:0 24px;}.s2-inner{padding:0 24px;justify-content:flex-start;}.s2-text{text-align:left;}.s3-inner{padding:0 24px;}
-  .s1-catch{font-size:clamp(1.4rem,6.5vw,2rem);}.s2-title{font-size:clamp(1.6rem,7.5vw,2.5rem);white-space:normal;}.s3-title{font-size:clamp(2.5rem,10vw,4rem);}
-  .hero-scroll{left:24px;}
+/* ── セクション共通 ── */
+.section{padding:64px 24px}.card-grid{grid-template-columns:1fr}
+.card-grid .info-card[style*="grid-column"]{grid-column:span 1!important}
+.profile-layout{grid-template-columns:1fr}.profile-chara-col{display:none}
+.sns-grid{grid-template-columns:1fr}
+.service-grid{grid-template-columns:1fr}.pricing-wrap{grid-template-columns:1fr}
+.goods-grid{grid-template-columns:1fr 1fr}.web-hero-content{padding:0 24px}
+.cta-section{padding:72px 24px}footer{padding:32px 24px 24px}
+.subscribe-btns{flex-direction:column;align-items:center}
 
-  /* ── セクション共通 ── */
-  .section{padding:64px 24px}.card-grid{grid-template-columns:1fr}
-  .card-grid .info-card[style*="grid-column"]{grid-column:span 1!important}
-  .profile-layout{grid-template-columns:1fr}.profile-chara-col{display:none}
-  .sns-grid{grid-template-columns:1fr}
-  .service-grid{grid-template-columns:1fr}.pricing-wrap{grid-template-columns:1fr}
-  .goods-grid{grid-template-columns:1fr 1fr}.web-hero-content{padding:0 24px}
-  .cta-section{padding:72px 24px}footer{padding:32px 24px 24px}
-  .subscribe-btns{flex-direction:column;align-items:center}
+/* ── 音楽リストのサムネを小さく ── */
+.music-yt-thumb{width:90px;height:51px;}
 }
 </style>
 </head>
 <body>
 <!-- ライトボックス（立ち絵拡大） -->
 <div id="lightbox" onclick="closeLightbox()">
-  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="lightbox-img" src="" alt="暁ほのか 立ち絵">
+<button id="lightbox-close" onclick="closeLightbox()">✕</button>
+<img id="lightbox-img" src="" alt="暁ほのか 立ち絵">
 </div>
 
 <div class="cursor" id="cursor"></div>
@@ -401,290 +413,309 @@ body.nav-night footer{border-top-color:rgba(50,88,200,.25);background:rgba(3,6,2
 <canvas id="sc"></canvas>
 
 <nav>
-  <div class="nav-logo"><img src="画像/影白.png" alt="暁ほのか"></div>
-
-  <!-- PC用タブ（769px以上で表示） -->
-  <div class="nav-tabs">
-    <div class="nav-tab active-honoka" id="tab-honoka" onclick="showPage('honoka')">暁ほのか</div>
-    <div class="nav-tab" id="tab-web" onclick="showPage('web')">web屋あかつき</div>
-  </div>
-
-  <!-- ハンバーガーボタン（768px以下で表示） -->
-  <button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="メニュー">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
-
-  <div class="nav-sns">
-    <a href="https://twitter.com/AkatsukiHonoka" target="_blank" title="X">&#120143;</a>
-    <a href="https://www.youtube.com/@AkatsukiHonoka" target="_blank" title="YouTube">&#9654;</a>
-    <a href="https://www.twitch.tv/AkatsukiHonoka" target="_blank" title="Twitch" style="color:#9146ff">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
-    </a>
-  </div>
+<div class="nav-logo"><img src="画像/影白.png" alt="暁ほのか"></div>
+<!-- PC用タブ（769px以上で表示） -->
+<div class="nav-tabs">
+<div class="nav-tab active-honoka" id="tab-honoka" onclick="showPage('honoka')">暁ほのか</div>
+<div class="nav-tab" id="tab-web" onclick="showPage('web')">web屋あかつき</div>
+</div>
+<!-- ハンバーガーボタン（768px以下で表示） -->
+<button class="nav-hamburger" id="navHamburger" onclick="toggleMobileMenu()" aria-label="メニュー">
+<span></span>
+<span></span>
+<span></span>
+</button>
+<div class="nav-sns">
+<a href="https://twitter.com/AkatsukiHonoka" target="_blank" title="X">&#120143;</a>
+<a href="https://www.youtube.com/@AkatsukiHonoka" target="_blank" title="YouTube">&#9654;</a>
+<a href="https://www.twitch.tv/AkatsukiHonoka" target="_blank" title="Twitch" style="color:#9146ff">
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+</a>
+</div>
 </nav>
 
 <!-- モバイルメニュードロワー -->
 <div class="nav-mobile-menu" id="navMobileMenu">
-  <div class="nav-mobile-tab active-honoka" id="mobile-tab-honoka" onclick="showPage('honoka');closeMobileMenu()">🌅 暁ほのか</div>
-  <div class="nav-mobile-tab" id="mobile-tab-web" onclick="showPage('web');closeMobileMenu()">🌙 web屋あかつき</div>
+<div class="nav-mobile-tab active-honoka" id="mobile-tab-honoka" onclick="showPage('honoka');closeMobileMenu()">🌅 暁ほのか</div>
+<div class="nav-mobile-tab" id="mobile-tab-web" onclick="showPage('web');closeMobileMenu()">🌙 web屋あかつき</div>
 </div>
 
 <div id="page-honoka" class="page active">
-  <section class="hero" id="heroSection">
-    <div class="hero-slider" id="heroSlider">
-      <div class="hero-slide active">
-        <div class="hero-slide-bg" style="background-image:url('画像/一枚絵_着彩.png');background-position:center top;"></div>
-        <div class="hero-slide-content"><div class="s1-inner"><div class="s1-text">
-          <p class="s1-catch hs-text-el">ねぇ、今日は<br>何色に染めようか?</p>
-        </div></div></div>
-      </div>
-      <div class="hero-slide">
-        <div class="hero-slide-bg" style="background-image:url('画像/一枚絵s1（清書）全て.png');background-position:center center;"></div>
-        <div class="hero-slide-content"><div class="s2-inner"><div class="s2-text">
-          <p class="s2-label hs-text-el">1st Original Song</p>
-          <h2 class="s2-title hs-text-el">アカツキパレット</h2>
-          <p class="s2-sub hs-text-el">全部虹色に塗りつぶしちゃおうよ</p>
-        </div></div></div>
-      </div>
-      <div class="hero-slide">
-        <div class="hero-slide-bg" style="background-image:url('画像/完成画.png');background-position:center center;"></div>
-        <div class="hero-slide-content"><div class="s3-inner"><div class="s3-text">
-          <p class="s3-label hs-text-el">2nd Original Song</p>
-          <h2 class="s3-title hs-text-el">FloweR</h2>
-          <p class="s3-sub hs-text-el">アスファルトの隙間にも花は咲く</p>
-        </div></div></div>
-      </div>
-    </div>
-    <button class="hero-arrow hero-arrow-prev" onclick="heroMove(-1)">&#8249;</button>
-    <button class="hero-arrow hero-arrow-next" onclick="heroMove(1)">&#8250;</button>
-    <div class="hero-dots" id="heroDots"></div>
-    <div class="hero-scroll"><div class="hero-scroll-line"></div><span class="hero-scroll-text">Scroll</span></div>
-  </section>
-  <div class="divider"></div>
 
-  <!-- Profile -->
-  <section class="section">
-    <div class="sec-header reveal"><div class="section-label">Profile</div><div class="section-title">プロフィール</div></div>
-    <div class="profile-layout">
-      <div class="card-grid stagger">
-        <div class="info-card"><div class="info-card-icon">🎂</div><h3>Birthday</h3><p>11月14日<br><small>いい天使の日って覚えてね👼</small></p></div>
-        <div class="info-card"><div class="info-card-icon">🎮</div><h3>Favorites</h3><p>歌・ゲーム<br><small>OW・雀魂・インディーゲーム</small></p></div>
-        <div class="info-card"><div class="info-card-icon">🎨</div><h3>Mama</h3><p><a href="https://twitter.com/tyanotya" target="_blank">茶乃ひなの 様</a></p></div>
-        <div class="info-card"><div class="info-card-icon">✏️</div><h3>Papa</h3><p><a href="https://twitter.com/wakuu024" target="_blank">わくー。 様</a></p></div>
-        <div class="info-card" style="grid-column:span 2"><div class="info-card-icon">🏷</div><h3>Tags</h3>
-          <div class="tags"><span class="tag">#暁ほのか</span><span class="tag">#ほのかーと</span><span class="tag">歌ってみた</span><span class="tag">ゲーム配信</span><span class="tag">雑談</span><span class="tag">癒し</span><span class="tag">朝活</span></div>
-        </div>
-      </div>
-      <div class="profile-chara-col reveal">
-        <div class="profile-chara-frame">
-          <img src="画像/21.png" alt="暁ほのか" class="profile-chara-img"
-               onclick="openLightbox(this.src)"
-               onerror="this.style.display='none'">
-          <div class="profile-zoom-hint">クリックで拡大</div>
-          <div class="profile-chara-deco"><span class="profile-deco-tag">🌅 Akatsuki Honoka</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <div class="divider"></div>
+<!-- ═══ スマホ用立ち絵ヒーロー（768px以下のみ表示） ═══ -->
+<div class="mobile-chara-hero">
+<img src="画像/21.png" alt="暁ほのか" class="mobile-chara-hero-img"
+onclick="openLightbox(this.src)"
+onerror="this.style.display='none'">
+<div class="mobile-chara-hero-text">
+<p class="mobile-chara-catch">ねぇ、今日は何色に染めようか?</p>
+</div>
+</div>
 
-  <!-- Music -->
-  <section class="section">
-    <div class="sec-header reveal"><div class="section-label">Music</div><div class="section-title">オリジナル曲・歌ってみた</div></div>
-    <div class="music-list stagger">
-      <a href="https://youtu.be/Cq_g_w43v4U" target="_blank" class="music-item"><div class="music-yt-thumb"><img src="https://img.youtube.com/vi/Cq_g_w43v4U/mqdefault.jpg" alt="オリジナル曲"><div class="music-yt-play">▶</div></div><div class="music-info"><div class="music-title">オリジナル曲</div><div class="music-meta">YouTube にて公開中</div></div><div class="music-play">▶</div></a>
-      <a href="https://youtu.be/HXIJHpBu3O0?si=z_THBNe0raG8Inxf" target="_blank" class="music-item"><div class="music-yt-thumb"><img src="https://img.youtube.com/vi/HXIJHpBu3O0/mqdefault.jpg" alt="歌ってみた"><div class="music-yt-play">▶</div></div><div class="music-info"><div class="music-title">歌ってみた</div><div class="music-meta">YouTube にて公開中</div></div><div class="music-play">▶</div></a>
-    </div>
-    <p class="music-note reveal">※ 楽曲情報は随時更新予定です</p>
-  </section>
-  <div class="divider"></div>
+<!-- PCヒーロー（769px以上のみ表示） -->
+<section class="hero" id="heroSection">
+<div class="hero-slider" id="heroSlider">
+<div class="hero-slide active">
+<div class="hero-slide-bg" style="background-image:url('画像/一枚絵_着彩.png');background-position:center top;"></div>
+<div class="hero-slide-content"><div class="s1-inner"><div class="s1-text">
+<p class="s1-catch hs-text-el">ねぇ、今日は<br>何色に染めようか?</p>
+</div></div></div>
+</div>
+<div class="hero-slide">
+<div class="hero-slide-bg" style="background-image:url('画像/一枚絵s1（清書）全て.png');background-position:center center;"></div>
+<div class="hero-slide-content"><div class="s2-inner"><div class="s2-text">
+<p class="s2-label hs-text-el">1st Original Song</p>
+<h2 class="s2-title hs-text-el">アカツキパレット</h2>
+<p class="s2-sub hs-text-el">全部虹色に塗りつぶしちゃおうよ</p>
+</div></div></div>
+</div>
+<div class="hero-slide">
+<div class="hero-slide-bg" style="background-image:url('画像/完成画.png');background-position:center center;"></div>
+<div class="hero-slide-content"><div class="s3-inner"><div class="s3-text">
+<p class="s3-label hs-text-el">2nd Original Song</p>
+<h2 class="s3-title hs-text-el">FloweR</h2>
+<p class="s3-sub hs-text-el">アスファルトの隙間にも花は咲く</p>
+</div></div></div>
+</div>
+</div>
+<button class="hero-arrow hero-arrow-prev" onclick="heroMove(-1)">&#8249;</button>
+<button class="hero-arrow hero-arrow-next" onclick="heroMove(1)">&#8250;</button>
+<div class="hero-dots" id="heroDots"></div>
+<div class="hero-scroll"><div class="hero-scroll-line"></div><span class="hero-scroll-text">Scroll</span></div>
+</section>
 
-  <!-- SNS -->
-  <section class="section">
-    <div class="sec-header reveal"><div class="section-label">Links</div><div class="section-title">SNS & チャンネル</div></div>
-    <div class="sns-chara-wrap reveal"><img src="画像/一枚絵s1（清書）キャラ＋絵の具.png" class="sns-chara-img" alt="暁ほのか" onerror="this.style.display='none'"></div>
-    <div class="sns-grid stagger">
-      <a href="https://www.youtube.com/@AkatsukiHonoka" target="_blank" class="sns-card c-yt"><div class="sns-icon" style="color:#ff5050">▶</div><div class="sns-label">YouTube</div><div class="sns-handle">@AkatsukiHonoka</div></a>
-      <a href="https://twitter.com/AkatsukiHonoka" target="_blank" class="sns-card c-x"><div class="sns-icon">𝕏</div><div class="sns-label">X (Twitter)</div><div class="sns-handle">@AkatsukiHonoka</div></a>
-      <a href="https://www.twitch.tv/AkatsukiHonoka" target="_blank" class="sns-card c-tw"><div class="sns-icon" style="color:#9146ff"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg></div><div class="sns-label">Twitch</div><div class="sns-handle">AkatsukiHonoka</div></a>
-    </div>
-  </section>
-  <div class="divider"></div>
+<div class="divider"></div>
 
-  <!-- 応援 -->
-  <section class="section">
-    <div class="sec-header reveal"><div class="section-label">Subscribe</div><div class="section-title">応援・支援</div></div>
-    <div class="subscribe-box reveal">
-      <h2>暁ほのかを応援してね 🌅</h2>
-      <p>メンバーシップ・Twitchサブスク・FANBOXで<br>さらに近い距離で一緒にいてね ☀</p>
-      <div class="subscribe-btns">
-        <a href="https://www.youtube.com/channel/UCCvVycP-KvSpY_JkD0RTSaw/join" target="_blank" class="member-btn">💜 YouTubeメンバーになる</a>
-        <a href="https://www.twitch.tv/AkatsukiHonoka/subscribe" target="_blank" class="twitch-sub-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;fill:currentColor;flex-shrink:0"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg> Twitchサブスク</a>
-        <a href="https://akatsukihonoka.fanbox.cc/" target="_blank" class="fanbox-btn">🧡 FANBOXを見る</a>
-      </div>
-      <p class="member-note">※ 各サービスのアカウント・お支払い方法が必要です</p>
-    </div>
-  </section>
-  <div class="divider"></div>
+<!-- Profile -->
+<section class="section">
+<div class="sec-header reveal"><div class="section-label">Profile</div><div class="section-title">プロフィール</div></div>
+<div class="profile-layout">
+<div class="card-grid stagger">
+<div class="info-card"><div class="info-card-icon">🎂</div><h3>Birthday</h3><p>11月14日<br><small>いい天使の日って覚えてね👼</small></p></div>
+<div class="info-card"><div class="info-card-icon">🎮</div><h3>Favorites</h3><p>歌・ゲーム<br><small>OW・雀魂・インディーゲーム</small></p></div>
+<div class="info-card"><div class="info-card-icon">🎨</div><h3>Mama</h3><p><a href="https://twitter.com/tyanotya" target="_blank">茶乃ひなの 様</a></p></div>
+<div class="info-card"><div class="info-card-icon">✏️</div><h3>Papa</h3><p><a href="https://twitter.com/wakuu024" target="_blank">わくー。 様</a></p></div>
+<div class="info-card" style="grid-column:span 2"><div class="info-card-icon">🏷</div><h3>Tags</h3>
+<div class="tags"><span class="tag">#暁ほのか</span><span class="tag">#ほのかーと</span><span class="tag">歌ってみた</span><span class="tag">ゲーム配信</span><span class="tag">雑談</span><span class="tag">癒し</span><span class="tag">朝活</span></div>
+</div>
+</div>
+<div class="profile-chara-col reveal">
+<div class="profile-chara-frame">
+<img src="画像/21.png" alt="暁ほのか" class="profile-chara-img"
+onclick="openLightbox(this.src)"
+onerror="this.style.display='none'">
+<div class="profile-zoom-hint">クリックで拡大</div>
+<div class="profile-chara-deco"><span class="profile-deco-tag">🌅 Akatsuki Honoka</span></div>
+</div>
+</div>
+</div>
+</section>
 
-  <!-- Goods -->
-  <section class="section">
-    <div class="sec-header reveal"><div class="section-label">Goods</div><div class="section-title">グッズ</div></div>
-    <div class="goods-grid stagger">
-      <a href="https://akatsukihonoka.booth.pm/items/4325868" target="_blank" class="goods-card"><div class="goods-thumb"><img src="画像/akusuta.jpg" alt="アクリルスタンド" onerror="this.parentElement.innerHTML='🎀'"></div><div class="goods-info"><div class="goods-name">アクリルスタンド</div><div class="goods-desc">BOOTH にて販売中</div></div></a>
-      <a href="https://akatsukihonoka.booth.pm/items/5242215" target="_blank" class="goods-card"><div class="goods-thumb"><img src="画像/kan.jpg" alt="缶バッジ" onerror="this.parentElement.innerHTML='📎'"></div><div class="goods-info"><div class="goods-name">缶バッジ</div><div class="goods-desc">BOOTH にて販売中</div></div></a>
-      <a href="https://akatsukihonoka.booth.pm/items/6891447" target="_blank" class="goods-card"><div class="goods-thumb"><img src="画像/c0d36fa7-b931-4ee9-989f-a16ea3facb43_base_resized.jpg" alt="その他グッズ" onerror="this.parentElement.innerHTML='🌅'"></div><div class="goods-info"><div class="goods-name">その他グッズ</div><div class="goods-desc">BOOTH にて販売中</div></div></a>
-    </div>
-    <a href="https://akatsukihonoka.booth.pm/" target="_blank" class="goods-more reveal">🛍 BOOTH ですべてのグッズを見る</a>
-  </section>
-  <div class="divider"></div>
+<div class="divider"></div>
 
-  <!-- Achievements -->
-  <section class="section">
-    <div class="sec-header reveal"><div class="section-label">Achievements</div><div class="section-title">実績</div></div>
-    <div class="achieve-tabs stagger">
-      <div class="achieve-tab active" onclick="switchAchieve('history',this)">🌅 活動歴</div>
-      <div class="achieve-tab" onclick="switchAchieve('case',this)">☀ 案件実績</div>
-      <div class="achieve-tab" onclick="switchAchieve('voice',this)">☀ 声のお仕事</div>
-      <div class="achieve-tab" onclick="switchAchieve('event',this)">☀ 企画参加</div>
-    </div>
-    <div class="achieve-section active" id="achieve-history">
-      <div class="achieve-list">
-        <div class="achieve-year">【 2021年 】</div>
-        <div class="achieve-item"><div class="achieve-title">🎬 動画投稿開始</div><div class="achieve-meta">2021.04.29 — 初めての動画を投稿。活動のはじまり。</div></div>
-        <div class="achieve-item"><div class="achieve-title">🌅 初配信 &amp; デビュー</div><div class="achieve-meta">2021.05.13 — 初配信を行い、VTuberとしてデビュー。</div></div>
-        <div class="achieve-item"><div class="achieve-title">👥 チャンネル登録 100人 達成</div><div class="achieve-meta">2021.06.03</div></div>
-        <div class="achieve-year">【 2022年 】</div>
-        <div class="achieve-item"><div class="achieve-title">🎉 チャンネル登録 500人 達成</div><div class="achieve-meta">2022.12.24</div></div>
-        <div class="achieve-year">【 2023年 】</div>
-        <div class="achieve-item"><div class="achieve-title">💰 チャンネル収益化 達成</div><div class="achieve-meta">2023.11.06</div></div>
-        <div class="achieve-year">【 2024年 】</div>
-        <div class="achieve-item"><div class="achieve-title">🏆 チャンネル登録 1000人 達成</div><div class="achieve-meta">2024.01.26</div></div>
-      </div>
-    </div>
-    <div class="achieve-section" id="achieve-case">
-      <div class="achieve-list">
-        <div class="achieve-year">【 2024年 】</div>
-        <div class="achieve-item"><div class="achieve-title">オンライン麻雀 Maru-Jan 様</div></div>
-        <div class="achieve-item"><div class="achieve-title">株式会社ベスト NOBLE MARI 様</div></div>
-        <div class="achieve-year">【 2025年 】</div>
-        <div class="achieve-item"><div class="achieve-title">株式会社DC7 様</div><div class="achieve-meta">『第58回 どこキャ祭』</div></div>
-      </div>
-    </div>
-    <div class="achieve-section" id="achieve-voice">
-      <div class="achieve-list">
-        <div class="achieve-year">【 2025年 】</div>
-        <a href="https://youtu.be/Ig_5D-umD94?si=EDyw3ib_LX0LpCxO" target="_blank" class="achieve-item" style="text-decoration:none;display:block"><div class="achieve-title">こぎつね様 卒業制作アニメ『神隠しの祠』 ▶</div><div class="achieve-meta">女の子役</div></a>
-        <div class="achieve-item"><div class="achieve-title">爽夜様 『歌って演じてみた』ロスタイムメモリー / IA (cover) ver. 爽夜</div><div class="achieve-meta">エネ・アヤノ 役</div></div>
-      </div>
-    </div>
-    <div class="achieve-section" id="achieve-event">
-      <div class="achieve-list">
-        <div class="achieve-year">【 2023年 】</div>
-        <div class="achieve-item"><div class="achieve-title">歌ってみた企画『狂依存同盟関係』</div></div>
-        <div class="achieve-item"><div class="achieve-title">シチュエーションボイス企画『声と言葉のクリスマスツリー』</div></div>
-        <div class="achieve-year">【 2024年 】</div>
-        <div class="achieve-item"><div class="achieve-title">シチュエーションボイス企画『僕はこの声で嘘をつく』</div></div>
-        <div class="achieve-item"><div class="achieve-title">第1回 ばんグラ GTA</div></div>
-        <div class="achieve-year">【 2025年 】</div>
-        <div class="achieve-item"><div class="achieve-title">第2回 ばんグラ GTA</div></div>
-        <div class="achieve-year">【 2026年 】</div>
-        <div class="achieve-item"><div class="achieve-title">第3回 ばんグラ GTA</div></div>
-      </div>
-    </div>
-  </section>
+<!-- Music -->
+<section class="section">
+<div class="sec-header reveal"><div class="section-label">Music</div><div class="section-title">オリジナル曲・歌ってみた</div></div>
+<div class="music-list stagger">
+<a href="https://youtu.be/Cq_g_w43v4U" target="_blank" class="music-item"><div class="music-yt-thumb"><img src="https://img.youtube.com/vi/Cq_g_w43v4U/mqdefault.jpg" alt="オリジナル曲"><div class="music-yt-play">▶</div></div><div class="music-info"><div class="music-title">オリジナル曲</div><div class="music-meta">YouTube にて公開中</div></div><div class="music-play">▶</div></a>
+<a href="https://youtu.be/HXIJHpBu3O0?si=z_THBNe0raG8Inxf" target="_blank" class="music-item"><div class="music-yt-thumb"><img src="https://img.youtube.com/vi/HXIJHpBu3O0/mqdefault.jpg" alt="歌ってみた"><div class="music-yt-play">▶</div></div><div class="music-info"><div class="music-title">歌ってみた</div><div class="music-meta">YouTube にて公開中</div></div><div class="music-play">▶</div></a>
+</div>
+<p class="music-note reveal">※ 楽曲情報は随時更新予定です</p>
+</section>
+
+<div class="divider"></div>
+
+<!-- SNS -->
+<section class="section">
+<div class="sec-header reveal"><div class="section-label">Links</div><div class="section-title">SNS & チャンネル</div></div>
+<div class="sns-chara-wrap reveal"><img src="画像/一枚絵s1（清書）キャラ＋絵の具.png" class="sns-chara-img" alt="暁ほのか" onerror="this.style.display='none'"></div>
+<div class="sns-grid stagger">
+<a href="https://www.youtube.com/@AkatsukiHonoka" target="_blank" class="sns-card c-yt"><div class="sns-icon" style="color:#ff5050">▶</div><div class="sns-label">YouTube</div><div class="sns-handle">@AkatsukiHonoka</div></a>
+<a href="https://twitter.com/AkatsukiHonoka" target="_blank" class="sns-card c-x"><div class="sns-icon">𝕏</div><div class="sns-label">X (Twitter)</div><div class="sns-handle">@AkatsukiHonoka</div></a>
+<a href="https://www.twitch.tv/AkatsukiHonoka" target="_blank" class="sns-card c-tw"><div class="sns-icon" style="color:#9146ff"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg></div><div class="sns-label">Twitch</div><div class="sns-handle">AkatsukiHonoka</div></a>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 応援 -->
+<section class="section">
+<div class="sec-header reveal"><div class="section-label">Subscribe</div><div class="section-title">応援・支援</div></div>
+<div class="subscribe-box reveal">
+<h2>暁ほのかを応援してね 🌅</h2>
+<p>メンバーシップ・Twitchサブスク・FANBOXで<br>さらに近い距離で一緒にいてね ☀</p>
+<div class="subscribe-btns">
+<a href="https://www.youtube.com/channel/UCCvVycP-KvSpY_JkD0RTSaw/join" target="_blank" class="member-btn">💜 YouTubeメンバーになる</a>
+<a href="https://www.twitch.tv/AkatsukiHonoka/subscribe" target="_blank" class="twitch-sub-btn"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;fill:currentColor;flex-shrink:0"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg> Twitchサブスク</a>
+<a href="https://akatsukihonoka.fanbox.cc/" target="_blank" class="fanbox-btn">🧡 FANBOXを見る</a>
+</div>
+<p class="member-note">※ 各サービスのアカウント・お支払い方法が必要です</p>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- Goods -->
+<section class="section">
+<div class="sec-header reveal"><div class="section-label">Goods</div><div class="section-title">グッズ</div></div>
+<div class="goods-grid stagger">
+<a href="https://akatsukihonoka.booth.pm/items/4325868" target="_blank" class="goods-card"><div class="goods-thumb"><img src="画像/akusuta.jpg" alt="アクリルスタンド" onerror="this.parentElement.innerHTML='🎀'"></div><div class="goods-info"><div class="goods-name">アクリルスタンド</div><div class="goods-desc">BOOTH にて販売中</div></div></a>
+<a href="https://akatsukihonoka.booth.pm/items/5242215" target="_blank" class="goods-card"><div class="goods-thumb"><img src="画像/kan.jpg" alt="缶バッジ" onerror="this.parentElement.innerHTML='📎'"></div><div class="goods-info"><div class="goods-name">缶バッジ</div><div class="goods-desc">BOOTH にて販売中</div></div></a>
+<a href="https://akatsukihonoka.booth.pm/items/6891447" target="_blank" class="goods-card"><div class="goods-thumb"><img src="画像/c0d36fa7-b931-4ee9-989f-a16ea3facb43_base_resized.jpg" alt="その他グッズ" onerror="this.parentElement.innerHTML='🌅'"></div><div class="goods-info"><div class="goods-name">その他グッズ</div><div class="goods-desc">BOOTH にて販売中</div></div></a>
+</div>
+<a href="https://akatsukihonoka.booth.pm/" target="_blank" class="goods-more reveal">🛍 BOOTH ですべてのグッズを見る</a>
+</section>
+
+<div class="divider"></div>
+
+<!-- Achievements -->
+<section class="section">
+<div class="sec-header reveal"><div class="section-label">Achievements</div><div class="section-title">実績</div></div>
+<div class="achieve-tabs stagger">
+<div class="achieve-tab active" onclick="switchAchieve('history',this)">🌅 活動歴</div>
+<div class="achieve-tab" onclick="switchAchieve('case',this)">☀ 案件実績</div>
+<div class="achieve-tab" onclick="switchAchieve('voice',this)">☀ 声のお仕事</div>
+<div class="achieve-tab" onclick="switchAchieve('event',this)">☀ 企画参加</div>
+</div>
+<div class="achieve-section active" id="achieve-history">
+<div class="achieve-list">
+<div class="achieve-year">【 2021年 】</div>
+<div class="achieve-item"><div class="achieve-title">🎬 動画投稿開始</div><div class="achieve-meta">2021.04.29 — 初めての動画を投稿。活動のはじまり。</div></div>
+<div class="achieve-item"><div class="achieve-title">🌅 初配信 &amp; デビュー</div><div class="achieve-meta">2021.05.13 — 初配信を行い、VTuberとしてデビュー。</div></div>
+<div class="achieve-item"><div class="achieve-title">👥 チャンネル登録 100人 達成</div><div class="achieve-meta">2021.06.03</div></div>
+<div class="achieve-year">【 2022年 】</div>
+<div class="achieve-item"><div class="achieve-title">🎉 チャンネル登録 500人 達成</div><div class="achieve-meta">2022.12.24</div></div>
+<div class="achieve-year">【 2023年 】</div>
+<div class="achieve-item"><div class="achieve-title">💰 チャンネル収益化 達成</div><div class="achieve-meta">2023.11.06</div></div>
+<div class="achieve-year">【 2024年 】</div>
+<div class="achieve-item"><div class="achieve-title">🏆 チャンネル登録 1000人 達成</div><div class="achieve-meta">2024.01.26</div></div>
+</div>
+</div>
+<div class="achieve-section" id="achieve-case">
+<div class="achieve-list">
+<div class="achieve-year">【 2024年 】</div>
+<div class="achieve-item"><div class="achieve-title">オンライン麻雀 Maru-Jan 様</div></div>
+<div class="achieve-item"><div class="achieve-title">株式会社ベスト NOBLE MARI 様</div></div>
+<div class="achieve-year">【 2025年 】</div>
+<div class="achieve-item"><div class="achieve-title">株式会社DC7 様</div><div class="achieve-meta">『第58回 どこキャ祭』</div></div>
+</div>
+</div>
+<div class="achieve-section" id="achieve-voice">
+<div class="achieve-list">
+<div class="achieve-year">【 2025年 】</div>
+<a href="https://youtu.be/Ig_5D-umD94?si=EDyw3ib_LX0LpCxO" target="_blank" class="achieve-item" style="text-decoration:none;display:block"><div class="achieve-title">こぎつね様 卒業制作アニメ『神隠しの祠』 ▶</div><div class="achieve-meta">女の子役</div></a>
+<div class="achieve-item"><div class="achieve-title">爽夜様 『歌って演じてみた』ロスタイムメモリー / IA (cover) ver. 爽夜</div><div class="achieve-meta">エネ・アヤノ 役</div></div>
+</div>
+</div>
+<div class="achieve-section" id="achieve-event">
+<div class="achieve-list">
+<div class="achieve-year">【 2023年 】</div>
+<div class="achieve-item"><div class="achieve-title">歌ってみた企画『狂依存同盟関係』</div></div>
+<div class="achieve-item"><div class="achieve-title">シチュエーションボイス企画『声と言葉のクリスマスツリー』</div></div>
+<div class="achieve-year">【 2024年 】</div>
+<div class="achieve-item"><div class="achieve-title">シチュエーションボイス企画『僕はこの声で嘘をつく』</div></div>
+<div class="achieve-item"><div class="achieve-title">第1回 ばんグラ GTA</div></div>
+<div class="achieve-year">【 2025年 】</div>
+<div class="achieve-item"><div class="achieve-title">第2回 ばんグラ GTA</div></div>
+<div class="achieve-year">【 2026年 】</div>
+<div class="achieve-item"><div class="achieve-title">第3回 ばんグラ GTA</div></div>
+</div>
+</div>
+</section>
 </div>
 
 <!-- WEB屋あかつき -->
 <div id="page-web" class="page">
-  <section class="web-hero">
-    <div class="web-hero-bg"></div>
-    <div class="web-hero-content">
-      <div class="web-hero-badge">🌙 Web Design Studio</div>
-      <h1 class="web-hero-title">VTuberのための<br>プロフィールサイト</h1>
-      <p class="web-hero-sub">あなたの世界観を、Webで表現する。<br>最短1日・低価格で本格サイトを制作します✨</p>
-      <a href="mailto:akatsuki.honoka@gmail.com" class="btn-cta">💬 無料相談はこちら</a>
-    </div>
-  </section>
-  <div class="divider"></div>
-  <section class="section">
-    <div class="sec-header reveal"><div class="section-label">Services</div><div class="section-title">できること</div></div>
-    <div class="service-grid stagger">
-      <div class="service-card"><div class="service-num">01</div><div class="service-icon">👤</div><div class="service-name">プロフィールサイト</div><div class="service-desc">自己紹介・活動歴・タグなど、あなたを最大限に伝えるサイトを制作します。</div></div>
-      <div class="service-card"><div class="service-num">02</div><div class="service-icon">🔗</div><div class="service-name">リンクまとめ</div><div class="service-desc">X・YouTube・Twitchなど各SNSへのリンクを美しくまとめたページを作成。</div></div>
-      <div class="service-card"><div class="service-num">03</div><div class="service-icon">📡</div><div class="service-name">配信埋め込み対応</div><div class="service-desc">YouTubeやTwitchの配信をサイトに直接埋め込み、ファンがすぐ視聴できる設計。</div></div>
-      <div class="service-card"><div class="service-num">04</div><div class="service-icon">📱</div><div class="service-name">スマホ最適化</div><div class="service-desc">スマホからのアクセスが多いVTuberファン向けに、完全レスポンシブ対応。</div></div>
-      <div class="service-card"><div class="service-num">05</div><div class="service-icon">✨</div><div class="service-name">アニメーション演出</div><div class="service-desc">パーティクル・フェードイン・グロー効果など、世界観に合わせた演出。</div></div>
-      <div class="service-card"><div class="service-num">06</div><div class="service-icon">🛍</div><div class="service-name">グッズ・ファンサイト</div><div class="service-desc">グッズ展示・ファンアート掲示板など、コミュニティ向けページも対応可。</div></div>
-    </div>
-  </section>
-  <div class="divider"></div>
-  <section class="section">
-    <div class="sec-header reveal"><div class="section-label">Pricing</div><div class="section-title">料金プラン</div></div>
-    <div class="pricing-wrap stagger">
-      <div class="price-card standard"><div class="price-plan">Standard</div><div class="price-amount">¥9,000<span>〜</span></div><div class="price-note">シンプルなプロフィールサイト</div><ul class="price-features"><li>プロフィール・リンクページ</li><li>レスポンシブ対応</li><li>SNSリンク埋め込み</li><li>最短1日納品</li></ul></div>
-      <div class="price-card premium"><div class="price-plan">Premium</div><div class="price-amount">¥18,000<span>〜</span></div><div class="price-note">豪華演出＋フルカスタム</div><ul class="price-features"><li>Standardの全て</li><li>パーティクル・アニメーション</li><li>配信埋め込み対応</li><li>世界観カスタムデザイン</li><li>グッズ・お知らせページ</li><li>納品後1ヶ月サポート</li></ul></div>
-    </div>
-  </section>
-  <section class="cta-section reveal" id="contact">
-    <div class="cta-title">まずはお気軽にご相談を</div>
-    <p class="cta-sub">お見積り・ご質問は無料です。<br><a href="mailto:akatsuki.honoka@gmail.com" class="mail-link">akatsuki.honoka@gmail.com</a> までお気軽にどうぞ！</p>
-    <a href="mailto:akatsuki.honoka@gmail.com" class="btn-cta">💬 相談する（無料）</a>
-  </section>
+<section class="web-hero">
+<div class="web-hero-bg"></div>
+<div class="web-hero-content">
+<div class="web-hero-badge">🌙 Web Design Studio</div>
+<h1 class="web-hero-title">VTuberのための<br>プロフィールサイト</h1>
+<p class="web-hero-sub">あなたの世界観を、Webで表現する。<br>最短1日・低価格で本格サイトを制作します✨</p>
+<a href="mailto:akatsuki.honoka@gmail.com" class="btn-cta">💬 無料相談はこちら</a>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+<div class="sec-header reveal"><div class="section-label">Services</div><div class="section-title">できること</div></div>
+<div class="service-grid stagger">
+<div class="service-card"><div class="service-num">01</div><div class="service-icon">👤</div><div class="service-name">プロフィールサイト</div><div class="service-desc">自己紹介・活動歴・タグなど、あなたを最大限に伝えるサイトを制作します。</div></div>
+<div class="service-card"><div class="service-num">02</div><div class="service-icon">🔗</div><div class="service-name">リンクまとめ</div><div class="service-desc">X・YouTube・Twitchなど各SNSへのリンクを美しくまとめたページを作成。</div></div>
+<div class="service-card"><div class="service-num">03</div><div class="service-icon">📡</div><div class="service-name">配信埋め込み対応</div><div class="service-desc">YouTubeやTwitchの配信をサイトに直接埋め込み、ファンがすぐ視聴できる設計。</div></div>
+<div class="service-card"><div class="service-num">04</div><div class="service-icon">📱</div><div class="service-name">スマホ最適化</div><div class="service-desc">スマホからのアクセスが多いVTuberファン向けに、完全レスポンシブ対応。</div></div>
+<div class="service-card"><div class="service-num">05</div><div class="service-icon">✨</div><div class="service-name">アニメーション演出</div><div class="service-desc">パーティクル・フェードイン・グロー効果など、世界観に合わせた演出。</div></div>
+<div class="service-card"><div class="service-num">06</div><div class="service-icon">🛍</div><div class="service-name">グッズ・ファンサイト</div><div class="service-desc">グッズ展示・ファンアート掲示板など、コミュニティ向けページも対応可。</div></div>
+</div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+<div class="sec-header reveal"><div class="section-label">Pricing</div><div class="section-title">料金プラン</div></div>
+<div class="pricing-wrap stagger">
+<div class="price-card standard"><div class="price-plan">Standard</div><div class="price-amount">¥9,000<span>〜</span></div><div class="price-note">シンプルなプロフィールサイト</div><ul class="price-features"><li>プロフィール・リンクページ</li><li>レスポンシブ対応</li><li>SNSリンク埋め込み</li><li>最短1日納品</li></ul></div>
+<div class="price-card premium"><div class="price-plan">Premium</div><div class="price-amount">¥18,000<span>〜</span></div><div class="price-note">豪華演出＋フルカスタム</div><ul class="price-features"><li>Standardの全て</li><li>パーティクル・アニメーション</li><li>配信埋め込み対応</li><li>世界観カスタムデザイン</li><li>グッズ・お知らせページ</li><li>納品後1ヶ月サポート</li></ul></div>
+</div>
+</section>
+
+<section class="cta-section reveal" id="contact">
+<div class="cta-title">まずはお気軽にご相談を</div>
+<p class="cta-sub">お見積り・ご質問は無料です。<br><a href="mailto:akatsuki.honoka@gmail.com" class="mail-link">akatsuki.honoka@gmail.com</a> までお気軽にどうぞ！</p>
+<a href="mailto:akatsuki.honoka@gmail.com" class="btn-cta">💬 相談する（無料）</a>
+</section>
 </div>
 
 <footer>
-  <div class="footer-logo"><img src="画像/影白.png" alt="暁ほのか"></div>
-  <div class="footer-links">
-    <a href="https://www.youtube.com/@AkatsukiHonoka" target="_blank">YouTube</a>
-    <a href="https://twitter.com/AkatsukiHonoka" target="_blank">X (Twitter)</a>
-    <a href="https://www.twitch.tv/AkatsukiHonoka" target="_blank">Twitch</a>
-    <a href="https://akatsukihonoka.fanbox.cc/" target="_blank">FANBOX</a>
-    <a href="https://akatsukihonoka.booth.pm/" target="_blank">BOOTH</a>
-  </div>
-  <div class="footer-copy">© 2026 暁ほのか / web屋あかつき — All Rights Reserved 🌅</div>
+<div class="footer-logo"><img src="画像/影白.png" alt="暁ほのか"></div>
+<div class="footer-links">
+<a href="https://www.youtube.com/@AkatsukiHonoka" target="_blank">YouTube</a>
+<a href="https://twitter.com/AkatsukiHonoka" target="_blank">X (Twitter)</a>
+<a href="https://www.twitch.tv/AkatsukiHonoka" target="_blank">Twitch</a>
+<a href="https://akatsukihonoka.fanbox.cc/" target="_blank">FANBOX</a>
+<a href="https://akatsukihonoka.booth.pm/" target="_blank">BOOTH</a>
+</div>
+<div class="footer-copy">© 2026 暁ほのか / web屋あかつき — All Rights Reserved 🌅</div>
 </footer>
 
 <script>
 /* ─── ライトボックス ─── */
 function openLightbox(src){
-  const lb=document.getElementById('lightbox');
-  document.getElementById('lightbox-img').src=src;
-  lb.classList.add('active');
-  document.body.style.overflow='hidden';
+const lb=document.getElementById('lightbox');
+document.getElementById('lightbox-img').src=src;
+lb.classList.add('active');
+document.body.style.overflow='hidden';
 }
 function closeLightbox(){
-  document.getElementById('lightbox').classList.remove('active');
-  document.body.style.overflow='';
+document.getElementById('lightbox').classList.remove('active');
+document.body.style.overflow='';
 }
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
 
 /* ─── モバイルメニュー ─── */
 function toggleMobileMenu(){
-  const menu=document.getElementById('navMobileMenu');
-  const btn=document.getElementById('navHamburger');
-  const isOpen=menu.classList.contains('open');
-  if(isOpen){
-    menu.classList.remove('open');
-    btn.classList.remove('open');
-  } else {
-    menu.classList.add('open');
-    btn.classList.add('open');
-  }
+const menu=document.getElementById('navMobileMenu');
+const btn=document.getElementById('navHamburger');
+const isOpen=menu.classList.contains('open');
+if(isOpen){
+menu.classList.remove('open');
+btn.classList.remove('open');
+} else {
+menu.classList.add('open');
+btn.classList.add('open');
+}
 }
 function closeMobileMenu(){
-  document.getElementById('navMobileMenu').classList.remove('open');
-  document.getElementById('navHamburger').classList.remove('open');
+document.getElementById('navMobileMenu').classList.remove('open');
+document.getElementById('navHamburger').classList.remove('open');
 }
-// メニュー外クリックで閉じる
 document.addEventListener('click',e=>{
-  const menu=document.getElementById('navMobileMenu');
-  const btn=document.getElementById('navHamburger');
-  if(menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)){
-    closeMobileMenu();
-  }
+const menu=document.getElementById('navMobileMenu');
+const btn=document.getElementById('navHamburger');
+if(menu.classList.contains('open') && !menu.contains(e.target) && !btn.contains(e.target)){
+closeMobileMenu();
+}
 });
 
 /* ─── パーティクル ─── */
@@ -693,58 +724,54 @@ let W,H,particles=[],shootingStars=[];
 let currentPage='honoka';
 function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight;}
 resize();window.addEventListener('resize',resize);
-
 const PCOLORS_DAWN=[[255,255,255],[255,252,248],[255,248,240],[252,248,255],[255,255,250],[248,248,255],[255,250,252],[250,252,255],[255,255,245],[255,248,255]];
 const PCOLORS_NIGHT=[[200,225,255],[155,195,255],[175,210,245],[135,175,255],[215,228,255],[95,155,255],[175,188,255],[208,222,255],[125,165,238],[155,190,248]];
-
 function initParticles(){
-  const colors=currentPage==='web'?PCOLORS_NIGHT:PCOLORS_DAWN;
-  particles=Array.from({length:300},()=>{
-    const t=Math.random(),c=colors[Math.floor(Math.random()*colors.length)];
-    return{x:Math.random()*W,y:Math.random()*H,
-      r:t<.55?Math.random()*.55+.18:t<.85?Math.random()*.72+.65:Math.random()*1.0+1.3,
-      phase:Math.random()*Math.PI*2,speed:Math.random()*.009+.002,
-      maxA:currentPage==='web'?(t<.55?.26+Math.random()*.16:t<.85?.4+Math.random()*.2:.52+Math.random()*.26):(t<.55?.22+Math.random()*.15:t<.85?.35+Math.random()*.2:.48+Math.random()*.25),
-      color:c,vy:(Math.random()-.5)*.065,vx:(Math.random()-.5)*.032};
-  });
+const colors=currentPage==='web'?PCOLORS_NIGHT:PCOLORS_DAWN;
+particles=Array.from({length:300},()=>{
+const t=Math.random(),c=colors[Math.floor(Math.random()*colors.length)];
+return{x:Math.random()*W,y:Math.random()*H,
+r:t<.55?Math.random()*.55+.18:t<.85?Math.random()*.72+.65:Math.random()*1.0+1.3,
+phase:Math.random()*Math.PI*2,speed:Math.random()*.009+.002,
+maxA:currentPage==='web'?(t<.55?.26+Math.random()*.16:t<.85?.4+Math.random()*.2:.52+Math.random()*.26):(t<.55?.22+Math.random()*.15:t<.85?.35+Math.random()*.2:.48+Math.random()*.25),
+color:c,vy:(Math.random()-.5)*.065,vx:(Math.random()-.5)*.032};
+});
 }
 initParticles();window.addEventListener('resize',initParticles);
-
 function spawnStar(){
-  if(currentPage==='web'){
-    shootingStars.push({x:Math.random()*W*.8+W*.05,y:Math.random()*H*.4,len:Math.random()*155+90,speed:Math.random()*11+6,angle:Math.PI/4+(Math.random()-.5)*.5,alpha:1,fade:Math.random()*.02+.01,r:175,g:208,b:255});
-  } else {
-    const t=Math.random();
-    shootingStars.push({x:Math.random()*W*.7+W*.1,y:Math.random()*H*.32,len:Math.random()*130+75,speed:Math.random()*9+5,angle:Math.PI/4+(Math.random()-.5)*.42,alpha:1,fade:Math.random()*.024+.012,r:255,g:t<.5?252:248,b:255});
-  }
+if(currentPage==='web'){
+shootingStars.push({x:Math.random()*W*.8+W*.05,y:Math.random()*H*.4,len:Math.random()*155+90,speed:Math.random()*11+6,angle:Math.PI/4+(Math.random()-.5)*.5,alpha:1,fade:Math.random()*.02+.01,r:175,g:208,b:255});
+} else {
+const t=Math.random();
+shootingStars.push({x:Math.random()*W*.7+W*.1,y:Math.random()*H*.32,len:Math.random()*130+75,speed:Math.random()*9+5,angle:Math.PI/4+(Math.random()-.5)*.42,alpha:1,fade:Math.random()*.024+.012,r:255,g:t<.5?252:248,b:255});
+}
 }
 function scheduleStar(){setTimeout(()=>{spawnStar();scheduleStar();},currentPage==='web'?Math.random()*9000+4000:Math.random()*16000+9000);}
 scheduleStar();setTimeout(spawnStar,1800);
-
 function draw(){
-  ctx.clearRect(0,0,W,H);
-  particles.forEach(p=>{
-    p.phase+=p.speed;p.x+=p.vx;p.y+=p.vy;
-    if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
-    const br=(Math.sin(p.phase)+1)/2,al=br*p.maxA;if(al<.01)return;
-    const[r,g,b]=p.color;
-    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(${r},${g},${b},${al})`;ctx.fill();
-    if(p.r>1.0&&br>.55){const glowA=currentPage==='web'?al*.07:al*.10;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3.2,0,Math.PI*2);ctx.fillStyle=`rgba(${r},${g},${b},${glowA})`;ctx.fill();}
-  });
-  shootingStars=shootingStars.filter(s=>s.alpha>0);
-  shootingStars.forEach(s=>{
-    const dx=Math.cos(s.angle)*s.len,dy=Math.sin(s.angle)*s.len;
-    const g=ctx.createLinearGradient(s.x,s.y,s.x-dx,s.y-dy);
-    g.addColorStop(0,`rgba(${s.r},${s.g},${s.b},${s.alpha})`);
-    g.addColorStop(.38,`rgba(${s.r},${s.g},${s.b},${s.alpha*.28})`);
-    g.addColorStop(1,`rgba(${s.r},${s.g},${s.b},0)`);
-    ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-dx,s.y-dy);
-    ctx.strokeStyle=g;ctx.lineWidth=s.alpha*2.8;ctx.lineCap='round';ctx.stroke();
-    ctx.beginPath();ctx.arc(s.x,s.y,s.alpha*2.2,0,Math.PI*2);
-    ctx.fillStyle=`rgba(255,255,255,${s.alpha*.9})`;ctx.fill();
-    s.x+=Math.cos(s.angle)*s.speed;s.y+=Math.sin(s.angle)*s.speed;s.alpha-=s.fade;
-  });
-  requestAnimationFrame(draw);
+ctx.clearRect(0,0,W,H);
+particles.forEach(p=>{
+p.phase+=p.speed;p.x+=p.vx;p.y+=p.vy;
+if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+const br=(Math.sin(p.phase)+1)/2,al=br*p.maxA;if(al<.01)return;
+const[r,g,b]=p.color;
+ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(${r},${g},${b},${al})`;ctx.fill();
+if(p.r>1.0&&br>.55){const glowA=currentPage==='web'?al*.07:al*.10;ctx.beginPath();ctx.arc(p.x,p.y,p.r*3.2,0,Math.PI*2);ctx.fillStyle=`rgba(${r},${g},${b},${glowA})`;ctx.fill();}
+});
+shootingStars=shootingStars.filter(s=>s.alpha>0);
+shootingStars.forEach(s=>{
+const dx=Math.cos(s.angle)*s.len,dy=Math.sin(s.angle)*s.len;
+const g=ctx.createLinearGradient(s.x,s.y,s.x-dx,s.y-dy);
+g.addColorStop(0,`rgba(${s.r},${s.g},${s.b},${s.alpha})`);
+g.addColorStop(.38,`rgba(${s.r},${s.g},${s.b},${s.alpha*.28})`);
+g.addColorStop(1,`rgba(${s.r},${s.g},${s.b},0)`);
+ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(s.x-dx,s.y-dy);
+ctx.strokeStyle=g;ctx.lineWidth=s.alpha*2.8;ctx.lineCap='round';ctx.stroke();
+ctx.beginPath();ctx.arc(s.x,s.y,s.alpha*2.2,0,Math.PI*2);
+ctx.fillStyle=`rgba(255,255,255,${s.alpha*.9})`;ctx.fill();
+s.x+=Math.cos(s.angle)*s.speed;s.y+=Math.sin(s.angle)*s.speed;s.alpha-=s.fade;
+});
+requestAnimationFrame(draw);
 }
 draw();
 
@@ -768,39 +795,37 @@ let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
 function animCursor(){cur.style.left=mx+'px';cur.style.top=my+'px';rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animCursor);}
 animCursor();
-document.querySelectorAll('a,.nav-tab,.nav-mobile-tab,.sns-card,.service-card,.info-card,.tag,.achieve-tab,.goods-card,.music-item,.member-btn,.fanbox-btn,.twitch-sub-btn,.btn-cta,.goods-more,.achieve-item[href],.hero-arrow,.hero-dot,.profile-chara-img,.nav-hamburger').forEach(el=>{el.addEventListener('mouseenter',()=>cur.style.transform='translate(-50%,-50%) scale(2.3)');el.addEventListener('mouseleave',()=>cur.style.transform='translate(-50%,-50%) scale(1)');});
+
+document.querySelectorAll('a,.nav-tab,.nav-mobile-tab,.sns-card,.service-card,.info-card,.tag,.achieve-tab,.goods-card,.music-item,.member-btn,.fanbox-btn,.twitch-sub-btn,.btn-cta,.goods-more,.achieve-item[href],.hero-arrow,.hero-dot,.profile-chara-img,.nav-hamburger,.mobile-chara-hero-img').forEach(el=>{el.addEventListener('mouseenter',()=>cur.style.transform='translate(-50%,-50%) scale(2.3)');el.addEventListener('mouseleave',()=>cur.style.transform='translate(-50%,-50%) scale(1)');});
 
 function showPage(name){
-  currentPage=name;
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('page-'+name).classList.add('active');
-
-  // PCタブの状態更新
-  document.querySelectorAll('.nav-tab').forEach(t=>t.className='nav-tab');
-  document.getElementById('tab-'+name).classList.add(name==='honoka'?'active-honoka':'active-web');
-
-  // モバイルタブの状態更新
-  document.querySelectorAll('.nav-mobile-tab').forEach(t=>t.className='nav-mobile-tab');
-  document.getElementById('mobile-tab-'+name).classList.add(name==='honoka'?'active-honoka':'active-web');
-
-  window.scrollTo({top:0,behavior:'smooth'});
-  setTimeout(checkReveal,100);
-  initParticles();
-  if(name==='web'){
-    document.body.classList.add('nav-night');
-    cur.style.background='radial-gradient(circle,#bcd5ff,#3a62b0)';
-    cur.style.boxShadow='0 0 12px rgba(60,100,200,.65)';
-    ring.style.borderColor='rgba(60,100,200,.52)';
-  } else {
-    document.body.classList.remove('nav-night');
-    cur.style.background='radial-gradient(circle,#ffd4a0,#ff8c3a)';
-    cur.style.boxShadow='0 0 12px rgba(255,140,58,.6)';
-    ring.style.borderColor='rgba(255,140,58,.5)';
-  }
+currentPage=name;
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById('page-'+name).classList.add('active');
+document.querySelectorAll('.nav-tab').forEach(t=>t.className='nav-tab');
+document.getElementById('tab-'+name).classList.add(name==='honoka'?'active-honoka':'active-web');
+document.querySelectorAll('.nav-mobile-tab').forEach(t=>t.className='nav-mobile-tab');
+document.getElementById('mobile-tab-'+name).classList.add(name==='honoka'?'active-honoka':'active-web');
+window.scrollTo({top:0,behavior:'smooth'});
+setTimeout(checkReveal,100);
+initParticles();
+if(name==='web'){
+document.body.classList.add('nav-night');
+cur.style.background='radial-gradient(circle,#bcd5ff,#3a62b0)';
+cur.style.boxShadow='0 0 12px rgba(60,100,200,.65)';
+ring.style.borderColor='rgba(60,100,200,.52)';
+} else {
+document.body.classList.remove('nav-night');
+cur.style.background='radial-gradient(circle,#ffd4a0,#ff8c3a)';
+cur.style.boxShadow='0 0 12px rgba(255,140,58,.6)';
+ring.style.borderColor='rgba(255,140,58,.5)';
+}
 }
 
 function switchAchieve(id,el){document.querySelectorAll('.achieve-section').forEach(s=>s.classList.remove('active'));document.querySelectorAll('.achieve-tab').forEach(t=>t.classList.remove('active'));document.getElementById('achieve-'+id).classList.add('active');el.classList.add('active');setTimeout(checkReveal,50);}
+
 function checkReveal(){const vh=window.innerHeight;document.querySelectorAll('.page.active .reveal').forEach(el=>{if(el.getBoundingClientRect().top<vh-60)el.classList.add('visible');});document.querySelectorAll('.page.active .stagger').forEach(el=>{if(el.getBoundingClientRect().top<vh-40)el.classList.add('visible');});document.querySelectorAll('.page.active .sec-header').forEach(el=>{if(el.getBoundingClientRect().top<vh-40)el.classList.add('visible');});}
+
 window.addEventListener('scroll',checkReveal);
 window.addEventListener('load',()=>{setTimeout(checkReveal,200);});
 </script>
