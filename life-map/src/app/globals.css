@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  --color-bg: #fdf8f3;
+  --color-bg-soft: #fef3e8;
+  --color-text: #2d2a26;
+  --color-text-muted: #6b645c;
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+}
+
+@theme inline {
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-heading);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans), "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+.font-heading {
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
+}
+
+@supports (padding: max(0px)) {
+  .safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out both;
+}
