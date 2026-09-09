@@ -30,12 +30,12 @@ export function ActionTaskCard({
           <h3
             className={cn(
               "mt-2 font-heading text-base font-bold text-neutral-800",
-              checked && "text-neutral-400 line-through"
+              checked && "text-neutral-600 line-through"
             )}
           >
             {task.title}
           </h3>
-          <p className="mt-1 text-sm leading-relaxed text-neutral-500">
+          <p className="mt-1 text-sm leading-relaxed text-neutral-600">
             {task.description}
           </p>
         </div>

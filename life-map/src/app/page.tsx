@@ -43,7 +43,7 @@ export default function LandingPage() {
               <br />
               いいのかな？を未来の地図に。
             </h1>
-            <p className="text-base text-neutral-500 sm:text-lg">
+            <p className="text-base text-neutral-600 sm:text-lg">
               今のあなたから、いくつもの未来を覗いてみよう。
             </p>
           </div>
@@ -71,7 +71,7 @@ export default function LandingPage() {
           <h2 className="font-heading text-lg font-bold text-neutral-800">
             未来MAPとは
           </h2>
-          <p className="mt-2 text-sm leading-relaxed text-neutral-500">
+          <p className="mt-2 text-sm leading-relaxed text-neutral-600">
             今の状況・価値観・希望をもとに、考えられる複数の未来のルートを地図のように整理して表示します。
             どのルートが正しいかを決めるものではなく、選択肢を眺めて考えるための道具です。
           </p>
@@ -90,7 +90,7 @@ export default function LandingPage() {
                 </span>
                 <div>
                   <h3 className="font-semibold text-neutral-800">{feature.title}</h3>
-                  <p className="mt-1 text-sm text-neutral-500">{feature.description}</p>
+                  <p className="mt-1 text-sm text-neutral-600">{feature.description}</p>
                 </div>
               </CardContent>
             </Card>

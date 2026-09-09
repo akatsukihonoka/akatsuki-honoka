@@ -18,7 +18,7 @@ export function MultiChoiceQuestionView({
 }) {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-xs font-medium text-neutral-400">{question.helper}</p>
+      <p className="text-xs font-medium text-neutral-600">{question.helper}</p>
       <div
         className="flex flex-col gap-2.5"
         role="group"

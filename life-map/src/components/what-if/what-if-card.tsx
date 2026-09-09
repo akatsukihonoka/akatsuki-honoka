@@ -19,7 +19,7 @@ export function WhatIfCard({
           </span>
           <div className="flex-1">
             <p className="font-semibold text-neutral-800">{option.label}</p>
-            <p className="text-xs text-neutral-400">{option.description}</p>
+            <p className="text-xs text-neutral-600">{option.description}</p>
           </div>
           <ChevronRight className="h-5 w-5 shrink-0 text-neutral-300" />
         </CardContent>

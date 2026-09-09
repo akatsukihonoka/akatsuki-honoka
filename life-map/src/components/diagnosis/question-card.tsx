@@ -22,7 +22,7 @@ export function QuestionCard({
   return (
     <Card className="animate-fade-in-up border-neutral-200" key={question.id}>
       <CardHeader>
-        <span className="text-xs font-semibold text-orange-500">Q{question.id}</span>
+        <span className="text-xs font-semibold text-orange-700">Q{question.id}</span>
         <CardTitle className="text-xl">{question.question}</CardTitle>
       </CardHeader>
       <CardContent>

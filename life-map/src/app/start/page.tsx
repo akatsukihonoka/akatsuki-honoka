@@ -28,7 +28,7 @@ export default function StartPage() {
             <br />
             つくってみよう。
           </h1>
-          <p className="max-w-sm text-sm leading-relaxed text-neutral-500 sm:text-base">
+          <p className="max-w-sm text-sm leading-relaxed text-neutral-600 sm:text-base">
             いくつかの質問に答えると、あなたの現在地と未来の分岐を整理します。
           </p>
 

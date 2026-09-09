@@ -18,7 +18,7 @@ export default function MapPage() {
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
             あなたの未来MAP
           </h1>
-          <p className="text-sm leading-relaxed text-neutral-500">
+          <p className="text-sm leading-relaxed text-neutral-600">
             今のあなたから考えられる、3つの方向性を見てみましょう。評価の軸はルートごとに異なります。
           </p>
         </div>

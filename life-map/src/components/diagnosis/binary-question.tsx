@@ -30,7 +30,7 @@ export function BinaryQuestionView({
                 : "border-neutral-200 bg-white hover:border-orange-200 hover:bg-orange-50/50"
             )}
           >
-            <span className="text-xs font-semibold text-neutral-400">
+            <span className="text-xs font-semibold text-neutral-600">
               {i === 0 ? "A" : "B"}
             </span>
             <span
@@ -41,7 +41,7 @@ export function BinaryQuestionView({
             >
               {option.label}
             </span>
-            <span className="text-xs text-neutral-400">{option.description}</span>
+            <span className="text-xs text-neutral-600">{option.description}</span>
           </button>
         );
       })}

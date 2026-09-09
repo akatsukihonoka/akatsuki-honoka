@@ -46,7 +46,7 @@ export default async function ScenarioDetailPage({
           <h1 className="font-heading text-xl font-bold text-neutral-800">
             {scenario.title}
           </h1>
-          <p className="text-sm leading-relaxed text-neutral-500">{scenario.summary}</p>
+          <p className="text-sm leading-relaxed text-neutral-600">{scenario.summary}</p>
         </div>
 
         <div className="mt-2">

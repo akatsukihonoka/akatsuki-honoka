@@ -6,11 +6,11 @@ const levelConfig: Record<
   CompareLevel,
   { label: string; icon: typeof Minus; className: string }
 > = {
-  noChange: { label: "変化なし", icon: Minus, className: "bg-neutral-100 text-neutral-500" },
+  noChange: { label: "変化なし", icon: Minus, className: "bg-neutral-100 text-neutral-700" },
   slightIncrease: {
     label: "少し増える",
     icon: ArrowUp,
-    className: "bg-emerald-50 text-emerald-600",
+    className: "bg-emerald-50 text-emerald-700",
   },
   bigIncrease: {
     label: "大きく増える",
@@ -20,12 +20,12 @@ const levelConfig: Record<
   slightDecrease: {
     label: "少し減る",
     icon: ArrowDown,
-    className: "bg-amber-50 text-amber-600",
+    className: "bg-amber-50 text-amber-800",
   },
   bigDecrease: {
     label: "大きく減る",
     icon: ChevronsDown,
-    className: "bg-rose-50 text-rose-600",
+    className: "bg-rose-50 text-rose-700",
   },
 };
 

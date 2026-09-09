@@ -29,9 +29,9 @@ export function ScenarioCard({ scenario }: { scenario: Scenario }) {
             <ChevronRight className="mt-1 h-5 w-5 shrink-0 text-neutral-300" />
           </div>
 
-          <p className="text-sm leading-relaxed text-neutral-500">{scenario.summary}</p>
+          <p className="text-sm leading-relaxed text-neutral-600">{scenario.summary}</p>
 
-          <p className="text-xs font-medium text-neutral-400">
+          <p className="text-xs font-medium text-neutral-600">
             重視するもの：{scenario.focus}
           </p>
 

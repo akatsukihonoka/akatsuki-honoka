@@ -48,7 +48,7 @@ export default function ActionsPage() {
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
             未来を変えるために、まず3つ。
           </h1>
-          <p className="text-sm leading-relaxed text-neutral-500">
+          <p className="text-sm leading-relaxed text-neutral-600">
             一度にたくさんやる必要はありません。まずはこの3つから始めてみましょう。
           </p>
         </div>

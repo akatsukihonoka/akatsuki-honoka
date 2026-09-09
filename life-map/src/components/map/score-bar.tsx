@@ -11,7 +11,7 @@ export function ScoreBar({
 }) {
   return (
     <div className="flex flex-col gap-1">
-      <div className="flex items-center justify-between text-xs text-neutral-500">
+      <div className="flex items-center justify-between text-xs text-neutral-600">
         <span>{label}</span>
       </div>
       <div className="h-1.5 w-full overflow-hidden rounded-full bg-neutral-100">

@@ -5,7 +5,7 @@ export function DisclaimerNote({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex items-start gap-2 rounded-2xl border border-neutral-200 bg-white/70 p-4 text-xs leading-relaxed text-neutral-500",
+        "flex items-start gap-2 rounded-2xl border border-neutral-200 bg-white/70 p-4 text-xs leading-relaxed text-neutral-600",
         className
       )}
     >

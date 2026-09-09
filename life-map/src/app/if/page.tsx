@@ -40,7 +40,7 @@ export default function WhatIfPage() {
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
             もしも、条件を変えたら？
           </h1>
-          <p className="text-sm leading-relaxed text-neutral-500">
+          <p className="text-sm leading-relaxed text-neutral-600">
             気になる条件を選ぶと、今のMAPと比べてどう変わりそうかを見てみましょう。
           </p>
         </div>

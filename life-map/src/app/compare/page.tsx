@@ -28,7 +28,7 @@ export default async function ComparePage({
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
             今のMAPと、もしものMAPを比べてみよう。
           </h1>
-          <p className="text-sm font-medium text-orange-600">「{result.whatIfLabel}」の場合</p>
+          <p className="text-sm font-medium text-orange-700">「{result.whatIfLabel}」の場合</p>
         </div>
 
         <CompareTable items={result.items} />

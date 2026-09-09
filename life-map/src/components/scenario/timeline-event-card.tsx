@@ -28,14 +28,14 @@ export function TimelineEventCard({
             <h3 className="font-heading text-base font-bold text-neutral-800">
               {event.title}
             </h3>
-            <p className="text-sm leading-relaxed text-neutral-500">{event.description}</p>
+            <p className="text-sm leading-relaxed text-neutral-600">{event.description}</p>
 
             {event.changes.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {event.changes.map((change) => (
                   <span
                     key={change}
-                    className="rounded-full bg-neutral-100 px-2.5 py-1 text-xs text-neutral-500"
+                    className="rounded-full bg-neutral-100 px-2.5 py-1 text-xs text-neutral-700"
                   >
                     {change}
                   </span>

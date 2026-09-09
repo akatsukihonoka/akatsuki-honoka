@@ -20,7 +20,7 @@ export function BackButton({
       type="button"
       onClick={onClick ?? (() => router.back())}
       className={cn(
-        "inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-neutral-500 transition-colors hover:bg-neutral-100 hover:text-neutral-700",
+        "inline-flex items-center gap-1 rounded-full px-3 py-2 text-sm font-medium text-neutral-600 transition-colors hover:bg-neutral-100 hover:text-neutral-800",
         className
       )}
       aria-label={label}
