@@ -9,12 +9,12 @@ import { FixedBottomBar } from "@/components/common/fixed-bottom-bar";
 import { DisclaimerNote } from "@/components/common/disclaimer-note";
 import { ScenarioCard } from "@/components/map/scenario-card";
 import { Button } from "@/components/ui/button";
-import { generateScenarios } from "@/lib/scenario-engine";
+import { generateRoutes } from "@/lib/event-engine";
 import { useDiagnosisStore } from "@/store/diagnosis-store";
 
 export default function MapPage() {
   const answers = useDiagnosisStore((s) => s.answers);
-  const scenarioMap = useMemo(() => generateScenarios(answers), [answers]);
+  const scenarioMap = useMemo(() => generateRoutes(answers), [answers]);
   const scenarios = [scenarioMap.stable, scenarioMap.ideal, scenarioMap.challenge];
 
   return (

@@ -14,7 +14,9 @@ import {
 import { PageContainer } from "@/components/common/page-container";
 import { BackButton } from "@/components/common/back-button";
 import { WhatIfCard } from "@/components/what-if/what-if-card";
+import { SyncSelectedEvent } from "@/components/what-if/sync-selected-event";
 import { whatIfOptions } from "@/data/mock-what-if";
+import { LIFE_EVENTS_BY_ID } from "@/data/life-events";
 
 const iconMap: Record<string, LucideIcon> = {
   "job-change": Briefcase,
@@ -28,9 +30,17 @@ const iconMap: Record<string, LucideIcon> = {
   custom: Settings2,
 };
 
-export default function WhatIfPage() {
+export default async function WhatIfPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ event?: string }>;
+}) {
+  const { event: eventId } = await searchParams;
+  const sourceEvent = eventId ? LIFE_EVENTS_BY_ID[eventId] : undefined;
+
   return (
     <main className="flex flex-1 flex-col">
+      <SyncSelectedEvent eventId={sourceEvent?.id} />
       <PageContainer className="flex flex-1 flex-col gap-6 py-6">
         <div className="flex items-center">
           <BackButton />
@@ -43,6 +53,11 @@ export default function WhatIfPage() {
           <p className="text-sm leading-relaxed text-neutral-600">
             気になる条件を選ぶと、今のMAPと比べてどう変わりそうかを見てみましょう。
           </p>
+          {sourceEvent && (
+            <p className="text-sm font-medium text-orange-700">
+              「{sourceEvent.name}」からの続きとして選べます
+            </p>
+          )}
         </div>
 
         <div className="flex flex-col gap-3">

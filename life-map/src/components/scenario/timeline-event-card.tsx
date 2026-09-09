@@ -1,4 +1,4 @@
-import { AlertTriangle, Sparkles } from "lucide-react";
+import { AlertTriangle, GitBranch, Sparkles } from "lucide-react";
 import type { ScenarioEvent } from "@/types/life-map";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -25,9 +25,17 @@ export function TimelineEventCard({
         <span className={cn("text-xs font-semibold", accentClass)}>{event.period}</span>
         <Card className="mt-2 border-neutral-200">
           <CardContent className="flex flex-col gap-3 p-5">
-            <h3 className="font-heading text-base font-bold text-neutral-800">
-              {event.title}
-            </h3>
+            <div className="flex items-center gap-2">
+              <h3 className="font-heading text-base font-bold text-neutral-800">
+                {event.title}
+              </h3>
+              {event.isBranchPoint && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2 py-0.5 text-xs font-semibold text-violet-700">
+                  <GitBranch className="h-3 w-3" />
+                  分岐点
+                </span>
+              )}
+            </div>
             <p className="text-sm leading-relaxed text-neutral-600">{event.description}</p>
 
             {event.changes.length > 0 && (

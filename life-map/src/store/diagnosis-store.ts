@@ -8,6 +8,8 @@ type DiagnosisState = {
   answers: DiagnosisAnswer;
   currentStep: number;
   isComplete: boolean;
+  /** The LifeEvent id (e.g. "job_change") the user is currently exploring a what-if for. */
+  selectedEventId?: string;
   setAnswer: <K extends keyof DiagnosisAnswer>(
     key: K,
     value: DiagnosisAnswer[K]
@@ -16,6 +18,7 @@ type DiagnosisState = {
   nextStep: () => void;
   prevStep: () => void;
   complete: () => void;
+  setSelectedEventId: (eventId: string | undefined) => void;
   reset: () => void;
 };
 
@@ -39,7 +42,9 @@ export const useDiagnosisStore = create<DiagnosisState>()(
       prevStep: () =>
         set((state) => ({ currentStep: Math.max(state.currentStep - 1, 0) })),
       complete: () => set({ isComplete: true }),
-      reset: () => set({ answers: initialAnswers, currentStep: 0, isComplete: false }),
+      setSelectedEventId: (eventId) => set({ selectedEventId: eventId }),
+      reset: () =>
+        set({ answers: initialAnswers, currentStep: 0, isComplete: false, selectedEventId: undefined }),
     }),
     {
       name: "life-map-diagnosis",
