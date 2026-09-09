@@ -1,3 +1,6 @@
+"use client";
+
+import { useMemo } from "react";
 import Link from "next/link";
 import { GitBranch, ListChecks, TimerReset } from "lucide-react";
 
@@ -6,11 +9,14 @@ import { FixedBottomBar } from "@/components/common/fixed-bottom-bar";
 import { DisclaimerNote } from "@/components/common/disclaimer-note";
 import { ScenarioCard } from "@/components/map/scenario-card";
 import { Button } from "@/components/ui/button";
-import { mockScenarios } from "@/data/mock-scenarios";
-
-const scenarios = [mockScenarios.stable, mockScenarios.ideal, mockScenarios.challenge];
+import { generateScenarios } from "@/lib/scenario-engine";
+import { useDiagnosisStore } from "@/store/diagnosis-store";
 
 export default function MapPage() {
+  const answers = useDiagnosisStore((s) => s.answers);
+  const scenarioMap = useMemo(() => generateScenarios(answers), [answers]);
+  const scenarios = [scenarioMap.stable, scenarioMap.ideal, scenarioMap.challenge];
+
   return (
     <main className="flex flex-1 flex-col">
       <PageContainer className="flex flex-1 flex-col gap-6 py-6">
