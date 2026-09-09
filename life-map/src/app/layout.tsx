@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Noto_Sans_JP, Zen_Maru_Gothic } from "next/font/google";
 import "./globals.css";
 import { StoreHydration } from "@/components/common/store-hydration";
+import { ServiceWorkerRegister } from "@/components/common/service-worker-register";
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-sans",
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-[var(--color-bg)] text-[var(--color-text)]">
         <StoreHydration />
+        <ServiceWorkerRegister />
         {children}
       </body>
     </html>
