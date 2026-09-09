@@ -12,7 +12,7 @@ import { expandDownstream } from "./dependency";
 import type { WhatIfInput, WhatIfResult } from "./types";
 
 /** Scenario.events (UI-rendered) -> the underlying LifeEvent[] it came from. */
-function toLifeEvents(scenario: Scenario): LifeEvent[] {
+export function toLifeEvents(scenario: Scenario): LifeEvent[] {
   return scenario.events
     .map((e) => (e.sourceEventId ? LIFE_EVENTS_BY_ID[e.sourceEventId] : undefined))
     .filter((e): e is LifeEvent => e !== undefined);

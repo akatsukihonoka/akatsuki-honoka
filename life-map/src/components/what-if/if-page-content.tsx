@@ -8,6 +8,7 @@ import {
   Building2,
   Heart,
   Home,
+  Layers,
   type LucideIcon,
   Rocket,
   Trees,
@@ -20,7 +21,8 @@ import { WhatIfCard } from "@/components/what-if/what-if-card";
 import { CustomWhatIfForm } from "@/components/what-if/custom-what-if-form";
 import { SyncSelectedEvent } from "@/components/what-if/sync-selected-event";
 import { LIFE_EVENTS_BY_ID } from "@/data/life-events";
-import { getAvailableWhatIfOptions } from "@/lib/what-if-engine/available-events";
+import { MAX_CHAIN_LENGTH } from "@/lib/what-if-engine/chain";
+import { getAvailableWhatIfOptions, WHAT_IF_LABELS } from "@/lib/what-if-engine/available-events";
 import { useDiagnosisStore } from "@/store/diagnosis-store";
 import type { ScenarioType } from "@/types/life-map";
 
@@ -37,20 +39,40 @@ const iconMap: Record<string, LucideIcon> = {
   independence: Building2,
 };
 
+function parseIds(value: string | null): string[] {
+  return value ? value.split(",").filter(Boolean) : [];
+}
+
 export function IfPageContent() {
   const searchParams = useSearchParams();
   const eventId = searchParams.get("event") ?? undefined;
   const routeParam = searchParams.get("route");
+  const appliedParam = useMemo(() => parseIds(searchParams.get("applied")), [searchParams]);
+
   const answers = useDiagnosisStore((s) => s.answers);
   const storedActiveScenario = useDiagnosisStore((s) => s.activeScenarioId);
+  const storedChainEventIds = useDiagnosisStore((s) => s.chainEventIds);
 
   const routeId: ScenarioType =
     (routeParam && VALID_ROUTES.includes(routeParam as ScenarioType)
       ? (routeParam as ScenarioType)
       : storedActiveScenario) ?? "stable";
 
+  // The chain already applied so far — from the URL if present, otherwise
+  // whatever the store last remembered for this session.
+  const appliedChain = appliedParam.length > 0 ? appliedParam : storedChainEventIds;
+  const atChainLimit = appliedChain.length >= MAX_CHAIN_LENGTH;
+
   const sourceEvent = eventId ? LIFE_EVENTS_BY_ID[eventId] : undefined;
-  const options = useMemo(() => getAvailableWhatIfOptions(answers), [answers]);
+  const options = useMemo(
+    () => getAvailableWhatIfOptions(answers, appliedChain),
+    [answers, appliedChain]
+  );
+
+  const buildHref = (newEventId: string) => {
+    const nextChain = [...appliedChain, newEventId];
+    return `/compare?route=${routeId}&events=${nextChain.join(",")}`;
+  };
 
   return (
     <main className="flex flex-1 flex-col">
@@ -72,20 +94,33 @@ export function IfPageContent() {
               「{sourceEvent.name}」からの続きとして選べます
             </p>
           )}
+          {appliedChain.length > 0 && (
+            <p className="flex items-center gap-1.5 text-xs font-medium text-neutral-500">
+              <Layers className="h-3.5 w-3.5" />
+              現在の未来：
+              {appliedChain.map((id) => WHAT_IF_LABELS[id] ?? id).join(" → ")}
+            </p>
+          )}
         </div>
 
-        <div className="flex flex-col gap-3">
-          {options.map(({ event, deprioritized }) => (
-            <WhatIfCard
-              key={event.id}
-              event={event}
-              icon={iconMap[event.id] ?? Briefcase}
-              href={`/compare?event=${event.id}&route=${routeId}`}
-              deprioritized={deprioritized}
-            />
-          ))}
-          <CustomWhatIfForm />
-        </div>
+        {atChainLimit ? (
+          <div className="rounded-2xl border border-neutral-200 bg-white p-5 text-sm leading-relaxed text-neutral-600">
+            まずは3つまでの変化を重ねて試せます。試している未来を確認するか、いずれかを外してから別の「もしも」を選んでみましょう。
+          </div>
+        ) : (
+          <div className="flex flex-col gap-3">
+            {options.map(({ event, deprioritized }) => (
+              <WhatIfCard
+                key={event.id}
+                event={event}
+                icon={iconMap[event.id] ?? Briefcase}
+                href={buildHref(event.id)}
+                deprioritized={deprioritized}
+              />
+            ))}
+            <CustomWhatIfForm />
+          </div>
+        )}
       </PageContainer>
     </main>
   );

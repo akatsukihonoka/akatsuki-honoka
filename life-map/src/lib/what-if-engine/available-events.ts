@@ -42,10 +42,15 @@ export type AvailableWhatIfOption = {
  * what-if is the user's own hypothetical, not the system's suggestion —
  * but sorted after the events that do fit, per "don't prioritize it".
  */
-export function getAvailableWhatIfOptions(answers: DiagnosisAnswer): AvailableWhatIfOption[] {
+export function getAvailableWhatIfOptions(
+  answers: DiagnosisAnswer,
+  excludeIds: string[] = []
+): AvailableWhatIfOption[] {
+  const excluded = new Set(excludeIds);
   const options = WHAT_IF_EVENT_IDS.map((id) => LIFE_EVENTS_BY_ID[id]).filter(
     (event): event is LifeEvent => {
       if (!event) return false;
+      if (excluded.has(event.id)) return false;
       return passesHardConstraints(event.hardConstraints, answers);
     }
   );

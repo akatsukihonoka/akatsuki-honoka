@@ -14,6 +14,13 @@ type DiagnosisState = {
   /** Which route (Stable/Ideal/Challenge) the current what-if is based on. */
   activeScenarioId?: ScenarioType;
   /**
+   * The chain of what-if event ids currently being explored, in applied
+   * order (max 3). Small enough to persist directly; also acts as the
+   * fallback source of truth if a /compare URL's own events= param is
+   * ever unavailable or gets too long to carry reliably.
+   */
+  chainEventIds: string[];
+  /**
    * Last computed what-if result. Kept in memory for convenience (e.g. a
    * reload while still on /compare can reuse it briefly) but never
    * persisted to localStorage — it's a derived, potentially sizeable
@@ -32,6 +39,7 @@ type DiagnosisState = {
   setSelectedEventId: (eventId: string | undefined) => void;
   setActiveScenarioId: (scenarioId: ScenarioType | undefined) => void;
   setWhatIfResult: (result: WhatIfResult | undefined) => void;
+  setChainEventIds: (eventIds: string[]) => void;
   reset: () => void;
 };
 
@@ -55,9 +63,11 @@ export const useDiagnosisStore = create<DiagnosisState>()(
       prevStep: () =>
         set((state) => ({ currentStep: Math.max(state.currentStep - 1, 0) })),
       complete: () => set({ isComplete: true }),
+      chainEventIds: [],
       setSelectedEventId: (eventId) => set({ selectedEventId: eventId }),
       setActiveScenarioId: (scenarioId) => set({ activeScenarioId: scenarioId }),
       setWhatIfResult: (result) => set({ whatIfResult: result }),
+      setChainEventIds: (eventIds) => set({ chainEventIds: eventIds }),
       reset: () =>
         set({
           answers: initialAnswers,
@@ -66,6 +76,7 @@ export const useDiagnosisStore = create<DiagnosisState>()(
           selectedEventId: undefined,
           activeScenarioId: undefined,
           whatIfResult: undefined,
+          chainEventIds: [],
         }),
     }),
     {
@@ -80,6 +91,7 @@ export const useDiagnosisStore = create<DiagnosisState>()(
         isComplete: state.isComplete,
         selectedEventId: state.selectedEventId,
         activeScenarioId: state.activeScenarioId,
+        chainEventIds: state.chainEventIds,
       }),
     }
   )

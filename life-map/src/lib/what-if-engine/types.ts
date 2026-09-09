@@ -53,3 +53,19 @@ export type WhatIfRejected = {
 };
 
 export type WhatIfResult = WhatIfAccepted | WhatIfRejected;
+
+/**
+ * A sequence of what-ifs applied on top of one another: "if job_change,
+ * then also relocation, then also side_job". Each stage is recalculated
+ * from the *previous* stage's resulting scenario, not from the original
+ * base every time.
+ */
+export type WhatIfChain = {
+  baseScenarioId: ScenarioType;
+  /** Event ids actually applied, in order — stops short of any event that was rejected or deduplicated. */
+  events: string[];
+  /** One result per attempted stage, in order (may be shorter than the requested event list if a stage was rejected). */
+  results: WhatIfResult[];
+  /** The last entry in results — the chain's overall outcome. */
+  finalResult: WhatIfResult;
+};
