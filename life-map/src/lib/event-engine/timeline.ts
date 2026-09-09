@@ -103,10 +103,16 @@ export function buildTimeline(selected: LifeEvent[]): RouteTimeline {
   const risks: BottleneckRisk[] = [...impactCountByPeriod.entries()]
     .filter(([, count]) => count >= BOTTLENECK_MIN_EVENTS)
     .sort(([a], [b]) => a - b)
-    .map(([period]) => ({
-      period: PERIOD_LABELS[period],
-      message: "この時期は変化が重なり、未来の余白が小さくなる可能性があります。",
-    }));
+    .map(([period]) => {
+      const clustering = orderedEvents
+        .filter((e) => e.impactLevel >= BOTTLENECK_MIN_IMPACT && periodOf.get(e.id) === period)
+        .map((e) => e.name);
+      const named = clustering.slice(0, 2).join("」と「");
+      return {
+        period: PERIOD_LABELS[period],
+        message: `「${named}」など、大きめの変化が近い時期に重なると、一時的に未来の余白が小さくなる可能性があります。`,
+      };
+    });
 
   return { orderedEvents, periodOf, branchPoints, risks };
 }

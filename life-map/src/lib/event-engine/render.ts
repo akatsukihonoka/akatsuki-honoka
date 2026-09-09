@@ -63,6 +63,13 @@ function topAxesByAbs(effects: LifeEvent["effects"], count: number): EffectAxis[
     .slice(0, count);
 }
 
+/** The single most notable phrase for an event's dominant effect axis — reused by the what-if engine's causal chain. */
+export function dominantEffectPhrase(event: LifeEvent): string {
+  const [top] = topAxesByAbs(event.effects, 1);
+  if (!top) return "大きな変化にはつながらない可能性があります";
+  return event.effects[top] > 0 ? POSITIVE_PHRASE[top] : NEGATIVE_PHRASE[top];
+}
+
 function buildChanges(event: LifeEvent): string[] {
   return topAxesByAbs(event.effects, 2).map((axis) =>
     event.effects[axis] > 0 ? POSITIVE_CHIP[axis] : NEGATIVE_CHIP[axis]

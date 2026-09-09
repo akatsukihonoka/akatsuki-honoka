@@ -220,32 +220,6 @@ export type BranchPoint = {
   downstreamCount: number;
 };
 
-export type WhatIfOption = {
-  id: string;
-  label: string;
-  description: string;
-};
-
-export type CompareLevel =
-  | "noChange"
-  | "slightIncrease"
-  | "bigIncrease"
-  | "slightDecrease"
-  | "bigDecrease";
-
-export type CompareItem = {
-  id: string;
-  label: string;
-  level: CompareLevel;
-};
-
-export type CompareResult = {
-  whatIfId: string;
-  whatIfLabel: string;
-  items: CompareItem[];
-  summary: string;
-};
-
 export type ActionTask = {
   id: string;
   deadline: string;

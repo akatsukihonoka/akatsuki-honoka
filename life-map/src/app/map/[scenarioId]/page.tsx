@@ -3,13 +3,14 @@
 import { useMemo } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { AlertTriangle, GitBranch } from "lucide-react";
+import { GitBranch } from "lucide-react";
 
 import { PageContainer } from "@/components/common/page-container";
 import { BackButton } from "@/components/common/back-button";
 import { FixedBottomBar } from "@/components/common/fixed-bottom-bar";
 import { Button } from "@/components/ui/button";
 import { TimelineEventCard } from "@/components/scenario/timeline-event-card";
+import { RiskBanner } from "@/components/what-if/risk-banner";
 import { scenarioMeta } from "@/data/mock-scenarios";
 import { generateRoutes } from "@/lib/event-engine";
 import { useDiagnosisStore } from "@/store/diagnosis-store";
@@ -45,7 +46,9 @@ export default function ScenarioDetailPage() {
   const meta = scenarioMeta[scenario.id];
   const primaryBranchPoint = scenario.events.find((event) => event.isBranchPoint);
   const primaryEventId = (primaryBranchPoint ?? scenario.events[0])?.sourceEventId;
-  const ifHref = primaryEventId ? `/if?event=${primaryEventId}` : "/if";
+  const ifHref = primaryEventId
+    ? `/if?event=${primaryEventId}&route=${scenario.id}`
+    : `/if?route=${scenario.id}`;
 
   return (
     <main className="flex flex-1 flex-col">
@@ -66,18 +69,7 @@ export default function ScenarioDetailPage() {
           <p className="text-sm leading-relaxed text-neutral-600">{scenario.summary}</p>
         </div>
 
-        {scenario.risks?.map((risk) => (
-          <div
-            key={risk.period}
-            className="flex items-start gap-2 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800"
-          >
-            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
-            <p>
-              <span className="font-semibold">{risk.period}：</span>
-              {risk.message}
-            </p>
-          </div>
-        ))}
+        {scenario.risks?.map((risk) => <RiskBanner key={risk.period} risk={risk} />)}
 
         <div className="mt-2">
           {scenario.events.map((event, i) => (

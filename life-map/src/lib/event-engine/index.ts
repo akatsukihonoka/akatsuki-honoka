@@ -3,6 +3,7 @@ import type {
   CandidateEvent,
   DiagnosisAnswer,
   DiagnosisProfile,
+  LifeEvent,
   Scenario,
   ScenarioType,
 } from "@/types/life-map";
@@ -10,18 +11,32 @@ import { buildDiagnosisProfile } from "./value-profile";
 import { generateCandidateEvents } from "./candidates";
 import { selectRouteEvents } from "./route-selection";
 import { buildTimeline } from "./timeline";
-import { averageOptionScore, computeOptionScore } from "./option-score";
+import { averageOptionScore, clamp, computeOptionScore } from "./option-score";
 import { renderScenarioEvents } from "./render";
+import { computeEventScore } from "./scoring";
 
 const ROUTES: ScenarioType[] = ["stable", "ideal", "challenge"];
 
-function clamp(value: number): number {
-  return Math.max(0, Math.min(100, Math.round(value)));
-}
+/**
+ * valueMatch / feasibility for an arbitrary event set, scored directly
+ * against the diagnosis profile — the same formula generateRoutes uses for
+ * each route, and what the what-if engine reuses for its before/after
+ * scenarios. One calculation method, no matter which event set it's given.
+ */
+export function computeRouteMatchScores(
+  events: LifeEvent[],
+  profile: DiagnosisProfile
+): { valueMatch: number; feasibility: number } {
+  if (events.length === 0) return { valueMatch: 50, feasibility: 50 };
 
-function average(candidates: CandidateEvent[], key: keyof CandidateEvent["score"]): number {
-  if (candidates.length === 0) return 0;
-  return candidates.reduce((sum, c) => sum + c.score[key], 0) / candidates.length;
+  const scores = events.map((e) => computeEventScore(e, profile));
+  const avg = (key: "goalMatch" | "valueMatch" | "feasibility" | "constraintConflict") =>
+    scores.reduce((sum, s) => sum + s[key], 0) / scores.length;
+
+  return {
+    valueMatch: clamp(50 + (avg("goalMatch") + avg("valueMatch")) * 3),
+    feasibility: clamp(50 + (avg("feasibility") - avg("constraintConflict")) * 4),
+  };
 }
 
 function buildRoute(
@@ -35,19 +50,7 @@ function buildRoute(
 
   const optionBreakdown = computeOptionScore(selected);
   const optionScore = averageOptionScore(optionBreakdown);
-
-  const selectedIds = new Set(selected.map((e) => e.id));
-  const selectedCandidates = candidates.filter((c) => selectedIds.has(c.event.id));
-
-  // valueMatch / feasibility come from the actually-selected events' own
-  // Event Score breakdown for this route, not a separate static formula —
-  // scoring and event generation share one pipeline.
-  const valueMatch = clamp(
-    50 + (average(selectedCandidates, "goalMatch") + average(selectedCandidates, "valueMatch")) * 3
-  );
-  const feasibility = clamp(
-    50 + (average(selectedCandidates, "feasibility") - average(selectedCandidates, "constraintConflict")) * 4
-  );
+  const { valueMatch, feasibility } = computeRouteMatchScores(selected, profile);
 
   const template = mockScenarios[route];
 
