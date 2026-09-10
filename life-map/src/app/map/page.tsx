@@ -47,9 +47,9 @@ export default function MapPage() {
             </Link>
           </Button>
           <Button asChild variant="secondary" size="sm" className="h-11">
-            <Link href="/actions">
+            <Link href="/reverse-plan">
               <TimerReset className="h-4 w-4" />
-              35歳から逆算する
+              未来から逆算する
             </Link>
           </Button>
           <Button asChild size="sm" className="h-11">

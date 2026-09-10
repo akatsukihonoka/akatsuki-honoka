@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { DiagnosisAnswer, ScenarioType } from "@/types/life-map";
 import type { WhatIfResult } from "@/lib/what-if-engine/types";
+import type { ReversePlanGoal } from "@/lib/reverse-plan-engine/types";
 
 export const TOTAL_QUESTIONS = 10;
 
@@ -28,6 +29,15 @@ type DiagnosisState = {
    * deterministically from answers + selectedEventId + activeScenarioId.
    */
   whatIfResult?: WhatIfResult;
+  /**
+   * The declared Reverse Plan goal (target age + selected future-state
+   * options + free-text note) — small enough to persist directly, same as
+   * chainEventIds. The derived ReversePlan itself (steps/actions/scores) is
+   * NOT stored here; it's cheap to recompute deterministically from
+   * answers + activeScenarioId + reversePlanGoal, the same convention
+   * whatIfResult/chain already follow for anything derived.
+   */
+  reversePlanGoal?: ReversePlanGoal;
   setAnswer: <K extends keyof DiagnosisAnswer>(
     key: K,
     value: DiagnosisAnswer[K]
@@ -40,6 +50,7 @@ type DiagnosisState = {
   setActiveScenarioId: (scenarioId: ScenarioType | undefined) => void;
   setWhatIfResult: (result: WhatIfResult | undefined) => void;
   setChainEventIds: (eventIds: string[]) => void;
+  setReversePlanGoal: (goal: ReversePlanGoal | undefined) => void;
   reset: () => void;
 };
 
@@ -68,6 +79,7 @@ export const useDiagnosisStore = create<DiagnosisState>()(
       setActiveScenarioId: (scenarioId) => set({ activeScenarioId: scenarioId }),
       setWhatIfResult: (result) => set({ whatIfResult: result }),
       setChainEventIds: (eventIds) => set({ chainEventIds: eventIds }),
+      setReversePlanGoal: (goal) => set({ reversePlanGoal: goal }),
       reset: () =>
         set({
           answers: initialAnswers,
@@ -77,6 +89,7 @@ export const useDiagnosisStore = create<DiagnosisState>()(
           activeScenarioId: undefined,
           whatIfResult: undefined,
           chainEventIds: [],
+          reversePlanGoal: undefined,
         }),
     }),
     {
@@ -84,7 +97,9 @@ export const useDiagnosisStore = create<DiagnosisState>()(
       skipHydration: true,
       // whatIfResult is deliberately excluded — never write the computed
       // what-if blob to localStorage, only the small pieces needed to
-      // reconstruct it (or to recompute it fresh on next load).
+      // reconstruct it (or to recompute it fresh on next load). The
+      // derived ReversePlan follows the same rule: only reversePlanGoal
+      // (the small input) is persisted here.
       partialize: (state) => ({
         answers: state.answers,
         currentStep: state.currentStep,
@@ -92,6 +107,7 @@ export const useDiagnosisStore = create<DiagnosisState>()(
         selectedEventId: state.selectedEventId,
         activeScenarioId: state.activeScenarioId,
         chainEventIds: state.chainEventIds,
+        reversePlanGoal: state.reversePlanGoal,
       }),
     }
   )
