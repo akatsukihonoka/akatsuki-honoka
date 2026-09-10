@@ -5,13 +5,22 @@ export const scenarioMeta: Record<
   {
     label: string;
     color: string;
+    /** One-line world description, distinct from the longer `summary` — used on the /map overview cards. */
+    tagline: string;
+    emoji: string;
     colorClass: {
       bg: string;
       border: string;
       text: string;
       chip: string;
       bar: string;
+      /** Soft tinted background for the /map "world card" treatment. */
+      worldBg: string;
+      /** Gradient badge classes for the route's icon circle. */
+      badgeGradient: string;
     };
+    /** Hex pair matching the CSS custom properties in globals.css — for SVG gradients (BranchMapDiagram). */
+    gradient: { from: string; to: string };
     metricLabels: {
       valueMatch: string;
       feasibility: string;
@@ -22,13 +31,18 @@ export const scenarioMeta: Record<
   stable: {
     label: "安定ルート",
     color: "green",
+    tagline: "今を大きく変えず、じっくり育てる未来",
+    emoji: "🌿",
     colorClass: {
       bg: "bg-emerald-50",
       border: "border-emerald-200",
       text: "text-emerald-700",
-      chip: "bg-emerald-100 text-emerald-700",
+      chip: "bg-emerald-100 text-emerald-800",
       bar: "bg-emerald-400",
+      worldBg: "bg-gradient-to-br from-emerald-50 to-teal-50",
+      badgeGradient: "bg-gradient-to-br from-emerald-300 to-teal-400",
     },
+    gradient: { from: "#6ee7b7", to: "#34d399" },
     metricLabels: {
       valueMatch: "価値観との相性",
       feasibility: "実現しやすさ",
@@ -38,13 +52,18 @@ export const scenarioMeta: Record<
   ideal: {
     label: "理想ルート",
     color: "pink",
+    tagline: "大切にしたいことを中心に進む未来",
+    emoji: "🌸",
     colorClass: {
       bg: "bg-rose-50",
       border: "border-rose-200",
       text: "text-rose-700",
-      chip: "bg-rose-100 text-rose-700",
+      chip: "bg-rose-100 text-rose-800",
       bar: "bg-rose-400",
+      worldBg: "bg-gradient-to-br from-pink-50 to-rose-50",
+      badgeGradient: "bg-gradient-to-br from-pink-300 to-rose-400",
     },
+    gradient: { from: "#fda4af", to: "#fb7185" },
     metricLabels: {
       valueMatch: "価値観との相性",
       feasibility: "目標への近さ",
@@ -54,13 +73,18 @@ export const scenarioMeta: Record<
   challenge: {
     label: "挑戦ルート",
     color: "orange",
+    tagline: "変化を取り入れて、選択肢を広げる未来",
+    emoji: "🚀",
     colorClass: {
       bg: "bg-orange-50",
       border: "border-orange-200",
       text: "text-orange-700",
-      chip: "bg-orange-100 text-orange-700",
+      chip: "bg-orange-100 text-orange-800",
       bar: "bg-orange-400",
+      worldBg: "bg-gradient-to-br from-orange-50 to-amber-50",
+      badgeGradient: "bg-gradient-to-br from-orange-300 to-amber-400",
     },
+    gradient: { from: "#fdba74", to: "#fb923c" },
     metricLabels: {
       valueMatch: "価値観との相性",
       feasibility: "選択肢の広がり",

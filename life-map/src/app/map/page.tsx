@@ -10,25 +10,39 @@ import { DisclaimerNote } from "@/components/common/disclaimer-note";
 import { ScenarioCard } from "@/components/map/scenario-card";
 import { Button } from "@/components/ui/button";
 import { MapInterpretationCard } from "@/components/ai/map-interpretation-card";
+import { BranchMapDiagram } from "@/components/illustrations/branch-map";
+import { scenarioMeta } from "@/data/mock-scenarios";
 import { buildDiagnosisProfile, generateRoutes } from "@/lib/event-engine";
 import { useDiagnosisStore } from "@/store/diagnosis-store";
+import type { ScenarioType } from "@/types/life-map";
+
+const ROUTE_ORDER: ScenarioType[] = ["stable", "ideal", "challenge"];
 
 export default function MapPage() {
   const answers = useDiagnosisStore((s) => s.answers);
   const scenarioMap = useMemo(() => generateRoutes(answers), [answers]);
-  const scenarios = [scenarioMap.stable, scenarioMap.ideal, scenarioMap.challenge];
+  const scenarios = ROUTE_ORDER.map((id) => scenarioMap[id]);
   const valueProfile = useMemo(() => buildDiagnosisProfile(answers).valueProfile, [answers]);
+
+  const branchRoutes = ROUTE_ORDER.map((id) => {
+    const meta = scenarioMeta[id];
+    return { id, emoji: meta.emoji, label: meta.label, colorFrom: meta.gradient.from, colorTo: meta.gradient.to };
+  });
 
   return (
     <main className="flex flex-1 flex-col">
       <PageContainer className="flex flex-1 flex-col gap-6 py-6">
         <div className="flex flex-col gap-1.5">
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
-            あなたの未来MAP
+            🗺️ あなたの未来MAP
           </h1>
           <p className="text-sm leading-relaxed text-neutral-600">
-            今のあなたから考えられる、3つの方向性を見てみましょう。評価の軸はルートごとに異なります。
+            今のあなたから、3つの未来の世界に分かれています。どれが正解ということはありません。
           </p>
+        </div>
+
+        <div className="rounded-[28px] border border-orange-100 bg-white/70 p-4 shadow-soft">
+          <BranchMapDiagram routes={branchRoutes} />
         </div>
 
         <MapInterpretationCard valueProfile={valueProfile} scenarios={scenarios} />
@@ -44,19 +58,23 @@ export default function MapPage() {
 
       <FixedBottomBar className="pb-4">
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <Button asChild variant="secondary" size="sm" className="h-11">
+          <Button asChild variant="secondary" size="sm" className="tap-bounce h-11">
             <Link href="/if">
               <GitBranch className="h-4 w-4" />
               もしもを試す
             </Link>
           </Button>
-          <Button asChild variant="secondary" size="sm" className="h-11">
+          <Button asChild variant="secondary" size="sm" className="tap-bounce h-11">
             <Link href="/reverse-plan">
               <TimerReset className="h-4 w-4" />
               未来から逆算する
             </Link>
           </Button>
-          <Button asChild size="sm" className="h-11">
+          <Button
+            asChild
+            size="sm"
+            className="tap-bounce h-11 bg-gradient-to-r from-orange-400 to-pink-400 hover:opacity-90"
+          >
             <Link href="/actions">
               <ListChecks className="h-4 w-4" />
               今やることを見る

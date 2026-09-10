@@ -82,6 +82,11 @@ export default function DiagnosisPage() {
           <BackButton onClick={handleBack} />
         </div>
 
+        <p className="flex items-center gap-1.5 text-xs font-semibold text-orange-700">
+          <span aria-hidden>🧩</span>
+          未来MAPの材料を集めています
+        </p>
+
         <DiagnosisProgressBar current={currentStep + 1} total={TOTAL_QUESTIONS} />
 
         <QuestionCard

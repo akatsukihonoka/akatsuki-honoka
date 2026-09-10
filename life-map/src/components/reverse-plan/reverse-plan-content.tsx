@@ -100,7 +100,7 @@ export function ReversePlanContent() {
 
         <div className="flex flex-col gap-1.5">
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
-            未来からの逆算プラン
+            🎯 未来からの逆算プラン
           </h1>
           <p className="text-sm leading-relaxed text-neutral-600">
             {plan.goal.targetAge}歳ごろの未来から、今できることを逆算してみましょう。
@@ -108,7 +108,7 @@ export function ReversePlanContent() {
         </div>
 
         {plan.rejectedOptions.length > 0 && (
-          <div className="flex flex-col gap-1 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
+          <div className="flex flex-col gap-1 rounded-[22px] border border-amber-200 bg-amber-50 p-4 text-sm text-amber-800">
             {plan.rejectedOptions.map((r) => (
               <p key={r.optionId}>
                 「{r.optionLabel}」{r.reason}
@@ -125,7 +125,7 @@ export function ReversePlanContent() {
 
         <ReversePlanCompare baseScenario={baseScenario} plan={plan} />
 
-        <div className="rounded-2xl border border-neutral-200 bg-white/70 p-4 text-xs leading-relaxed text-neutral-600">
+        <div className="rounded-[22px] border border-neutral-200 bg-white/70 p-4 text-xs leading-relaxed text-neutral-600">
           <p>これは未来を決めるための計画ではありません。</p>
           <p>途中で気持ちや環境が変わったら、MAPも更新できます。</p>
         </div>
@@ -134,7 +134,7 @@ export function ReversePlanContent() {
       </PageContainer>
 
       <FixedBottomBar className="pb-4">
-        <Button variant="secondary" size="lg" onClick={() => setEditing(true)}>
+        <Button variant="secondary" size="lg" className="tap-bounce" onClick={() => setEditing(true)}>
           <RefreshCcw className="h-4 w-4" />
           未来の状態を選び直す
         </Button>

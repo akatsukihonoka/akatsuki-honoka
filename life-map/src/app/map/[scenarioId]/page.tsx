@@ -8,6 +8,7 @@ import { GitBranch } from "lucide-react";
 import { PageContainer } from "@/components/common/page-container";
 import { BackButton } from "@/components/common/back-button";
 import { FixedBottomBar } from "@/components/common/fixed-bottom-bar";
+import { Expandable } from "@/components/common/expandable";
 import { Button } from "@/components/ui/button";
 import { TimelineEventCard } from "@/components/scenario/timeline-event-card";
 import { RiskBanner } from "@/components/what-if/risk-banner";
@@ -54,42 +55,58 @@ export default function ScenarioDetailPage() {
 
   return (
     <main className="flex flex-1 flex-col">
-      <PageContainer className="flex flex-1 flex-col gap-6 py-6 pb-28">
-        <div className="flex items-center">
+      <div className={`${meta.colorClass.worldBg} pb-6 pt-6`}>
+        <PageContainer className="flex flex-col gap-3">
           <BackButton />
-        </div>
+          <div className="flex items-center gap-3">
+            <span
+              className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl text-3xl text-white shadow-sm ${meta.colorClass.badgeGradient}`}
+              aria-hidden
+            >
+              {meta.emoji}
+            </span>
+            <div className="flex flex-col gap-1">
+              <span
+                className={`inline-flex w-fit items-center rounded-full px-2.5 py-0.5 text-[11px] font-bold ${meta.colorClass.chip}`}
+              >
+                {meta.label}
+              </span>
+              <h1 className="font-heading text-xl font-bold text-neutral-800">{scenario.title}</h1>
+            </div>
+          </div>
+          <p className="text-sm leading-relaxed text-neutral-700">{meta.tagline}</p>
+          <Expandable label="ルートの詳しい説明を見る" buttonClassName={meta.colorClass.text}>
+            <p className="mt-1 text-sm leading-relaxed text-neutral-600">{scenario.summary}</p>
+          </Expandable>
+        </PageContainer>
+      </div>
 
-        <div className="flex flex-col gap-2">
-          <span
-            className={`inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-semibold ${meta.colorClass.chip}`}
-          >
-            {meta.label}
-          </span>
-          <h1 className="font-heading text-xl font-bold text-neutral-800">
-            {scenario.title}
-          </h1>
-          <p className="text-sm leading-relaxed text-neutral-600">{scenario.summary}</p>
-        </div>
-
+      <PageContainer className="flex flex-1 flex-col gap-6 py-6 pb-28">
         {scenario.risks?.map((risk) => <RiskBanner key={risk.period} risk={risk} />)}
 
         <RouteInterpretationCard valueProfile={valueProfile} scenario={scenario} />
 
-        <div className="mt-2">
-          {scenario.events.map((event, i) => (
-            <TimelineEventCard
-              key={event.id}
-              event={event}
-              isLast={i === scenario.events.length - 1}
-              accentClass={meta.colorClass.text}
-              dotClass={meta.colorClass.bar}
-            />
-          ))}
+        <div className="flex flex-col gap-1">
+          <p className="text-xs font-semibold text-neutral-500">🚶 人生の道</p>
+          <div className="mt-2">
+            {scenario.events.map((event, i) => (
+              <TimelineEventCard
+                key={event.id}
+                event={event}
+                isLast={i === scenario.events.length - 1}
+                accentClass={meta.colorClass.text}
+              />
+            ))}
+          </div>
         </div>
       </PageContainer>
 
       <FixedBottomBar className="pb-4">
-        <Button asChild size="lg" className="w-full">
+        <Button
+          asChild
+          size="lg"
+          className="tap-bounce w-full bg-gradient-to-r from-orange-400 to-pink-400 shadow-soft-lg hover:opacity-90"
+        >
           <Link href={ifHref}>
             <GitBranch className="h-4 w-4" />
             このルートで、もしもを試す

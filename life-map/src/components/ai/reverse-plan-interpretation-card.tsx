@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { InterpretationCardShell } from "./interpretation-card-shell";
+import { Expandable } from "@/components/common/expandable";
 import { buildReversePlanInput } from "@/lib/ai/build-input";
 import { fallbackReversePlanInterpretation } from "@/lib/ai/fallback";
 import { useAIInterpretation } from "@/lib/ai/use-interpretation";
@@ -23,12 +24,14 @@ export function ReversePlanInterpretationCard({
   });
 
   return (
-    <InterpretationCardShell title="なぜこの順番？" status={status} loadingMessage={loadingMessage}>
+    <InterpretationCardShell title="💡 なぜこの順番？" status={status} loadingMessage={loadingMessage}>
       {data && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           <p className="text-sm leading-relaxed text-neutral-800">{data.summary}</p>
-          <p className="text-sm leading-relaxed text-neutral-700">{data.whyThisOrder}</p>
-          {data.caveat && <p className="text-xs text-neutral-600">{data.caveat}</p>}
+          <Expandable label="もう少し見る">
+            <p className="mt-1 text-xs leading-relaxed text-neutral-600">{data.whyThisOrder}</p>
+            {data.caveat && <p className="mt-1 text-[11px] text-neutral-600">{data.caveat}</p>}
+          </Expandable>
         </div>
       )}
     </InterpretationCardShell>

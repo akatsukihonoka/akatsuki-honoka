@@ -21,15 +21,15 @@ export function CustomWhatIfForm() {
 
   if (!open) {
     return (
-      <button type="button" onClick={() => setOpen(true)} className="block w-full text-left">
-        <Card className="border-dashed border-neutral-300 transition-colors hover:border-orange-300">
+      <button type="button" onClick={() => setOpen(true)} className="tap-bounce block w-full text-left">
+        <Card className="rounded-[24px] border-2 border-dashed border-neutral-300 shadow-none transition-colors hover:border-orange-300">
           <CardContent className="flex items-center gap-4 p-4">
             <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-neutral-100 text-neutral-500">
               <Settings2 className="h-5 w-5" />
             </span>
             <div className="flex-1">
-              <p className="font-semibold text-neutral-800">自分で設定する</p>
-              <p className="text-xs text-neutral-600">条件を自由に入力してみます</p>
+              <p className="font-heading font-bold text-neutral-800">✏️ 自分で設定する</p>
+              <p className="text-xs text-neutral-500">条件を自由に入力してみます</p>
             </div>
           </CardContent>
         </Card>
@@ -38,9 +38,9 @@ export function CustomWhatIfForm() {
   }
 
   return (
-    <Card className="border-neutral-200">
+    <Card className="rounded-[24px] border-neutral-200 shadow-soft">
       <CardContent className="flex flex-col gap-3 p-4">
-        <p className="font-semibold text-neutral-800">自分で設定する</p>
+        <p className="font-heading font-bold text-neutral-800">✏️ 自分で設定する</p>
 
         <label className="flex flex-col gap-1 text-xs font-medium text-neutral-600">
           イベント名

@@ -84,39 +84,40 @@ export function IfPageContent() {
 
         <div className="flex flex-col gap-1.5">
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
-            もしも、条件を変えたら？
+            🚀 もし、条件を変えたら？
           </h1>
           <p className="text-sm leading-relaxed text-neutral-600">
-            気になる条件を選ぶと、今のMAPと比べてどう変わりそうかを見てみましょう。
+            気になる未来をタップして、どう変わるか試してみましょう。
           </p>
           {sourceEvent && (
-            <p className="text-sm font-medium text-orange-700">
+            <p className="text-sm font-bold text-orange-700">
               「{sourceEvent.name}」からの続きとして選べます
             </p>
           )}
           {appliedChain.length > 0 && (
-            <p className="flex items-center gap-1.5 text-xs font-medium text-neutral-500">
+            <p className="flex items-center gap-1.5 text-xs font-semibold text-neutral-500">
               <Layers className="h-3.5 w-3.5" />
-              現在の未来：
+              今、試している未来：
               {appliedChain.map((id) => WHAT_IF_LABELS[id] ?? id).join(" → ")}
             </p>
           )}
         </div>
 
         {atChainLimit ? (
-          <div className="rounded-2xl border border-neutral-200 bg-white p-5 text-sm leading-relaxed text-neutral-600">
-            まずは3つまでの変化を重ねて試せます。試している未来を確認するか、いずれかを外してから別の「もしも」を選んでみましょう。
+          <div className="rounded-[24px] border border-orange-100 bg-orange-50/60 p-5 text-sm leading-relaxed text-neutral-700">
+            🎒 まずは3つまでの変化を重ねて試せます。試している未来を確認するか、いずれかを外してから別の「もしも」を選んでみましょう。
           </div>
         ) : (
           <div className="flex flex-col gap-3">
-            {options.map(({ event, deprioritized }) => (
-              <WhatIfCard
-                key={event.id}
-                event={event}
-                icon={iconMap[event.id] ?? Briefcase}
-                href={buildHref(event.id)}
-                deprioritized={deprioritized}
-              />
+            {options.map(({ event, deprioritized }, i) => (
+              <div key={event.id} className="animate-fade-in-up" style={{ animationDelay: `${i * 60}ms` }}>
+                <WhatIfCard
+                  event={event}
+                  icon={iconMap[event.id] ?? Briefcase}
+                  href={buildHref(event.id)}
+                  deprioritized={deprioritized}
+                />
+              </div>
             ))}
             <CustomWhatIfForm />
           </div>

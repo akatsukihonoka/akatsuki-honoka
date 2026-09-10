@@ -5,13 +5,15 @@ import { useRouter } from "next/navigation";
 import { Compass } from "lucide-react";
 
 import { PageContainer } from "@/components/common/page-container";
+import { SceneryBlobs, StarShape } from "@/components/illustrations/scenery";
+import { MapDrawing } from "@/components/illustrations/map-drawing";
 
 const messages = [
-  "現在地を整理中…",
-  "価値観を分析中…",
-  "未来の分岐を探しています…",
-  "MAPを描いています…",
-  "あなたの未来MAPができました",
+  "🌱 現在地を確認中…",
+  "✨ 価値観を見つけています…",
+  "🗺️ 未来の道を描いています…",
+  "🚪 分岐点を探しています…",
+  "あなたの未来MAPができました。",
 ];
 
 const STEP_MS = 750;
@@ -30,8 +32,11 @@ export default function AnalyzingPage() {
   }, [step, router]);
 
   return (
-    <main className="flex flex-1 flex-col items-center justify-center">
-      <PageContainer className="flex flex-col items-center gap-8 py-10 text-center">
+    <main className="relative flex flex-1 flex-col items-center justify-center overflow-hidden">
+      <SceneryBlobs className="pointer-events-none absolute inset-0 -z-10" />
+      <StarShape className="pointer-events-none absolute right-10 top-16 h-5 w-5 text-yellow-300 animate-float-slow" />
+
+      <PageContainer className="flex flex-col items-center gap-6 py-10 text-center">
         <div className="relative flex h-28 w-28 items-center justify-center">
           <span className="absolute inset-0 animate-ping rounded-full bg-orange-200 opacity-60" />
           <span className="absolute inset-2 animate-pulse rounded-full bg-orange-100" />
@@ -39,6 +44,8 @@ export default function AnalyzingPage() {
             <Compass className="h-8 w-8 animate-[spin_6s_linear_infinite]" />
           </span>
         </div>
+
+        <MapDrawing className="h-16 w-40 text-orange-300" />
 
         <p
           key={step}
@@ -53,7 +60,7 @@ export default function AnalyzingPage() {
             <span
               key={i}
               className={`h-1.5 w-6 rounded-full transition-colors ${
-                i <= step ? "bg-orange-400" : "bg-orange-100"
+                i <= step ? "bg-gradient-to-r from-orange-400 to-pink-400" : "bg-orange-100"
               }`}
             />
           ))}

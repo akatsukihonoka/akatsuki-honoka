@@ -41,19 +41,20 @@ export function ReversePlanCompare({
         size="lg"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
+        className="tap-bounce"
       >
         {open ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
-        今のMAPと比べる
+        🔮 今のMAPと比べる
       </Button>
 
       {open && (
-        <div className="flex flex-col gap-4">
+        <div className="animate-fade-in-up flex flex-col gap-4">
           <OptionScoreDelta
             before={comparison.optionScoreBefore}
             after={comparison.optionScoreAfter}
           />
           <div className="flex flex-col gap-2">
-            <p className="text-xs font-medium text-neutral-600">変わったところ</p>
+            <p className="text-xs font-bold text-neutral-600">🔍 何が変わった？</p>
             <ChangedAxisTable changes={comparison.changedAxes} />
           </div>
           <AddedEventsList eventIds={comparison.addedEvents} />

@@ -12,7 +12,7 @@ export function SingleChoiceQuestionView({
   onSelect: (value: string) => void;
 }) {
   return (
-    <div className="flex flex-col gap-2.5" role="radiogroup" aria-label={question.question}>
+    <div className="flex flex-col gap-3" role="radiogroup" aria-label={question.question}>
       {question.options.map((option) => {
         const selected = value === option.value;
         return (
@@ -23,14 +23,18 @@ export function SingleChoiceQuestionView({
             aria-checked={selected}
             onClick={() => onSelect(option.value)}
             className={cn(
-              "flex items-center justify-between rounded-2xl border px-4 py-3.5 text-left text-sm font-medium transition-colors",
+              "tap-bounce flex items-center justify-between rounded-[22px] border-2 px-5 py-4 text-left text-base font-semibold transition-colors",
               selected
-                ? "border-orange-400 bg-orange-50 text-orange-700"
+                ? "border-orange-400 bg-gradient-to-r from-orange-50 to-pink-50 text-orange-700 shadow-soft"
                 : "border-neutral-200 bg-white text-neutral-700 hover:border-orange-200 hover:bg-orange-50/50"
             )}
           >
             {option.label}
-            {selected && <Check className="h-4 w-4 text-orange-500" />}
+            {selected && (
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-orange-400 text-white">
+                <Check className="h-3.5 w-3.5" strokeWidth={3} />
+              </span>
+            )}
           </button>
         );
       })}
