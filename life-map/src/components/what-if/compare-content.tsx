@@ -18,8 +18,10 @@ import { AddedEventsList } from "@/components/what-if/added-events-list";
 import { RiskBanner } from "@/components/what-if/risk-banner";
 import { ChainTimeline } from "@/components/what-if/chain-timeline";
 import { SyncSelectedEvent } from "@/components/what-if/sync-selected-event";
+import { WhatIfInterpretationCard } from "@/components/ai/what-if-interpretation-card";
 import { WHAT_IF_LABELS } from "@/lib/what-if-engine/available-events";
-import { generateRoutes } from "@/lib/event-engine";
+import { buildDiagnosisProfile, generateRoutes } from "@/lib/event-engine";
+import { buildChainInput, buildWhatIfInput } from "@/lib/ai/build-input";
 import {
   applyChain,
   buildChainCausalChain,
@@ -138,6 +140,24 @@ export function CompareContent() {
   const chainLabel = chain.events.map((id) => WHAT_IF_LABELS[id] ?? id).join(" → ");
   const canAddMore = chain.events.length < MAX_CHAIN_LENGTH;
 
+  const valueProfile = buildDiagnosisProfile(answers).valueProfile;
+  const isChain = chain.events.length >= 2;
+  const aiInput = isChain
+    ? buildChainInput({
+        valueProfile,
+        routeId,
+        appliedEventIds: chain.events,
+        optionScoreProgression,
+        comparison: overallComparison,
+        causalChain,
+      })
+    : buildWhatIfInput({
+        valueProfile,
+        routeId,
+        comparison: overallComparison,
+        causalChain,
+      });
+
   return (
     <main className="flex flex-1 flex-col">
       <SyncSelectedEvent scenarioId={routeId} chainEventIds={chain.events} />
@@ -163,6 +183,12 @@ export function CompareContent() {
           after={overallComparison.optionScoreAfter}
         />
         <OptionScoreProgression values={optionScoreProgression} />
+
+        <WhatIfInterpretationCard
+          kind={isChain ? "chain" : "whatIf"}
+          title={isChain ? "この組み合わせの特徴" : "この変化を試してみると"}
+          input={aiInput}
+        />
 
         <div className="flex flex-col gap-2">
           <p className="text-xs font-medium text-neutral-600">変わったところ</p>

@@ -14,6 +14,7 @@ import { GoalForm } from "@/components/reverse-plan/goal-form";
 import { ReversePlanTimeline } from "@/components/reverse-plan/reverse-plan-timeline";
 import { ReversePlanActions } from "@/components/reverse-plan/reverse-plan-actions";
 import { ReversePlanCompare } from "@/components/reverse-plan/reverse-plan-compare";
+import { ReversePlanInterpretationCard } from "@/components/ai/reverse-plan-interpretation-card";
 import { buildDiagnosisProfile, generateRoutes } from "@/lib/event-engine";
 import { buildReversePlan } from "@/lib/reverse-plan-engine";
 import { useDiagnosisStore } from "@/store/diagnosis-store";
@@ -38,10 +39,8 @@ export function ReversePlanContent() {
       ? (routeParam as ScenarioType)
       : storedActiveScenario) ?? "stable";
 
-  const currentAgeMidpoint = useMemo(
-    () => buildDiagnosisProfile(answers).constraints.ageMidpoint,
-    [answers]
-  );
+  const diagnosisProfile = useMemo(() => buildDiagnosisProfile(answers), [answers]);
+  const currentAgeMidpoint = diagnosisProfile.constraints.ageMidpoint;
   const baseScenario = useMemo(() => generateRoutes(answers)[routeId], [answers, routeId]);
 
   const planResult = useMemo(() => {
@@ -119,6 +118,8 @@ export function ReversePlanContent() {
         )}
 
         <ReversePlanTimeline goal={plan.goal} steps={plan.steps} />
+
+        <ReversePlanInterpretationCard valueProfile={diagnosisProfile.valueProfile} plan={plan} />
 
         <ReversePlanActions actions={plan.actions} />
 

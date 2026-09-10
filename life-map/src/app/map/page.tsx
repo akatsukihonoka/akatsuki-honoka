@@ -9,13 +9,15 @@ import { FixedBottomBar } from "@/components/common/fixed-bottom-bar";
 import { DisclaimerNote } from "@/components/common/disclaimer-note";
 import { ScenarioCard } from "@/components/map/scenario-card";
 import { Button } from "@/components/ui/button";
-import { generateRoutes } from "@/lib/event-engine";
+import { MapInterpretationCard } from "@/components/ai/map-interpretation-card";
+import { buildDiagnosisProfile, generateRoutes } from "@/lib/event-engine";
 import { useDiagnosisStore } from "@/store/diagnosis-store";
 
 export default function MapPage() {
   const answers = useDiagnosisStore((s) => s.answers);
   const scenarioMap = useMemo(() => generateRoutes(answers), [answers]);
   const scenarios = [scenarioMap.stable, scenarioMap.ideal, scenarioMap.challenge];
+  const valueProfile = useMemo(() => buildDiagnosisProfile(answers).valueProfile, [answers]);
 
   return (
     <main className="flex flex-1 flex-col">
@@ -28,6 +30,8 @@ export default function MapPage() {
             今のあなたから考えられる、3つの方向性を見てみましょう。評価の軸はルートごとに異なります。
           </p>
         </div>
+
+        <MapInterpretationCard valueProfile={valueProfile} scenarios={scenarios} />
 
         <div className="flex flex-col gap-4">
           {scenarios.map((scenario) => (

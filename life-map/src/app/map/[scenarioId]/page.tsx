@@ -11,8 +11,9 @@ import { FixedBottomBar } from "@/components/common/fixed-bottom-bar";
 import { Button } from "@/components/ui/button";
 import { TimelineEventCard } from "@/components/scenario/timeline-event-card";
 import { RiskBanner } from "@/components/what-if/risk-banner";
+import { RouteInterpretationCard } from "@/components/ai/route-interpretation-card";
 import { scenarioMeta } from "@/data/mock-scenarios";
-import { generateRoutes } from "@/lib/event-engine";
+import { buildDiagnosisProfile, generateRoutes } from "@/lib/event-engine";
 import { useDiagnosisStore } from "@/store/diagnosis-store";
 import type { ScenarioType } from "@/types/life-map";
 
@@ -22,6 +23,7 @@ export default function ScenarioDetailPage() {
   const params = useParams<{ scenarioId: string }>();
   const answers = useDiagnosisStore((s) => s.answers);
   const routes = useMemo(() => generateRoutes(answers), [answers]);
+  const valueProfile = useMemo(() => buildDiagnosisProfile(answers).valueProfile, [answers]);
 
   const scenarioId = params.scenarioId;
   const isValid = validIds.includes(scenarioId as ScenarioType);
@@ -70,6 +72,8 @@ export default function ScenarioDetailPage() {
         </div>
 
         {scenario.risks?.map((risk) => <RiskBanner key={risk.period} risk={risk} />)}
+
+        <RouteInterpretationCard valueProfile={valueProfile} scenario={scenario} />
 
         <div className="mt-2">
           {scenario.events.map((event, i) => (
