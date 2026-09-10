@@ -4,10 +4,12 @@ import { ArrowRight } from "lucide-react";
 import type { Scenario } from "@/types/life-map";
 import { scenarioMeta } from "@/data/mock-scenarios";
 import { Expandable } from "@/components/common/expandable";
+import { buildAgeTimeline, condenseAgePreview } from "@/lib/age-timeline";
 import { ScoreBar } from "./score-bar";
 
-export function ScenarioCard({ scenario }: { scenario: Scenario }) {
+export function ScenarioCard({ scenario, currentAge }: { scenario: Scenario; currentAge: number }) {
   const meta = scenarioMeta[scenario.id];
+  const agePreview = condenseAgePreview(buildAgeTimeline(scenario.events, currentAge), 3);
 
   return (
     <div
@@ -43,6 +45,25 @@ export function ScenarioCard({ scenario }: { scenario: Scenario }) {
           >
             ✨ 未来の余白 {scenario.scores.optionScore}
           </span>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-1.5" aria-label="この未来の道すじ、現在地から80歳まで">
+          {agePreview.map((node, i) => (
+            <span key={i} className="flex items-center gap-1.5">
+              {i > 0 && (
+                <span aria-hidden className="text-white/70">
+                  →
+                </span>
+              )}
+              <span
+                className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-bold ${
+                  node.kind === "horizon" ? "bg-white text-violet-600" : "bg-white/70 text-neutral-600"
+                }`}
+              >
+                {node.kind === "horizon" ? `${node.age}歳 ✨` : node.ageLabel}
+              </span>
+            </span>
+          ))}
         </div>
 
         <Expandable label="もっと詳しく見る" collapsedLabel="閉じる" buttonClassName={meta.colorClass.text}>

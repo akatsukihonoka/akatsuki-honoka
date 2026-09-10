@@ -65,7 +65,10 @@ export default function DiagnosisPage() {
 
   const handleBack = () => {
     if (currentStep === 0) {
-      router.push("/start");
+      // /start is already the previous history entry (pushed on
+      // navigating in) — go back to it rather than pushing a duplicate,
+      // which would otherwise leave a redundant entry for every visit.
+      router.back();
     } else {
       goToStep(currentStep - 1);
     }

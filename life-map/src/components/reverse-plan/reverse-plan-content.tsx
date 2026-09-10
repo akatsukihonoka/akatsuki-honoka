@@ -117,7 +117,7 @@ export function ReversePlanContent() {
           </div>
         )}
 
-        <ReversePlanTimeline goal={plan.goal} steps={plan.steps} />
+        <ReversePlanTimeline goal={plan.goal} steps={plan.steps} currentAge={currentAgeMidpoint} />
 
         <ReversePlanInterpretationCard valueProfile={diagnosisProfile.valueProfile} plan={plan} />
 

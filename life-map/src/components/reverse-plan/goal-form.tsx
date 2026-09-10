@@ -10,9 +10,18 @@ import {
   MAX_REVERSE_PLAN_GOAL_OPTIONS,
   REVERSE_PLAN_GOAL_CATEGORY_LABELS,
 } from "@/data/reverse-plan-goals";
-import { getAvailableGoalOptions } from "@/lib/reverse-plan-engine";
+import {
+  getAvailableGoalOptions,
+  LONG_HORIZON_TARGET_AGE,
+  MAX_REVERSE_PLAN_TARGET_AGE,
+} from "@/lib/reverse-plan-engine";
 import type { ReversePlanGoal, ReversePlanGoalCategory } from "@/lib/reverse-plan-engine/types";
 import type { DiagnosisAnswer } from "@/types/life-map";
+
+/** Guaranteed to always be offered (when they're still ahead of the user) alongside the near-term run — matches the "40/50/60/70/80" milestones requested for long-horizon goals. */
+const MILESTONE_TARGET_AGES = [40, 50, 60, 70, 80];
+/** How many years past the current age to offer one-by-one before jumping to milestones. */
+const NEAR_TERM_SPAN_YEARS = 10;
 
 const CATEGORIES: ReversePlanGoalCategory[] = ["work", "money", "living", "family", "freedom"];
 
@@ -24,12 +33,24 @@ const CATEGORY_STYLE: Record<ReversePlanGoalCategory, { emoji: string; selected:
   freedom: { emoji: "🕊️", selected: "border-violet-400 bg-violet-50" },
 };
 
+/**
+ * A near-term run of individual ages (so a soon-arriving goal can be
+ * precise) followed by the fixed long-horizon milestones up to 80 — so
+ * "40歳ごろ/50歳ごろ/60歳ごろ/70歳ごろ/80歳" are always selectable even
+ * though the Event Master itself has nothing to say that far out.
+ */
 function buildAgeOptions(currentAgeMidpoint: number, maxAge: number): number[] {
-  const options: number[] = [];
-  for (let age = currentAgeMidpoint + 1; age <= maxAge; age += 1) {
-    options.push(age);
+  const near: number[] = [];
+  const nearLimit = Math.min(currentAgeMidpoint + NEAR_TERM_SPAN_YEARS, maxAge);
+  for (let age = currentAgeMidpoint + 1; age <= nearLimit; age += 1) {
+    near.push(age);
   }
-  return options;
+
+  const milestones = MILESTONE_TARGET_AGES.filter(
+    (age) => age > currentAgeMidpoint && age <= maxAge && !near.includes(age)
+  );
+
+  return [...near, ...milestones];
 }
 
 export function GoalForm({
@@ -43,10 +64,11 @@ export function GoalForm({
   initialGoal?: ReversePlanGoal;
   onSubmit: (goal: ReversePlanGoal) => void;
 }) {
-  const ageOptions = buildAgeOptions(currentAgeMidpoint, 45);
+  const ageOptions = buildAgeOptions(currentAgeMidpoint, MAX_REVERSE_PLAN_TARGET_AGE);
   const defaultAge = ageOptions[Math.min(4, ageOptions.length - 1)] ?? currentAgeMidpoint + 1;
 
   const [targetAge, setTargetAge] = useState(initialGoal?.targetAge ?? defaultAge);
+  const isLongHorizon = targetAge >= LONG_HORIZON_TARGET_AGE;
   const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>(
     initialGoal?.selectedOptionIds ?? []
   );
@@ -95,6 +117,11 @@ export function GoalForm({
               </option>
             ))}
           </select>
+          {isLongHorizon && (
+            <p className="text-xs leading-relaxed text-neutral-600">
+              🕊️ この先の未来は、「何を達成しているか」よりも「どんな選択肢を残しておきたいか」という、未来の余白として眺めてみましょう。
+            </p>
+          )}
         </CardContent>
       </Card>
 

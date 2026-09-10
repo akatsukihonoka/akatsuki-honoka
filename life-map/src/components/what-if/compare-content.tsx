@@ -21,6 +21,7 @@ import { SyncSelectedEvent } from "@/components/what-if/sync-selected-event";
 import { WhatIfInterpretationCard } from "@/components/ai/what-if-interpretation-card";
 import { WHAT_IF_LABELS } from "@/lib/what-if-engine/available-events";
 import { buildDiagnosisProfile, generateRoutes } from "@/lib/event-engine";
+import { getDisplayCurrentAge } from "@/lib/age-timeline";
 import { buildChainInput, buildWhatIfInput } from "@/lib/ai/build-input";
 import {
   applyChain,
@@ -75,8 +76,11 @@ export function CompareContent() {
     : ifHref;
 
   const handleRemove = (eventId: string) => {
+    // Editing the chain in place — not a new page the user would want as
+    // its own back-stop, so replace rather than push (otherwise every
+    // removal stacks another /compare entry between here and /if).
     const next = (chain?.events ?? []).filter((id) => id !== eventId);
-    router.push(
+    router.replace(
       next.length > 0
         ? `/compare?route=${routeId}&events=${next.join(",")}`
         : `/compare?route=${routeId}`
@@ -140,7 +144,9 @@ export function CompareContent() {
   const chainLabel = chain.events.map((id) => WHAT_IF_LABELS[id] ?? id).join(" → ");
   const canAddMore = chain.events.length < MAX_CHAIN_LENGTH;
 
-  const valueProfile = buildDiagnosisProfile(answers).valueProfile;
+  const diagnosisProfile = buildDiagnosisProfile(answers);
+  const valueProfile = diagnosisProfile.valueProfile;
+  const currentAge = getDisplayCurrentAge(diagnosisProfile.constraints);
   const isChain = chain.events.length >= 2;
   const aiInput = isChain
     ? buildChainInput({
@@ -197,7 +203,7 @@ export function CompareContent() {
 
         <AddedEventsList eventIds={overallComparison.addedEvents} />
 
-        <CausalChainView steps={causalChain} />
+        <CausalChainView steps={causalChain} currentAge={currentAge} />
 
         {overallComparison.newRisks.map((risk) => (
           <RiskBanner key={`new-${risk.period}`} risk={risk} />

@@ -1,4 +1,9 @@
-export { buildReversePlan, isValidTargetAge } from "./build-plan";
+export {
+  buildReversePlan,
+  isValidTargetAge,
+  MAX_REVERSE_PLAN_TARGET_AGE,
+  LONG_HORIZON_TARGET_AGE,
+} from "./build-plan";
 export { buildReversePlanComparison } from "./compare";
 export { buildReversePlanActions } from "./actions";
 export {

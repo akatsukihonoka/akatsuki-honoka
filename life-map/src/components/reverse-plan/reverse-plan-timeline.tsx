@@ -1,6 +1,9 @@
+import { useMemo } from "react";
 import { REVERSE_PLAN_GOAL_OPTIONS_BY_ID } from "@/data/reverse-plan-goals";
 import { PathWave } from "@/components/illustrations/path-wave";
+import { LONG_HORIZON_TARGET_AGE } from "@/lib/reverse-plan-engine";
 import type { ReversePlanGoal, ReversePlanStep } from "@/lib/reverse-plan-engine/types";
+import { computeAnchorAges } from "@/lib/age-timeline";
 
 const KIND_ICON: Record<ReversePlanStep["kind"], string> = {
   target: "🔀",
@@ -19,9 +22,12 @@ const KIND_ICON: Record<ReversePlanStep["kind"], string> = {
 export function ReversePlanTimeline({
   goal,
   steps,
+  currentAge,
 }: {
   goal: ReversePlanGoal;
   steps: ReversePlanStep[];
+  /** Display-only anchor for age labels — see src/lib/age-timeline. Optional so the component still renders without it. */
+  currentAge?: number;
 }) {
   const goalLabels = goal.selectedOptionIds
     .map((id) => REVERSE_PLAN_GOAL_OPTIONS_BY_ID[id]?.label)
@@ -29,6 +35,17 @@ export function ReversePlanTimeline({
 
   const futureFirst = [...steps].reverse();
   const nearestStepId = steps[0]?.eventId;
+  const isLongHorizon = goal.targetAge >= LONG_HORIZON_TARGET_AGE;
+
+  const ageLabels = useMemo(() => {
+    if (currentAge === undefined) return new Map<string, string>();
+    const anchors = computeAnchorAges(
+      steps.map((step) => ({ key: step.eventId, lifeEventId: step.eventId })),
+      currentAge,
+      goal.targetAge
+    );
+    return new Map([...anchors].map(([key, age]) => [key, `${age}歳ごろ`]));
+  }, [steps, currentAge, goal.targetAge]);
 
   return (
     <div className="flex flex-col items-stretch">
@@ -47,6 +64,11 @@ export function ReversePlanTimeline({
             <li key={label}>・{label}</li>
           ))}
         </ul>
+        {isLongHorizon && (
+          <p className="mt-2 text-xs leading-relaxed text-pink-800">
+            🕊️ この年齢まで、どんな選択肢を残しておけそうかという「未来の余白」として見てみましょう。
+          </p>
+        )}
       </div>
 
       {futureFirst.length === 0 ? (
@@ -63,11 +85,16 @@ export function ReversePlanTimeline({
                 className="w-full animate-fade-in-up rounded-[24px] border border-neutral-100 bg-white p-5 shadow-soft"
                 style={{ animationDelay: `${i * 80}ms` }}
               >
-                <div className="flex items-center justify-between gap-2">
+                <div className="flex flex-wrap items-center justify-between gap-2">
                   <span className="inline-flex items-center gap-1.5 rounded-full bg-orange-50 px-2.5 py-0.5 text-xs font-bold text-orange-700">
                     <span aria-hidden>{icon}</span>
                     {step.periodLabel}
                   </span>
+                  {ageLabels.has(step.eventId) && (
+                    <span className="inline-flex items-center rounded-full bg-neutral-100 px-2 py-0.5 text-[11px] font-bold text-neutral-600">
+                      {ageLabels.get(step.eventId)}
+                    </span>
+                  )}
                 </div>
                 <p className="mt-2 font-heading text-base font-bold text-neutral-800">
                   {step.eventName}

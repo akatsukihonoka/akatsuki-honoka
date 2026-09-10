@@ -18,14 +18,23 @@ import type {
 
 export type BuildReversePlanResult = { ok: true; plan: ReversePlan } | { ok: false; reason: string };
 
+/** LIFE MAP's fixed future-exploration horizon (see src/lib/age-timeline) — a display/selection ceiling, not a prediction target. */
+export const MAX_REVERSE_PLAN_TARGET_AGE = 80;
+/** From this target age on, the UI frames the goal as "which options to keep open" rather than "what will be achieved". */
+export const LONG_HORIZON_TARGET_AGE = 60;
+
 const NO_GOAL_SELECTED_REASON = "未来の状態を1つ以上選んでください。";
-const INVALID_TARGET_AGE_REASON = "目標の年齢は、今の年齢より先に設定してください。";
+const INVALID_TARGET_AGE_REASON = `目標の年齢は、今の年齢より先、${MAX_REVERSE_PLAN_TARGET_AGE}歳以下で設定してください。`;
 const REJECTED_OPTION_REASON =
   "この未来は、今の回答内容とは合わない可能性があるため、このルートには反映できませんでした。";
 
 /** Reused by both the engine (defense in depth) and the goal-form UI, which already limits the age selector to this same range. */
 export function isValidTargetAge(targetAge: number, currentAgeMidpoint: number): boolean {
-  return Number.isInteger(targetAge) && targetAge > currentAgeMidpoint;
+  return (
+    Number.isInteger(targetAge) &&
+    targetAge > currentAgeMidpoint &&
+    targetAge <= MAX_REVERSE_PLAN_TARGET_AGE
+  );
 }
 
 function buildSteps(

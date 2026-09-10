@@ -13,6 +13,7 @@ import { MapInterpretationCard } from "@/components/ai/map-interpretation-card";
 import { BranchMapDiagram } from "@/components/illustrations/branch-map";
 import { scenarioMeta } from "@/data/mock-scenarios";
 import { buildDiagnosisProfile, generateRoutes } from "@/lib/event-engine";
+import { getDisplayCurrentAge } from "@/lib/age-timeline";
 import { useDiagnosisStore } from "@/store/diagnosis-store";
 import type { ScenarioType } from "@/types/life-map";
 
@@ -22,7 +23,9 @@ export default function MapPage() {
   const answers = useDiagnosisStore((s) => s.answers);
   const scenarioMap = useMemo(() => generateRoutes(answers), [answers]);
   const scenarios = ROUTE_ORDER.map((id) => scenarioMap[id]);
-  const valueProfile = useMemo(() => buildDiagnosisProfile(answers).valueProfile, [answers]);
+  const diagnosisProfile = useMemo(() => buildDiagnosisProfile(answers), [answers]);
+  const valueProfile = diagnosisProfile.valueProfile;
+  const currentAge = getDisplayCurrentAge(diagnosisProfile.constraints);
 
   const branchRoutes = ROUTE_ORDER.map((id) => {
     const meta = scenarioMeta[id];
@@ -37,7 +40,7 @@ export default function MapPage() {
             🗺️ あなたの未来MAP
           </h1>
           <p className="text-sm leading-relaxed text-neutral-600">
-            今のあなたから、3つの未来の世界に分かれています。どれが正解ということはありません。
+            {currentAge}歳ごろの今から80歳まで、3つの未来の世界に分かれています。どれが正解ということはありません。
           </p>
         </div>
 
@@ -49,7 +52,7 @@ export default function MapPage() {
 
         <div className="flex flex-col gap-4">
           {scenarios.map((scenario) => (
-            <ScenarioCard key={scenario.id} scenario={scenario} />
+            <ScenarioCard key={scenario.id} scenario={scenario} currentAge={currentAge} />
           ))}
         </div>
 

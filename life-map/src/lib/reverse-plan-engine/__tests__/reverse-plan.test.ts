@@ -1,8 +1,15 @@
 import { describe, expect, it } from "vitest";
+import { LIFE_EVENTS_BY_ID } from "@/data/life-events";
 import type { DiagnosisAnswer } from "@/types/life-map";
 import { generateRoutes } from "@/lib/event-engine";
 import { recalculateScenario } from "@/lib/what-if-engine";
-import { buildReversePlan, getAvailableGoalOptions, resolveRequiredEventIds } from "../index";
+import {
+  buildReversePlan,
+  getAvailableGoalOptions,
+  isValidTargetAge,
+  MAX_REVERSE_PLAN_TARGET_AGE,
+  resolveRequiredEventIds,
+} from "../index";
 import type { ReversePlanGoal } from "../types";
 
 function stepIds(plan: { steps: { eventId: string }[] }): string[] {
@@ -250,5 +257,71 @@ describe("Case 12: a normal multi-goal plan resolves successfully end to end", (
     expect(result.plan.steps.length).toBeGreaterThan(0);
     expect(typeof result.plan.optionScoreAfter).toBe("number");
     expect(result.plan.actions).toHaveLength(3);
+  });
+});
+
+describe("Case 13: targetAge is capped at the 80歳 future-exploration horizon", () => {
+  it("rejects a targetAge beyond 80", () => {
+    expect(isValidTargetAge(81, 27)).toBe(false);
+    expect(isValidTargetAge(120, 27)).toBe(false);
+  });
+
+  it("still rejects a targetAge at or before the current age, even under 80", () => {
+    expect(isValidTargetAge(27, 27)).toBe(false);
+    expect(isValidTargetAge(20, 27)).toBe(false);
+  });
+
+  it("accepts exactly 80 as a valid targetAge", () => {
+    expect(isValidTargetAge(MAX_REVERSE_PLAN_TARGET_AGE, 27)).toBe(true);
+
+    const answers: DiagnosisAnswer = { ageRange: "30-34" };
+    const base = generateRoutes(answers).stable;
+    const goal: ReversePlanGoal = {
+      targetAge: MAX_REVERSE_PLAN_TARGET_AGE,
+      selectedOptionIds: ["career_broaden"],
+    };
+    const result = buildReversePlan(answers, base, goal);
+    expect(result.ok).toBe(true);
+  });
+
+  it("rejects 81 through buildReversePlan itself, not just the standalone validator", () => {
+    const answers: DiagnosisAnswer = { ageRange: "30-34" };
+    const base = generateRoutes(answers).stable;
+    const result = buildReversePlan(answers, base, {
+      targetAge: 81,
+      selectedOptionIds: ["career_broaden"],
+    });
+    expect(result.ok).toBe(false);
+  });
+});
+
+describe("Case 14: a targetAge of 80 never fabricates events past the Event Master's real maxAge windows", () => {
+  it("only ever produces steps for events the Event Master actually allows, regardless of how distant targetAge is", () => {
+    const answers: DiagnosisAnswer = {
+      ageRange: "20-24",
+      desiredChanges: ["career", "income", "livingPlace", "freeTime"],
+      workPreference: "challenge",
+      marriageAttitude: "want",
+      childrenAttitude: "want",
+    };
+    const base = generateRoutes(answers).stable;
+    const goal: ReversePlanGoal = {
+      targetAge: MAX_REVERSE_PLAN_TARGET_AGE,
+      selectedOptionIds: [
+        "career_broaden",
+        "money_multiple_income",
+        "living_urban",
+        "family_children",
+      ],
+    };
+    const result = buildReversePlan(answers, base, goal);
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+
+    for (const step of result.plan.steps) {
+      const event = LIFE_EVENTS_BY_ID[step.eventId];
+      expect(event).toBeDefined();
+      expect(event?.maxAge).toBeLessThanOrEqual(45);
+    }
   });
 });

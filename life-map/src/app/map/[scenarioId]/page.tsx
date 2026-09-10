@@ -10,11 +10,12 @@ import { BackButton } from "@/components/common/back-button";
 import { FixedBottomBar } from "@/components/common/fixed-bottom-bar";
 import { Expandable } from "@/components/common/expandable";
 import { Button } from "@/components/ui/button";
-import { TimelineEventCard } from "@/components/scenario/timeline-event-card";
+import { AgeRoadTimeline } from "@/components/scenario/age-road-timeline";
 import { RiskBanner } from "@/components/what-if/risk-banner";
 import { RouteInterpretationCard } from "@/components/ai/route-interpretation-card";
 import { scenarioMeta } from "@/data/mock-scenarios";
 import { buildDiagnosisProfile, generateRoutes } from "@/lib/event-engine";
+import { buildAgeTimeline, getDisplayCurrentAge } from "@/lib/age-timeline";
 import { useDiagnosisStore } from "@/store/diagnosis-store";
 import type { ScenarioType } from "@/types/life-map";
 
@@ -24,11 +25,17 @@ export default function ScenarioDetailPage() {
   const params = useParams<{ scenarioId: string }>();
   const answers = useDiagnosisStore((s) => s.answers);
   const routes = useMemo(() => generateRoutes(answers), [answers]);
-  const valueProfile = useMemo(() => buildDiagnosisProfile(answers).valueProfile, [answers]);
+  const diagnosisProfile = useMemo(() => buildDiagnosisProfile(answers), [answers]);
+  const valueProfile = diagnosisProfile.valueProfile;
+  const currentAge = getDisplayCurrentAge(diagnosisProfile.constraints);
 
   const scenarioId = params.scenarioId;
   const isValid = validIds.includes(scenarioId as ScenarioType);
   const scenario = isValid ? routes[scenarioId as ScenarioType] : undefined;
+  const ageTimeline = useMemo(
+    () => (scenario ? buildAgeTimeline(scenario.events, currentAge) : []),
+    [scenario, currentAge]
+  );
 
   if (!scenario) {
     return (
@@ -87,16 +94,9 @@ export default function ScenarioDetailPage() {
         <RouteInterpretationCard valueProfile={valueProfile} scenario={scenario} />
 
         <div className="flex flex-col gap-1">
-          <p className="text-xs font-semibold text-neutral-500">🚶 人生の道</p>
+          <p className="text-xs font-semibold text-neutral-600">🚶 人生の道・{currentAge}歳ごろから80歳まで</p>
           <div className="mt-2">
-            {scenario.events.map((event, i) => (
-              <TimelineEventCard
-                key={event.id}
-                event={event}
-                isLast={i === scenario.events.length - 1}
-                accentClass={meta.colorClass.text}
-              />
-            ))}
+            <AgeRoadTimeline nodes={ageTimeline} accentClass={meta.colorClass.text} />
           </div>
         </div>
       </PageContainer>

@@ -10,10 +10,13 @@ export function TimelineEventCard({
   event,
   isLast,
   accentClass,
+  ageLabel,
 }: {
   event: ScenarioEvent;
   isLast: boolean;
   accentClass: string;
+  /** Display-only age anchor from the Timeline Display Layer, e.g. "33歳ごろ" — shown alongside the existing period label, never replacing it. */
+  ageLabel?: string;
 }) {
   const category = event.sourceEventId ? LIFE_EVENTS_BY_ID[event.sourceEventId]?.category : undefined;
   const iconMeta = category ? CATEGORY_ICONS[category] : undefined;
@@ -35,6 +38,11 @@ export function TimelineEventCard({
 
       <div className="flex-1 pb-2">
         <div className="flex flex-wrap items-center gap-2">
+          {ageLabel && (
+            <span className="inline-flex items-center rounded-full bg-neutral-100 px-2 py-0.5 text-[11px] font-bold text-neutral-600">
+              {ageLabel}
+            </span>
+          )}
           <span className={cn("text-xs font-bold", accentClass)}>{event.period}</span>
           {event.isBranchPoint && (
             <span className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2.5 py-0.5 text-[11px] font-bold text-violet-700">
