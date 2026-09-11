@@ -18,7 +18,7 @@ const features = [
   {
     icon: GitBranch,
     emoji: "🔀",
-    title: "「もしも」で分岐を試せる",
+    title: "「もし、別の選択をしたら？」を試せる",
     description: "転職や結婚など、条件を変えるとどう変わるか試せます。",
     badge: "bg-gradient-to-br from-pink-300 to-rose-400",
   },

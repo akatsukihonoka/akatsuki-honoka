@@ -64,7 +64,7 @@ export function fallbackWhatIfInterpretation(input: WhatIfAIInput): WhatIfInterp
       `全体としては選択肢が${direction}方向に働く可能性があります。`,
       ...input.addedEventNames.slice(0, 2).map((name) => `「${name}」が新たに加わります。`),
     ],
-    explanation: "この説明はAIを使わない簡易版です。詳しい連鎖はCausal Chainの一覧をご覧ください。",
+    explanation: "この説明はAIを使わない簡易版です。詳しい変化の流れは、下の一覧をご覧ください。",
     caveat: input.newRisks.length > 0 ? input.newRisks[0].message : null,
   };
 }

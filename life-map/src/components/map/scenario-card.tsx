@@ -39,12 +39,17 @@ export function ScenarioCard({ scenario, currentAge }: { scenario: Scenario; cur
 
         <p className="text-sm leading-relaxed text-neutral-700">{meta.tagline}</p>
 
-        <div className="flex items-center gap-2">
-          <span
-            className={`inline-flex items-center gap-1 rounded-full bg-white/80 px-3 py-1 text-xs font-bold ${meta.colorClass.text}`}
-          >
-            ✨ 未来の余白 {scenario.scores.optionScore}
-          </span>
+        <div className="flex flex-col gap-1">
+          <div className="flex items-center gap-2">
+            <span
+              className={`inline-flex items-center gap-1 rounded-full bg-white/80 px-3 py-1 text-xs font-bold ${meta.colorClass.text}`}
+            >
+              ✨ 未来の余白 {scenario.scores.optionScore}
+            </span>
+          </div>
+          <p className="text-[11px] leading-relaxed text-neutral-600">
+            これから選べる未来の広さです。高いほど、後から選び直せる余地があります。
+          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-1.5" aria-label="この未来の道すじ、現在地から80歳まで">

@@ -93,10 +93,10 @@ export function GoalForm({
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-1.5">
         <h1 className="font-heading text-2xl font-bold text-neutral-800">
-          🎯 未来からの逆算プラン
+          🎯 こんな未来にしたい
         </h1>
         <p className="text-sm leading-relaxed text-neutral-600">
-          「何歳ごろに、どんな状態でいたいか」を選ぶと、そこに近づく道すじを描きます。
+          未来から、今やることを逆算してみよう。「何歳ごろに、どんな状態でいたいか」を選ぶと、そこに近づく道すじを描きます。
         </p>
       </div>
 

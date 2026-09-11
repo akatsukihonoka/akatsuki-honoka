@@ -84,10 +84,13 @@ export function IfPageContent() {
 
         <div className="flex flex-col gap-1.5">
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
-            🚀 もし、条件を変えたら？
+            🚀 もし、別の選択をしたら？
           </h1>
           <p className="text-sm leading-relaxed text-neutral-600">
-            気になる未来をタップして、どう変わるか試してみましょう。
+            気になる選択を試して、未来の変化を見てみよう。
+          </p>
+          <p className="text-xs leading-relaxed text-neutral-600">
+            今の選択を続けた未来から、1つだけ条件を変えて試してみます。
           </p>
           {sourceEvent && (
             <p className="text-sm font-bold text-orange-700">
@@ -105,7 +108,7 @@ export function IfPageContent() {
 
         {atChainLimit ? (
           <div className="rounded-[24px] border border-orange-100 bg-orange-50/60 p-5 text-sm leading-relaxed text-neutral-700">
-            🎒 まずは3つまでの変化を重ねて試せます。試している未来を確認するか、いずれかを外してから別の「もしも」を選んでみましょう。
+            🎒 まずは3つまでの変化を重ねて試せます。試している未来を確認するか、いずれかを外してから別の選択肢を選んでみましょう。
           </div>
         ) : (
           <div className="flex flex-col gap-3">

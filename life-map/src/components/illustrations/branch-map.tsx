@@ -42,19 +42,31 @@ export function BranchMapDiagram({ routes }: { routes: BranchMapRoute[] }) {
         })}
 
         <defs>
-          {routes.map((route) => (
-            <linearGradient
-              key={route.id}
-              id={`branch-gradient-${route.id}`}
-              x1="0"
-              y1="0"
-              x2="1"
-              y2="1"
-            >
-              <stop offset="0%" stopColor={route.colorFrom} />
-              <stop offset="100%" stopColor={route.colorTo} />
-            </linearGradient>
-          ))}
+          {routes.map((route, i) => {
+            const end = endpoints[i];
+            // userSpaceOnUse with explicit start/end coordinates, not the
+            // default objectBoundingBox: the middle ("ideal") route's path
+            // is perfectly vertical (every x is 150), so its bounding box
+            // has zero width — objectBoundingBox gradients are defined as
+            // invalid (and render nothing) on a zero-width/height bbox per
+            // the SVG spec, which silently dropped just that one route's
+            // line. userSpaceOnUse coordinates never depend on the path's
+            // own bounding box, so this can't happen for any route/viewport.
+            return (
+              <linearGradient
+                key={route.id}
+                id={`branch-gradient-${route.id}`}
+                gradientUnits="userSpaceOnUse"
+                x1={150}
+                y1={44}
+                x2={end.x}
+                y2={end.y}
+              >
+                <stop offset="0%" stopColor={route.colorFrom} />
+                <stop offset="100%" stopColor={route.colorTo} />
+              </linearGradient>
+            );
+          })}
         </defs>
 
         {/* 今 node */}

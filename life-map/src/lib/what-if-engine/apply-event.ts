@@ -47,7 +47,7 @@ export function applyEvent(
 ): ApplyEventResult {
   const event = LIFE_EVENTS_BY_ID[selectedEventId];
   if (!event) {
-    return { ok: false, reason: "指定された「もしも」が見つかりませんでした。" };
+    return { ok: false, reason: "指定された選択肢が見つかりませんでした。" };
   }
 
   if (baseEvents.some((e) => e.id === selectedEventId)) {
@@ -57,7 +57,7 @@ export function applyEvent(
   if (!passesHardEligibility(event, baseEvents, profile)) {
     return {
       ok: false,
-      reason: "この「もしも」は、今の回答内容とは合わない可能性があるため反映できません。",
+      reason: "この選択は、今の回答内容とは合わない可能性があるため反映できません。",
     };
   }
 

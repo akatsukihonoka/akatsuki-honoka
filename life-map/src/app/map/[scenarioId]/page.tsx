@@ -82,6 +82,13 @@ export default function ScenarioDetailPage() {
             </div>
           </div>
           <p className="text-sm leading-relaxed text-neutral-700">{meta.tagline}</p>
+          <div className={`mt-1 flex items-start gap-1.5 rounded-2xl bg-white/60 px-3 py-2 text-[11px] leading-relaxed ${meta.colorClass.text}`}>
+            <span aria-hidden>📍</span>
+            <p>
+              <span className="font-bold">今の選択を続けた未来</span>
+              　現在の回答や選択をベースに描いた、{meta.label}での未来です。もちろん、途中で別の道を選ぶこともできます。
+            </p>
+          </div>
           <Expandable label="ルートの詳しい説明を見る" buttonClassName={meta.colorClass.text}>
             <p className="mt-1 text-sm leading-relaxed text-neutral-600">{scenario.summary}</p>
           </Expandable>
@@ -109,7 +116,7 @@ export default function ScenarioDetailPage() {
         >
           <Link href={ifHref}>
             <GitBranch className="h-4 w-4" />
-            このルートで、もしもを試す
+            もし、別の選択をしたら？
           </Link>
         </Button>
       </FixedBottomBar>

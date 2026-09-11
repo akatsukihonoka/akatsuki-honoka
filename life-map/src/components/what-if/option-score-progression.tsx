@@ -25,7 +25,7 @@ export function OptionScoreProgression({ values }: { values: number[] }) {
         ))}
       </div>
       <p className="mt-2 text-xs leading-relaxed text-neutral-600">
-        「もしも」を重ねるごとに、将来の選択肢の広さがどう変わっていくかを表しています。
+        条件を重ねるごとに、将来の選択肢の広さがどう変わっていくかを表しています。
       </p>
     </div>
   );

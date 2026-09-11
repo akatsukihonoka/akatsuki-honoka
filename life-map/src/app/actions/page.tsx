@@ -46,10 +46,10 @@ export default function ActionsPage() {
 
         <div className="flex flex-col gap-1.5">
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
-            未来を変えるために、まず3つ。
+            🚶 じゃあ、今なにする？
           </h1>
           <p className="text-sm leading-relaxed text-neutral-600">
-            一度にたくさんやる必要はありません。まずはこの3つから始めてみましょう。
+            この未来に近づくための、最初の3つを見てみよう。
           </p>
         </div>
 

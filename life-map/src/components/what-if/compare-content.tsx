@@ -93,12 +93,12 @@ export function CompareContent() {
         <PageContainer className="flex flex-1 flex-col gap-4 py-6">
           <BackButton />
           <p className="text-sm leading-relaxed text-neutral-600">
-            まだ「もしも」が選ばれていません。試したい条件を選ぶところから始めましょう。
+            まだ試したい選択が選ばれていません。気になる選択を選ぶところから始めましょう。
           </p>
           <Button asChild size="lg" className="w-fit">
             <Link href={ifHref}>
               <GitBranch className="h-4 w-4" />
-              もしもを選ぶ
+              別の選択を試す
             </Link>
           </Button>
         </PageContainer>
@@ -118,7 +118,7 @@ export function CompareContent() {
           <BackButton />
           <div className="flex flex-col gap-1.5">
             <h1 className="font-heading text-xl font-bold text-neutral-800">
-              この「もしも」は反映できませんでした
+              この選択は反映できませんでした
             </h1>
             <p className="text-sm leading-relaxed text-neutral-600">
               {rejectedTail?.reason}
@@ -127,7 +127,7 @@ export function CompareContent() {
           <Button asChild size="lg" className="w-fit">
             <Link href={ifHref}>
               <GitBranch className="h-4 w-4" />
-              別のもしもを選ぶ
+              別の選択を試す
             </Link>
           </Button>
         </PageContainer>
@@ -174,11 +174,11 @@ export function CompareContent() {
 
         <div className="flex flex-col gap-1.5">
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
-            🔮 未来を比べてみよう
+            🔮 今の未来と比べると、何が変わる？
           </h1>
-          <p className="text-sm font-bold text-orange-700">「{chainLabel}」の場合</p>
+          <p className="text-sm font-bold text-orange-700">もし、「{chainLabel}」を選んだら</p>
           {rejectedTail && (
-            <p className="text-xs leading-relaxed text-neutral-500">{rejectedTail.reason}</p>
+            <p className="text-xs leading-relaxed text-neutral-600">{rejectedTail.reason}</p>
           )}
         </div>
 
@@ -196,10 +196,7 @@ export function CompareContent() {
           input={aiInput}
         />
 
-        <div className="flex flex-col gap-2">
-          <p className="text-xs font-bold text-neutral-600">🔍 何が変わった？</p>
-          <ChangedAxisTable changes={overallComparison.changedAxes} />
-        </div>
+        <ChangedAxisTable changes={overallComparison.changedAxes} />
 
         <AddedEventsList eventIds={overallComparison.addedEvents} />
 
@@ -210,7 +207,7 @@ export function CompareContent() {
         ))}
         {overallComparison.resolvedRisks.length > 0 && (
           <div className="rounded-[22px] border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
-            🌿 この「もしも」により、これまでの変化が重なる時期の余白が広がる可能性があります。
+            🌿 この選択により、これまでの変化が重なる時期の余白が広がる可能性があります。
           </div>
         )}
 
@@ -223,14 +220,14 @@ export function CompareContent() {
             <Button asChild variant="secondary" size="lg" className="tap-bounce">
               <Link href={addAnotherHref}>
                 <Plus className="h-4 w-4" />
-                もう一つ、もしもを重ねる
+                もう一つ、条件を重ねてみる
               </Link>
             </Button>
           ) : (
             <Button asChild variant="secondary" size="lg" className="tap-bounce">
               <Link href={ifHref}>
                 <GitBranch className="h-4 w-4" />
-                別のもしもを試す
+                別の選択を試す
               </Link>
             </Button>
           )}

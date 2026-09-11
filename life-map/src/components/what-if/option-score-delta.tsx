@@ -13,14 +13,17 @@ export function OptionScoreDelta({ before, after }: { before: number; after: num
   return (
     <div className="rounded-[28px] border border-orange-100 bg-gradient-to-br from-orange-50 via-pink-50 to-white p-5 shadow-soft">
       <p className="text-xs font-bold text-orange-700">✨ 未来の余白</p>
+      <p className="mt-0.5 text-[11px] leading-relaxed text-neutral-600">
+        これから選べる未来の広さです。人生の点数ではありません。
+      </p>
       <div className="mt-2 flex items-center justify-center gap-4">
         <div className="text-center">
-          <p className="text-xs text-neutral-500">今</p>
-          <p className="font-heading text-3xl font-bold text-neutral-400">{before}</p>
+          <p className="text-xs text-neutral-600">今の未来</p>
+          <p className="font-heading text-3xl font-bold text-neutral-500">{before}</p>
         </div>
         <ArrowRight className="h-5 w-5 shrink-0 text-neutral-300" aria-hidden />
         <div className="text-center">
-          <p className="text-xs text-neutral-500">試した未来</p>
+          <p className="text-xs text-neutral-600">もしもの未来</p>
           <p className="font-heading text-4xl font-bold text-orange-600">{after}</p>
         </div>
         {delta !== 0 && (

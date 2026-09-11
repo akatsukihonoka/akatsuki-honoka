@@ -100,10 +100,10 @@ export function ReversePlanContent() {
 
         <div className="flex flex-col gap-1.5">
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
-            🎯 未来からの逆算プラン
+            🎯 こんな未来にしたい
           </h1>
           <p className="text-sm leading-relaxed text-neutral-600">
-            {plan.goal.targetAge}歳ごろの未来から、今できることを逆算してみましょう。
+            {plan.goal.targetAge}歳ごろの未来から、今やることを逆算してみよう。
           </p>
         </div>
 

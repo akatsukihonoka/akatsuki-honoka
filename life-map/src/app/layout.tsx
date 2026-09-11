@@ -21,7 +21,7 @@ const zenMaruGothic = Zen_Maru_Gothic({
 export const metadata: Metadata = {
   title: "LIFE MAP | このままで、いいのかな？を未来の地図に。",
   description:
-    "今のあなたから、いくつもの未来を覗いてみよう。LIFE MAPは、あなたの現在地と価値観から複数の未来シナリオを整理する参考ツールです。",
+    "今のあなたから、いくつもの未来を覗いてみよう。LIFE MAPは、あなたの現在地と価値観から複数の未来を描き出す参考ツールです。",
   applicationName: "LIFE MAP",
   manifest: "/manifest.json",
   icons: {

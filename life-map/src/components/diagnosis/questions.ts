@@ -116,12 +116,12 @@ export const diagnosisQuestions: DiagnosisQuestion[] = [
     key: "marriageAttitude",
     question: "将来、結婚についてどう考えていますか？",
     options: [
-      { value: "want", label: "できればしたい" },
-      { value: "someday", label: "いつかしたい" },
+      { value: "want", label: "結婚したい" },
+      { value: "someday", label: "いつかはしたい" },
       { value: "either", label: "どちらでもいい" },
       { value: "no", label: "したくない" },
       { value: "unknown", label: "まだわからない" },
-      { value: "noAnswer", label: "回答しない" },
+      { value: "noAnswer", label: "答えたくない" },
     ],
   },
   {
@@ -130,13 +130,13 @@ export const diagnosisQuestions: DiagnosisQuestion[] = [
     key: "childrenAttitude",
     question: "子どもについてどう考えていますか？",
     options: [
-      { value: "want", label: "欲しい" },
+      { value: "want", label: "子どもが欲しい" },
       { value: "ratherWant", label: "できれば欲しい" },
       { value: "either", label: "どちらでもいい" },
       { value: "no", label: "欲しくない" },
       { value: "unknown", label: "まだわからない" },
       { value: "already", label: "すでにいる" },
-      { value: "noAnswer", label: "回答しない" },
+      { value: "noAnswer", label: "答えたくない" },
     ],
   },
   {

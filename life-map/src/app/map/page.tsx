@@ -61,26 +61,48 @@ export default function MapPage() {
 
       <FixedBottomBar className="pb-4">
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
-          <Button asChild variant="secondary" size="sm" className="tap-bounce h-11">
+          <Button
+            asChild
+            variant="secondary"
+            className="tap-bounce h-auto flex-col gap-0.5 whitespace-normal px-2 py-2"
+          >
             <Link href="/if">
-              <GitBranch className="h-4 w-4" />
-              もしもを試す
-            </Link>
-          </Button>
-          <Button asChild variant="secondary" size="sm" className="tap-bounce h-11">
-            <Link href="/reverse-plan">
-              <TimerReset className="h-4 w-4" />
-              未来から逆算する
+              <span className="flex items-center gap-1.5 text-xs font-bold">
+                <GitBranch className="h-3.5 w-3.5 shrink-0" />
+                もし、別の選択をしたら？
+              </span>
+              <span className="text-[10px] font-normal leading-tight text-neutral-600">
+                気になる選択を試してみよう
+              </span>
             </Link>
           </Button>
           <Button
             asChild
-            size="sm"
-            className="tap-bounce h-11 bg-gradient-to-r from-orange-400 to-pink-400 hover:opacity-90"
+            variant="secondary"
+            className="tap-bounce h-auto flex-col gap-0.5 whitespace-normal px-2 py-2"
+          >
+            <Link href="/reverse-plan">
+              <span className="flex items-center gap-1.5 text-xs font-bold">
+                <TimerReset className="h-3.5 w-3.5 shrink-0" />
+                こんな未来にしたい
+              </span>
+              <span className="text-[10px] font-normal leading-tight text-neutral-600">
+                目標から今やることを逆算
+              </span>
+            </Link>
+          </Button>
+          <Button
+            asChild
+            className="tap-bounce h-auto flex-col gap-0.5 whitespace-normal px-2 py-2 bg-gradient-to-r from-orange-400 to-pink-400 hover:opacity-90"
           >
             <Link href="/actions">
-              <ListChecks className="h-4 w-4" />
-              今やることを見る
+              <span className="flex items-center gap-1.5 text-xs font-bold">
+                <ListChecks className="h-3.5 w-3.5 shrink-0" />
+                じゃあ、今なにする？
+              </span>
+              <span className="text-[10px] font-normal leading-tight text-white">
+                最初の3つを見てみよう
+              </span>
             </Link>
           </Button>
         </div>

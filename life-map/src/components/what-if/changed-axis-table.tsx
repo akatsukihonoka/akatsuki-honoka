@@ -20,7 +20,7 @@ export function ChangedAxisTable({ changes }: { changes: ChangedAxis[] }) {
         <span />
         <span className="text-center">今の未来</span>
         <span />
-        <span className="text-center">試した未来</span>
+        <span className="text-center">もしもの未来</span>
       </div>
       <div className="flex flex-col divide-y divide-neutral-100">
         {changes.map((change) => {
