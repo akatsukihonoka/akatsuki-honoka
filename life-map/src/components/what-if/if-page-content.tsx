@@ -69,10 +69,12 @@ export function IfPageContent() {
     [answers, appliedChain]
   );
 
-  const buildHref = (newEventId: string) => {
+  const buildNextChainParams = (newEventId: string) => {
     const nextChain = [...appliedChain, newEventId];
-    return `/compare?route=${routeId}&events=${nextChain.join(",")}`;
+    return `route=${routeId}&events=${nextChain.join(",")}`;
   };
+  const buildWorldlineHref = (newEventId: string) => `/worldline?${buildNextChainParams(newEventId)}`;
+  const buildCompareHref = (newEventId: string) => `/compare?${buildNextChainParams(newEventId)}`;
 
   return (
     <main className="flex flex-1 flex-col">
@@ -117,7 +119,8 @@ export function IfPageContent() {
                 <WhatIfCard
                   event={event}
                   icon={iconMap[event.id] ?? Briefcase}
-                  href={buildHref(event.id)}
+                  worldlineHref={buildWorldlineHref(event.id)}
+                  compareHref={buildCompareHref(event.id)}
                   deprioritized={deprioritized}
                 />
               </div>

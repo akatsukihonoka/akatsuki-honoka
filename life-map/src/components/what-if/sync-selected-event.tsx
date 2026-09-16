@@ -32,7 +32,19 @@ export function SyncSelectedEvent({
   }, [scenarioId, setActiveScenarioId]);
 
   useEffect(() => {
-    if (chainEventIds) setChainEventIds(chainEventIds);
+    if (!chainEventIds) return;
+    // Callers typically pass a freshly-derived array (e.g. WhatIfChain.events
+    // from applyChain) that gets a new reference on every recompute even
+    // when its contents haven't changed. Writing unconditionally here would
+    // feed that new reference back into whatever derivation produced it
+    // (which reads chainEventIds from the store as its own fallback input),
+    // causing an infinite render loop. Comparing by value before writing
+    // makes this idempotent once the store already matches.
+    const current = useDiagnosisStore.getState().chainEventIds;
+    const unchanged =
+      current.length === chainEventIds.length &&
+      current.every((id, i) => id === chainEventIds[i]);
+    if (!unchanged) setChainEventIds(chainEventIds);
   }, [chainEventIds, setChainEventIds]);
 
   return null;
