@@ -12,8 +12,8 @@ import type {
   WhatIfChain,
   WhatIfComparison,
 } from "@/lib/what-if-engine/types";
-import type { DiagnosisAnswer, ScenarioEvent } from "@/types/life-map";
-import type { UnexpectedBranch, WorldlineBand } from "./types";
+import type { DiagnosisAnswer, Scenario, ScenarioEvent } from "@/types/life-map";
+import type { UnexpectedBranch, WorldlineBand, WorldlineStoryNode } from "./types";
 
 export const MAX_BRANCH_OPTIONS = 3;
 
@@ -24,12 +24,30 @@ export type WorldlineView = {
   /** Only the events that are new to this chain (explicit picks + their downstream additions), in the engine's own timeline order. */
   storyEvents: ScenarioEvent[];
   ageNodes: AgeTimelineNode[];
+  /** ageNodes condensed for display: consecutive gaps merged, the unexpected event (if any) flagged in place. */
+  storyNodes: WorldlineStoryNode[];
   causalChain: CausalChainStep[];
   comparison: WhatIfComparison;
   unexpectedBranch: UnexpectedBranch | undefined;
-  /** Up to MAX_BRANCH_OPTIONS real, currently-eligible what-if events to extend the chain with — never fabricated. */
+  /**
+   * Up to MAX_BRANCH_OPTIONS real, currently-eligible what-if events to
+   * extend the chain with. Excludes not just the user's own explicit picks
+   * but every event already present anywhere in the accepted scenario
+   * (including downstream additions) — offering one of those back as a
+   * "new" branch would be a no-op tap, since applyEvent already treats an
+   * already-present event as a no-op.
+   */
   branchOptions: AvailableWhatIfOption[];
   canBranchFurther: boolean;
+  /**
+   * True when the chain's root (first) pick was already part of the base
+   * route before this what-if — i.e. recalculateScenario's own
+   * wasAlreadyPresent case for stage 1. Derived the same way
+   * recalculate.ts does (checking baseScenario's own events), not a new
+   * Engine concept.
+   */
+  rootWasAlreadyPresent: boolean;
+  rootEventName: string | undefined;
 };
 
 /**
@@ -47,12 +65,13 @@ export type WorldlineView = {
  */
 export function buildWorldlineView(params: {
   answers: DiagnosisAnswer;
+  baseScenario: Scenario;
   chain: WhatIfChain;
   accepted: WhatIfAccepted;
   comparison: WhatIfComparison;
   causalChain: CausalChainStep[];
 }): WorldlineView {
-  const { answers, chain, accepted, comparison, causalChain } = params;
+  const { answers, baseScenario, chain, accepted, comparison, causalChain } = params;
 
   const changedIds = new Set(causalChain.map((step) => step.eventId));
   const storyEvents = accepted.scenario.events.filter(
@@ -65,12 +84,27 @@ export function buildWorldlineView(params: {
 
   const explicitIds = new Set(chain.events);
   const unexpectedBranch = findUnexpectedBranch(chain.events[0], causalChain, explicitIds);
+  const storyNodes = condenseStoryNodes(ageNodes, unexpectedBranch?.eventId);
 
-  const branchOptions = getAvailableWhatIfOptions(answers, chain.events).slice(
+  // Anything already present anywhere in the accepted scenario — not just
+  // the user's own explicit picks — would be a no-op if offered again as a
+  // "new" branch (applyEvent already treats an already-present event as a
+  // no-op). Excluding the full set, not just chain.events, is what makes
+  // every offered branch option an actual, visible change.
+  const presentEventIds = accepted.scenario.events
+    .map((event) => event.sourceEventId)
+    .filter((id): id is string => Boolean(id));
+  const branchOptions = getAvailableWhatIfOptions(answers, presentEventIds).slice(
     0,
     MAX_BRANCH_OPTIONS
   );
   const canBranchFurther = chain.events.length < MAX_CHAIN_LENGTH;
+
+  const rootEventId = chain.events[0];
+  const rootEvent = rootEventId ? LIFE_EVENTS_BY_ID[rootEventId] : undefined;
+  const rootWasAlreadyPresent = Boolean(
+    rootEventId && baseScenario.events.some((event) => event.sourceEventId === rootEventId)
+  );
 
   return {
     chain,
@@ -78,11 +112,14 @@ export function buildWorldlineView(params: {
     currentAge,
     storyEvents,
     ageNodes,
+    storyNodes,
     causalChain,
     comparison,
     unexpectedBranch,
     branchOptions,
     canBranchFurther,
+    rootWasAlreadyPresent,
+    rootEventName: rootEvent?.name,
   };
 }
 
@@ -90,7 +127,7 @@ export function buildWorldlineView(params: {
  * A downstream addition — never one of the user's own explicit picks —
  * whose category differs from the chain's root trigger event. This is a
  * ripple effect the Event Master's own downstreamEvents graph actually
- * produced for this specific chain, surfaced (not invented) as "意外な分岐".
+ * produced for this specific chain, surfaced (not invented) as "意外な変化".
  * Returns undefined whenever no such cross-category addition exists.
  */
 function findUnexpectedBranch(
@@ -115,6 +152,59 @@ function findUnexpectedBranch(
     }
   }
   return undefined;
+}
+
+/**
+ * Collapses buildAgeTimeline's raw nodes for display: every run of
+ * consecutive "gap" nodes (including the trailing run that reaches the
+ * horizon) becomes one "gap-range" node instead of one card per gap age,
+ * and the event matching unexpectedEventId (if any) is flagged in place
+ * rather than described again in a separate card. Purely a grouping
+ * transform — no age, event, or eligibility data is added or removed.
+ */
+function condenseStoryNodes(
+  nodes: AgeTimelineNode[],
+  unexpectedEventId: string | undefined
+): WorldlineStoryNode[] {
+  const result: WorldlineStoryNode[] = [];
+  let gapFrom: number | undefined;
+  let gapTo: number | undefined;
+
+  const flushGap = (reachesHorizon: boolean) => {
+    if (gapFrom === undefined || gapTo === undefined) return;
+    result.push({ kind: "gap-range", fromAge: gapFrom, toAge: gapTo, reachesHorizon });
+    gapFrom = undefined;
+    gapTo = undefined;
+  };
+
+  for (const node of nodes) {
+    if (node.kind === "gap") {
+      if (gapFrom === undefined) gapFrom = node.age;
+      gapTo = node.age;
+      continue;
+    }
+    if (node.kind === "horizon") {
+      if (gapFrom === undefined) gapFrom = node.age;
+      gapTo = node.age;
+      flushGap(true);
+      continue;
+    }
+    flushGap(false);
+    if (node.kind === "current") {
+      result.push({ kind: "current", age: node.age });
+    } else {
+      result.push({
+        kind: "event",
+        age: node.age,
+        ageLabel: node.ageLabel,
+        event: node.event,
+        isUnexpected: node.event.sourceEventId === unexpectedEventId,
+      });
+    }
+  }
+  flushGap(false);
+
+  return result;
 }
 
 const BAND_LABELS: Record<WorldlineBand, string> = {

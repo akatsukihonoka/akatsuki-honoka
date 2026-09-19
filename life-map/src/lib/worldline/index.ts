@@ -1,4 +1,4 @@
-export type { WorldlineBand, UnexpectedBranch } from "./types";
+export type { WorldlineBand, UnexpectedBranch, WorldlineStoryNode } from "./types";
 export {
   buildWorldlineView,
   worldlineBandLabel,

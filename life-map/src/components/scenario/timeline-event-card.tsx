@@ -11,12 +11,18 @@ export function TimelineEventCard({
   isLast,
   accentClass,
   ageLabel,
+  branchPointLabel = "分岐点",
+  extraBadge,
 }: {
   event: ScenarioEvent;
   isLast: boolean;
   accentClass: string;
   /** Display-only age anchor from the Timeline Display Layer, e.g. "33歳ごろ" — shown alongside the existing period label, never replacing it. */
   ageLabel?: string;
+  /** Overrides the "🔀 {label}" text shown when event.isBranchPoint — defaults to today's "分岐点" everywhere; a caller can pass clearer wording (e.g. worldline's "分岐の可能性") without changing other screens. */
+  branchPointLabel?: string;
+  /** An additional badge rendered after the branch-point badge — e.g. worldline's "✨ 意外な変化". Omitted by default. */
+  extraBadge?: React.ReactNode;
 }) {
   const category = event.sourceEventId ? LIFE_EVENTS_BY_ID[event.sourceEventId]?.category : undefined;
   const iconMeta = category ? CATEGORY_ICONS[category] : undefined;
@@ -46,9 +52,10 @@ export function TimelineEventCard({
           <span className={cn("text-xs font-bold", accentClass)}>{event.period}</span>
           {event.isBranchPoint && (
             <span className="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2.5 py-0.5 text-[11px] font-bold text-violet-700">
-              🔀 分岐点
+              🔀 {branchPointLabel}
             </span>
           )}
+          {extraBadge}
         </div>
 
         <div className="mt-2 animate-fade-in-up rounded-[24px] border border-neutral-100 bg-white p-5 shadow-soft">

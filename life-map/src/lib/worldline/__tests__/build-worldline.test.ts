@@ -19,7 +19,7 @@ function worldlineFor(answers: DiagnosisAnswer, base: Scenario, eventIds: string
   const comparison = compareChainOverall(base, chain);
   if (!comparison) return undefined;
   const causalChain = buildChainCausalChain(chain);
-  return buildWorldlineView({ answers, chain, accepted, comparison, causalChain });
+  return buildWorldlineView({ answers, baseScenario: base, chain, accepted, comparison, causalChain });
 }
 
 describe("Case 1: worldline generation from a single what-if", () => {
@@ -154,7 +154,7 @@ describe("Case 8: consistency with the What-if Engine's own chain result", () =>
     const comparison = compareChainOverall(base, chain)!;
     const causalChain = buildChainCausalChain(chain);
 
-    const view = buildWorldlineView({ answers, chain, accepted, comparison, causalChain });
+    const view = buildWorldlineView({ answers, baseScenario: base, chain, accepted, comparison, causalChain });
     expect(view.chain).toBe(chain);
     expect(view.comparison).toBe(comparison);
     expect(view.causalChain).toBe(causalChain);
@@ -299,6 +299,188 @@ describe("Case 16: an event with no special hard-required condition signal is st
     const independence = options.find((o) => o.event.id === "independence");
     if (independence) {
       expect(independence.deprioritized).toBe(true);
+    }
+  });
+});
+
+describe("Case 17: branch options never include a no-op (an event already present anywhere in the worldline)", () => {
+  it("job_change's own downstream additions (income_increase, side_job if already in the base route) are never re-offered as a 'new' branch", () => {
+    const answers: DiagnosisAnswer = {
+      ageRange: "25-29",
+      employment: "fulltime",
+      desiredChanges: ["career"],
+      marriageAttitude: "either",
+      childrenAttitude: "either",
+      incomeVsTime: "income",
+      locationPreference: "urban",
+      workPreference: "challenge",
+      presentVsFuture: "future",
+    };
+    const base = generateRoutes(answers).stable;
+    const view = worldlineFor(answers, base, ["job_change"]);
+    expect(view).toBeDefined();
+    if (!view) return;
+
+    // Everything actually present in the accepted scenario (base route
+    // events + anything this what-if added) must never also appear as a
+    // branch option — tapping it would be a no-op.
+    const presentIds = new Set(
+      view.accepted.scenario.events.map((e) => e.sourceEventId).filter(Boolean)
+    );
+    for (const option of view.branchOptions) {
+      expect(presentIds.has(option.event.id)).toBe(false);
+    }
+  });
+
+  it("reproduces the exact reported case: income_increase and side_job are already present, so neither is offered again", () => {
+    const answers: DiagnosisAnswer = {
+      ageRange: "25-29",
+      employment: "fulltime",
+      workSatisfaction: 2,
+      desiredChanges: ["career"],
+      marriageAttitude: "either",
+      childrenAttitude: "either",
+      incomeVsTime: "income",
+      locationPreference: "urban",
+      workPreference: "challenge",
+      presentVsFuture: "future",
+    };
+    const base = generateRoutes(answers).stable;
+    const baseIds = base.events.map((e) => e.sourceEventId);
+    // Confirms the fixture actually reproduces the reported scenario before asserting the fix.
+    expect(baseIds).toContain("job_change");
+    expect(baseIds).toContain("side_job");
+
+    const view = worldlineFor(answers, base, ["job_change"]);
+    expect(view).toBeDefined();
+    if (!view) return;
+
+    const offeredIds = view.branchOptions.map((o) => o.event.id);
+    expect(offeredIds).not.toContain("income_increase");
+    expect(offeredIds).not.toContain("side_job");
+  });
+});
+
+describe("Case 18: branch candidates can be zero and the worldline still renders normally", () => {
+  it("returns a defined view with an empty branchOptions array rather than throwing or omitting fields", () => {
+    const answers: DiagnosisAnswer = {
+      ageRange: "25-29",
+      marriageAttitude: "no",
+      childrenAttitude: "no",
+    };
+    const base = generateRoutes(answers).stable;
+    // Exhaust the chain limit so canBranchFurther is false and/or drive
+    // branchOptions toward empty — either way buildWorldlineView must not
+    // fail or return a malformed view.
+    const view = worldlineFor(answers, base, ["leisure_increase", "long_trip", "family_support"]);
+    expect(view).toBeDefined();
+    if (!view) return;
+    expect(Array.isArray(view.branchOptions)).toBe(true);
+    expect(view.canBranchFurther).toBe(false);
+  });
+});
+
+describe("Case 19: consecutive gap ages are condensed into a single gap-range node", () => {
+  it("does not produce one storyNode per gap age — a single trigger event collapses the whole tail into one range", () => {
+    const answers: DiagnosisAnswer = { ageRange: "25-29" };
+    const base = generateRoutes(answers).stable;
+    const view = worldlineFor(answers, base, ["job_change"]);
+    expect(view).toBeDefined();
+    if (!view) return;
+
+    const rawGapCount = view.ageNodes.filter((n) => n.kind === "gap").length;
+    const condensedGapRangeCount = view.storyNodes.filter((n) => n.kind === "gap-range").length;
+
+    expect(rawGapCount).toBeGreaterThan(1); // sanity: the raw timeline really did have multiple gap ages
+    expect(condensedGapRangeCount).toBeLessThanOrEqual(2); // at most: one mid-story range + one trailing range to 80
+    expect(condensedGapRangeCount).toBeGreaterThan(0);
+  });
+
+  it("the final gap-range always reaches the 80歳 horizon", () => {
+    const answers: DiagnosisAnswer = { ageRange: "30-34" };
+    const base = generateRoutes(answers).stable;
+    const view = worldlineFor(answers, base, ["job_change"]);
+    expect(view).toBeDefined();
+    if (!view) return;
+
+    const last = view.storyNodes[view.storyNodes.length - 1];
+    expect(last.kind).toBe("gap-range");
+    if (last.kind === "gap-range") {
+      expect(last.reachesHorizon).toBe(true);
+      expect(last.toAge).toBe(80);
+    }
+  });
+});
+
+describe("Case 20: the unexpected event is flagged in place, not duplicated as a second story node", () => {
+  it("appears exactly once in storyNodes, as an 'event' node with isUnexpected true", () => {
+    const answers: DiagnosisAnswer = { ageRange: "25-29", locationPreference: "urban" };
+    const base = generateRoutes(answers).stable;
+    const view = worldlineFor(answers, base, ["job_change"]);
+    expect(view).toBeDefined();
+    if (!view || !view.unexpectedBranch) return;
+
+    const matches = view.storyNodes.filter(
+      (n) => n.kind === "event" && n.event.sourceEventId === view.unexpectedBranch?.eventId
+    );
+    expect(matches).toHaveLength(1);
+    expect(matches[0].kind === "event" && matches[0].isUnexpected).toBe(true);
+
+    // No other storyNode also flags isUnexpected.
+    const unexpectedCount = view.storyNodes.filter(
+      (n) => n.kind === "event" && n.isUnexpected
+    ).length;
+    expect(unexpectedCount).toBe(1);
+  });
+});
+
+describe("Case 21: rootWasAlreadyPresent note — shown only when the root pick was already in the base route", () => {
+  it("is true when job_change is already part of the base route before the what-if", () => {
+    const answers: DiagnosisAnswer = {
+      ageRange: "25-29",
+      workPreference: "challenge",
+      desiredChanges: ["career"],
+      workSatisfaction: 2,
+    };
+    const base = generateRoutes(answers).stable;
+    if (!base.events.some((e) => e.sourceEventId === "job_change")) {
+      // This particular value-profile combination didn't land job_change in
+      // the base route — skip rather than assert a false premise.
+      return;
+    }
+    const view = worldlineFor(answers, base, ["job_change"]);
+    expect(view).toBeDefined();
+    if (!view) return;
+    expect(view.rootWasAlreadyPresent).toBe(true);
+    expect(view.rootEventName).toBe(LIFE_EVENTS_BY_ID.job_change.name);
+  });
+
+  it("is false for an ordinary route where the chosen event is genuinely new", () => {
+    const answers: DiagnosisAnswer = { ageRange: "25-29" };
+    const base = generateRoutes(answers).stable;
+    expect(base.events.some((e) => e.sourceEventId === "marriage")).toBe(false);
+    const view = worldlineFor(answers, base, ["marriage"]);
+    expect(view).toBeDefined();
+    if (!view) return;
+    expect(view.rootWasAlreadyPresent).toBe(false);
+  });
+});
+
+describe("Case 22: branch options stay correct after the chain is extended", () => {
+  it("a 2-event chain excludes both explicit picks and their downstream additions from further branch options", () => {
+    const answers: DiagnosisAnswer = { ageRange: "25-29" };
+    const base = generateRoutes(answers).stable;
+    const view = worldlineFor(answers, base, ["job_change", "marriage"]);
+    expect(view).toBeDefined();
+    if (!view) return;
+
+    const presentIds = new Set(
+      view.accepted.scenario.events.map((e) => e.sourceEventId).filter(Boolean)
+    );
+    expect(presentIds.has("job_change")).toBe(true);
+    expect(presentIds.has("marriage")).toBe(true);
+    for (const option of view.branchOptions) {
+      expect(presentIds.has(option.event.id)).toBe(false);
     }
   });
 });

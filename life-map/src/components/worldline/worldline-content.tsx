@@ -8,6 +8,7 @@ import { GitBranch } from "lucide-react";
 import { PageContainer } from "@/components/common/page-container";
 import { BackButton } from "@/components/common/back-button";
 import { DisclaimerNote } from "@/components/common/disclaimer-note";
+import { Expandable } from "@/components/common/expandable";
 import { Button } from "@/components/ui/button";
 import { OptionScoreDelta } from "@/components/what-if/option-score-delta";
 import { SyncSelectedEvent } from "@/components/what-if/sync-selected-event";
@@ -113,7 +114,7 @@ export function WorldlineContent() {
 
   const comparison = compareChainOverall(baseScenario, chain)!;
   const causalChain = buildChainCausalChain(chain);
-  const view = buildWorldlineView({ answers, chain, accepted, comparison, causalChain });
+  const view = buildWorldlineView({ answers, baseScenario, chain, accepted, comparison, causalChain });
 
   const chainLabel = chain.events.map((id) => WHAT_IF_LABELS[id] ?? id).join(" → ");
   const isChain = chain.events.length >= 2;
@@ -141,30 +142,44 @@ export function WorldlineContent() {
   return (
     <main className="flex flex-1 flex-col">
       <SyncSelectedEvent scenarioId={routeId} chainEventIds={chain.events} />
-      <PageContainer className="flex flex-1 flex-col gap-6 py-6 pb-6">
+      <PageContainer className="flex flex-1 flex-col gap-5 py-6 pb-6">
         <div className="flex items-center">
           <BackButton />
         </div>
 
+        {/* ① 世界線タイトル + ② 短い説明 */}
         <div className="flex flex-col gap-1.5">
           <h1 className="font-heading text-2xl font-bold text-neutral-800">
             🌌 もし「{chainLabel}」を選んだ世界線
           </h1>
           <p className="text-sm leading-relaxed text-neutral-600">
-            今の選択を少し変えたら、その先にはどんな分岐がある？
+            この選択から、どんな未来の分岐が生まれる？
           </p>
+          {view.rootWasAlreadyPresent && view.rootEventName && (
+            <p className="text-xs leading-relaxed text-neutral-600">
+              「{view.rootEventName}」は、今のあなたの回答からもすでに近い未来として含まれています。ここでは、そこからさらに広がる可能性のある未来を見てみましょう。
+            </p>
+          )}
           {rejectedTail && (
             <p className="text-xs leading-relaxed text-neutral-600">{rejectedTail.reason}</p>
           )}
         </div>
 
-        <WorldlineStoryTimeline nodes={view.ageNodes} currentAge={view.currentAge} />
-
+        {/* ③ 意外な変化（短いティーザー。全文はストーリー内の該当カードに一度だけ） */}
         <UnexpectedBranchCard branch={view.unexpectedBranch} />
 
-        {view.canBranchFurther && (
-          <BranchChoiceCard options={view.branchOptions} buildHref={branchHref} />
-        )}
+        {/* ④ 次の分岐 */}
+        <BranchChoiceCard
+          options={view.branchOptions}
+          buildHref={branchHref}
+          atChainLimit={!view.canBranchFurther}
+        />
+
+        {/* ⑤ 未来のストーリー */}
+        <div className="flex flex-col gap-1">
+          <p className="text-xs font-semibold text-neutral-600">📍 未来のストーリー</p>
+          <WorldlineStoryTimeline nodes={view.storyNodes} currentAge={view.currentAge} />
+        </div>
 
         <WhatIfInterpretationCard
           kind={isChain ? "chain" : "whatIf"}
@@ -172,16 +187,19 @@ export function WorldlineContent() {
           input={aiInput}
         />
 
-        <div>
-          <p className="mb-1.5 text-xs font-bold text-orange-700">
-            🌌 この世界線で残る「未来の余白」
-          </p>
+        {/* ⑥ Option Score は補足情報として折りたたみ */}
+        <Expandable
+          label="🌌 この世界線の未来の余白を見る"
+          collapsedLabel="閉じる"
+          className="rounded-[24px] border border-orange-100 bg-white/60 p-4"
+        >
           <OptionScoreDelta
             before={view.comparison.optionScoreBefore}
             after={view.comparison.optionScoreAfter}
           />
-        </div>
+        </Expandable>
 
+        {/* ⑦ Compare / Reverse Plan / Actions */}
         <WorldlineCtaFooter ifHref={ifHref} compareHref={compareHref} />
 
         <DisclaimerNote />
